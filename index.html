@@ -687,7 +687,7 @@
     document.getElementById("btnSugerirWhats").onclick = ()=>{ window.open("https://wa.me/5582996793347?text=Olá!%20Tenho%20uma%20sugestão%20para%20melhorar%20o%20Vanzz%20Concurso:", "_blank"); };
     document.getElementById("salvarCaderno").onclick = salvarCaderno;
 
-    // Dark mode
+   // Dark mode
     const darkToggle = document.getElementById("darkModeToggle");
     darkToggle.onclick = ()=>{ document.body.classList.toggle("dark"); localStorage.setItem("darkMode", document.body.classList.contains("dark")); };
     if(localStorage.getItem("darkMode") === "true") document.body.classList.add("dark");
@@ -705,6 +705,7 @@
         console.log("Pronto! Use atualizarNoticiasManualmente('texto') no console para adicionar notícias.");
     }
     bootstrap();
-</script>
+<script src="questoes_ibge.js"></script>
+
 </body>
 </html>
