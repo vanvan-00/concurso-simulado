@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Vanzz Concurso – Plataforma de Simulados Premium</title>
+    <!-- Font Awesome 6 (ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        :root {
+            --bg: #f4f7fc;
+            --surface: #ffffff;
+            --text: #1e2a3e;
+            --text-light: #4a5b6e;
+            --border: #dce4ec;
+            --primary: #0f3b5c;
+            --primary-dark: #0a2c44;
+            --accent: #e67e22;
+            --accent-hover: #d35400;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --card-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        body.dark {
+            --bg: #121826;
+            --surface: #1e293b;
+            --text: #edf2f7;
+            --text-light: #94a3b8;
+            --border: #334155;
+            --primary: #2c6e9e;
+            --primary-dark: #1e4a76;
+            --card-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        /* Layout principal */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .main-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-area h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .exclusivity-badge {
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 40px;
+        }
+
+        .news-ticker {
+            flex: 1;
+            background: var(--bg);
+            border-radius: 40px;
+            padding: 6px 16px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            border: 1px solid var(--border);
+        }
+        .ticker-content {
+            display: inline-block;
+            animation: ticker 25s linear infinite;
+            font-weight: 500;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .datetime {
+            font-family: monospace;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        .dark-toggle {
+            cursor: pointer;
+            background: var(--bg);
+            border: none;
+            font-size: 1.3rem;
+            padding: 6px 10px;
+            border-radius: 30px;
+            color: var(--text);
+        }
+
+        /* 3 colunas */
+        .dashboard {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .sidebar-left {
+            width: 260px;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .main-content {
+            flex: 1;
+            min-width: 280px;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .sidebar-right {
+            width: 290px;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* cards internos */
+        .card {
+            background: var(--bg);
+            border-radius: 20px;
+            padding: 14px;
+            border: 1px solid var(--border);
+        }
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px;
+        }
+        textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 10px;
+            color: var(--text);
+            resize: vertical;
+        }
+        button, .btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: var(--primary-dark);
+            transform: scale(0.97);
+        }
+        .btn-accent {
+            background: var(--accent);
+        }
+        .btn-accent:hover {
+            background: var(--accent-hover);
+        }
+        .concurso-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .concurso-card {
+            background: var(--bg);
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.1s;
+        }
+        .concurso-card.selected {
+            border-color: var(--accent);
+            background: var(--surface);
+        }
+        .concurso-img {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.6rem;
+            color: white;
+        }
+        .questao-area {
+            margin-top: 20px;
+        }
+        .alternativa {
+            margin: 12px 0;
+        }
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-weight: 500;
+        }
+        .historico-item {
+            font-size: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            padding: 6px 0;
+        }
+        .timer-simulado {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        @media (max-width: 1000px) {
+            .dashboard { flex-direction: column; }
+            .sidebar-left, .sidebar-right { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <header class="main-header">
+        <div class="logo-area">
+            <i class="fas fa-brain" style="font-size: 2rem; color: var(--accent);"></i>
+            <h1>Vanzz Concurso</h1>
+            <span class="exclusivity-badge"><i class="fas fa-crown"></i> EXCLUSIVIDADE</span>
+        </div>
+        <div class="news-ticker" id="tickerContainer">
+            <div class="ticker-content" id="tickerText">📢 Carregando notícias...</div>
+        </div>
+        <div class="datetime" id="clockDisplay"></div>
+        <button class="dark-toggle" id="darkModeToggle"><i class="fas fa-moon"></i></button>
+    </header>
+
+    <div class="dashboard">
+        <!-- SIDEBAR ESQUERDA -->
+        <div class="sidebar-left">
+            <div class="card">
+                <h3><i class="fas fa-lightbulb"></i> Curiosidades</h3>
+                <div id="curiosidadeBox">📌 INSS: salário R$ 5.905, 1000+ vagas previstas<br>📌 CAIXA: média R$ 3.800, 4000 vagas CR<br>📌 PRF: inicial R$ 9.800, edital em breve</div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-notebook"></i> Caderno Virtual</h3>
+                <textarea id="cadernoTexto" rows="5" placeholder="Anote seus resumos, dicas, etc..."></textarea>
+                <button id="salvarCaderno" style="margin-top: 8px;">Salvar anotações</button>
+            </div>
+            <div class="card">
+                <h3><i class="fab fa-whatsapp"></i> Sugestão / Melhoria</h3>
+                <button id="btnSugerirWhats" class="btn-accent">Enviar ideia para o criador</button>
+                <p style="font-size: 12px; margin-top: 8px;">Sua mensagem vai direto para o WhatsApp do dono.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-gift"></i> Indique e ganhe R$1</h3>
+                <p>Seu código: <strong id="meuCodigoIndicacao">---</strong></p>
+                <p style="font-size: 12px;">Cada amigo que usar ganha R$1 de desconto para você.</p>
+                <p>Créditos acumulados: <strong id="creditosUsuario">R$0</strong></p>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO CENTRAL (SIMULADO) -->
+        <div class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <h2><i class="fas fa-tasks"></i> Simulado Personalizado</h2>
+                <div class="timer-simulado" id="timerSimuladoDisplay">00:00:00</div>
+            </div>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin: 15px 0;">
+                <select id="selectBanca" style="padding: 8px; border-radius: 30px; background: var(--bg); border:1px solid var(--border);">
+                    <option value="Cebraspe">Cebraspe (C/E)</option>
+                    <option value="FGV">FGV</option>
+                    <option value="FCC">FCC</option>
+                </select>
+                <select id="selectEstilo" style="padding: 8px; border-radius: 30px;">
+                    <option value="CE">Certo / Errado</option>
+                    <option value="Multipla">Múltipla Escolha</option>
+                </select>
+            </div>
+            <div>
+                <h3>📚 Escolha o Concurso:</h3>
+                <div class="concurso-grid" id="concursoGrid"></div>
+            </div>
+
+            <!-- Área de questões pagas/grátis e simulador -->
+            <div id="areaMonetizacao" style="margin-top: 20px;"></div>
+            <div id="simuladoArea" style="margin-top: 20px;">
+                <p><i class="fas fa-info-circle"></i> Selecione um concurso, banca e estilo para começar.</p>
+            </div>
+        </div>
+
+        <!-- SIDEBAR DIREITA -->
+        <div class="sidebar-right">
+            <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Ranking Global (Top 5)</h3>
+                <div id="rankingList"></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-chart-pie"></i> Desempenho por Matéria</h3>
+                <canvas id="desempenhoChart" width="200" height="200"></canvas>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-history"></i> Questões Respondidas</h3>
+                <div id="historicoQuestoes" style="max-height: 200px; overflow-y: auto;"></div>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-stopwatch"></i> Cronômetro de Estudo</h3>
+                <div style="font-size: 1.5rem; font-family: monospace;" id="cronometroEstudo">00:00:00</div>
+                <div style="display: flex; gap: 6px; margin-top: 8px;">
+                    <button id="cronStart">Iniciar</button>
+                    <button id="cronPause">Pausar</button>
+                    <button id="cronReset">Zerar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>VANZZ IA ® – Domine a banca com 90% de prática | Feedbacks em tempo real</footer>
+</div>
+
+<script>
+    // --------------------------- CONFIGURAÇÃO INICIAL ---------------------------------
+    // Lista de concursos com logos (emojis)
+    const concursosList = [
+        "IBGE", "INSS", "POLICIA MILITAR", "POLÍCIA CIVIL", "POLÍCIA RODOVIÁRIA FEDERAL",
+        "BANCO DO BRASIL", "CAIXA", "BANCO DO NORDESTE", "SEFAZ", "PREFEITURA"
+    ];
+    const logos = {
+        "IBGE":"📊","INSS":"🏦","POLICIA MILITAR":"🚔","POLÍCIA CIVIL":"🔍","POLÍCIA RODOVIÁRIA FEDERAL":"🛣️",
+        "BANCO DO BRASIL":"💰","CAIXA":"🏧","BANCO DO NORDESTE":"🏦","SEFAZ":"📑","PREFEITURA":"🏛️"
+    };
+
+    // Banco de questões MOCK (cada concurso possui 1 questão C/E e 1 Multipla, com matérias)
+    const questoesMock = {};
+    concursosList.forEach(concurso => {
+        questoesMock[concurso] = {
+            "Cebraspe": {
+                "CE": [{
+                    id: `${concurso}_ce_1`,
+                    texto: `(CESPE) ${concurso}: A administração pública deve obedecer aos princípios da legalidade, impessoalidade, moralidade, publicidade e eficiência.`,
+                    materia: "Direito Administrativo",
+                    correta: "Certo",
+                    alternativas: ["Certo", "Errado"]
+                }]
+            },
+            "FGV": {
+                "Multipla": [{
+                    id: `${concurso}_mul_1`,
+                    texto: `(FGV) Sobre ${concurso}, qual alternativa está correta?`,
+                    materia: "Conhecimentos Específicos",
+                    alternativas: ["A) É autarquia federal", "B) Tem natureza jurídica de empresa pública", "C) É fundação pública", "D) É sociedade de economia mista"],
+                    correta: "A) É autarquia federal"
+                }]
+            }
+        };
+        // para outras bancas (FCC) adicionamos fallback vazio
+        if(!questoesMock[concurso]["FCC"]) questoesMock[concurso]["FCC"] = { "CE": [], "Multipla": [] };
+        if(!questoesMock[concurso]["Cebraspe"]["Multipla"]) questoesMock[concurso]["Cebraspe"]["Multipla"] = [];
+        if(!questoesMock[concurso]["FGV"]["CE"]) questoesMock[concurso]["FGV"]["CE"] = [];
+    });
+
+    // Estados globais
+    let usuarioAtual = null;
+    let simulandoAtivo = false;
+    let inicioSimulado = null;
+    let intervaloSimulado = null;
+    let questoesAtuais = [];
+    let questaoIndex = 0;
+    let respostaAtual = null;
+    let desempenhoMaterias = { "Direito Administrativo": {acertos:0, total:0}, "Conhecimentos Específicos":{acertos:0,total:0} };
+    let grafico = null;
+
+    // Carregar dados do localStorage
+    function initData() {
+        if(!localStorage.getItem("vanzz_users")) {
+            const users = [{ id:1, nome:"Concurseiro(a)", email:"estudante@email.com", pontos:120, creditos:0, codigo:"VANZZ_ESTUDANTE", indicadoPor:null }];
+            localStorage.setItem("vanzz_users", JSON.stringify(users));
+        }
+        if(!localStorage.getItem("vanzz_historico")) localStorage.setItem("vanzz_historico", JSON.stringify([]));
+        if(!localStorage.getItem("vanzz_desbloqueios")) localStorage.setItem("vanzz_desbloqueios", JSON.stringify({})); // { "CAIXA": { nivel:3, questoesRestantes:500 } }
+        if(!localStorage.getItem("vanzz_noticias")) localStorage.setItem("vanzz_noticias", JSON.stringify(["📰 INSS autoriza novo concurso para 2025", "🏛️ SEFAZ anuncia 300 vagas", "🚔 Polícia Federal divulga edital em maio"]));
+        // usuario atual
+        if(!localStorage.getItem("vanzz_current_user")) {
+            let users = JSON.parse(localStorage.getItem("vanzz_users"));
+            usuarioAtual = users[0];
+            localStorage.setItem("vanzz_current_user", JSON.stringify(usuarioAtual));
+        } else {
+            usuarioAtual = JSON.parse(localStorage.getItem("vanzz_current_user"));
+        }
+        atualizarInterfaceUsuario();
+        renderRanking();
+        carregarHistorico();
+        atualizarGrafico();
+    }
+
+    function atualizarInterfaceUsuario() {
+        if(usuarioAtual) {
+            document.getElementById("meuCodigoIndicacao").innerText = usuarioAtual.codigo;
+            document.getElementById("creditosUsuario").innerHTML = `R$ ${usuarioAtual.creditos}`;
+        }
+        document.getElementById("cadernoTexto").value = localStorage.getItem(`caderno_${usuarioAtual?.id}`) || "";
+    }
+
+    function salvarCaderno() {
+        let txt = document.getElementById("cadernoTexto").value;
+        localStorage.setItem(`caderno_${usuarioAtual.id}`, txt);
+        alert("Anotações salvas!");
+    }
+
+    function renderRanking() {
+        let users = JSON.parse(localStorage.getItem("vanzz_users"));
+        users.sort((a,b)=>b.pontos - a.pontos);
+        let top5 = users.slice(0,5);
+        let html = "";
+        top5.forEach((u,idx)=> { html += `<div class="ranking-item"><span>${idx+1}. ${u.nome}</span><span>${u.pontos} pts</span></div>`; });
+        document.getElementById("rankingList").innerHTML = html;
+    }
+
+    function carregarHistorico() {
+        let historico = JSON.parse(localStorage.getItem("vanzz_historico")) || [];
+        let div = document.getElementById("historicoQuestoes");
+        if(historico.length === 0) { div.innerHTML = "<i>Nenhuma questão respondida</i>"; return; }
+        div.innerHTML = historico.slice(-10).reverse().map(h => `<div class="historico-item">${h.concurso} - ${h.materia}: ${h.acertou ? "✅" : "❌"} ${h.pergunta.substring(0,50)}...</div>`).join("");
+    }
+
+    function atualizarGrafico() {
+        const labels = Object.keys(desempenhoMaterias);
+        const acertos = labels.map(m => desempenhoMaterias[m].acertos);
+        const totais = labels.map(m => desempenhoMaterias[m].total);
+        const porcentagens = labels.map((m,i)=> totais[i] === 0 ? 0 : (acertos[i]/totais[i])*100);
+        if(grafico) grafico.destroy();
+        const ctx = document.getElementById("desempenhoChart").getContext("2d");
+        grafico = new Chart(ctx, {
+            type: 'bar',
+            data: { labels, datasets: [{ label: '% Acertos', data: porcentagens, backgroundColor: '#e67e22' }] },
+            options: { scales: { y: { max: 100, beginAtZero: true } } }
+        });
+    }
+
+    function registrarResposta(questao, respostaUsuario, acertou, materia, concurso) {
+        let historico = JSON.parse(localStorage.getItem("vanzz_historico"));
+        historico.unshift({ data: new Date().toISOString(), concurso, materia, pergunta: questao.texto, respostaUsuario, acertou });
+        localStorage.setItem("vanzz_historico", JSON.stringify(historico.slice(0,200)));
+        carregarHistorico();
+        if(acertou) {
+            usuarioAtual.pontos += 10;
+            let users = JSON.parse(localStorage.getItem("vanzz_users"));
+            let idx = users.findIndex(u=>u.id===usuarioAtual.id);
+            if(idx!==-1) users[idx].pontos = usuarioAtual.pontos;
+            localStorage.setItem("vanzz_users", JSON.stringify(users));
+            localStorage.setItem("vanzz_current_user", JSON.stringify(usuarioAtual));
+            renderRanking();
+        }
+        // desempenho matéria
+        if(!desempenhoMaterias[materia]) desempenhoMaterias[materia] = {acertos:0,total:0};
+        desempenhoMaterias[materia].total++;
+        if(acertou) desempenhoMaterias[materia].acertos++;
+        localStorage.setItem(`desempenho_${usuarioAtual.id}`, JSON.stringify(desempenhoMaterias));
+        atualizarGrafico();
+    }
+
+    function carregarDesempenhoSalvo() {
+        let saved = localStorage.getItem(`desempenho_${usuarioAtual.id}`);
+        if(saved) desempenhoMaterias = JSON.parse(saved);
+        else desempenhoMaterias = {"Direito Administrativo":{acertos:0,total:0},"Conhecimentos Específicos":{acertos:0,total:0}};
+        atualizarGrafico();
+    }
+
+    // renderização dos concursos com fotos e sistema pago
+    function renderConcursos() {
+        let container = document.getElementById("concursoGrid");
+        container.innerHTML = "";
+        concursosList.forEach(concurso => {
+            let card = document.createElement("div");
+            card.className = "concurso-card";
+            card.setAttribute("data-concurso", concurso);
+            card.innerHTML = `<div class="concurso-img">${logos[concurso] || "📘"}</div><strong>${concurso}</strong><br><small>25 grátis</small>`;
+            card.onclick = () => selecionarConcurso(concurso);
+            container.appendChild(card);
+        });
+    }
+
+    let concursoSelecionado = null;
+    function selecionarConcurso(concurso) {
+        concursoSelecionado = concurso;
+        document.querySelectorAll(".concurso-card").forEach(c=>c.classList.remove("selected"));
+        document.querySelector(`.concurso-card[data-concurso="${concurso}"]`).classList.add("selected");
+        let desbloqueios = JSON.parse(localStorage.getItem("vanzz_desbloqueios"));
+        let nivel = desbloqueios[concurso]?.nivel || 0;
+        let gratis = 25;
+        let html = `<div style="background:var(--bg); padding:12px; border-radius:20px;"><p><strong>${concurso}</strong> - ${gratis} questões GRÁTIS disponíveis.</p>`;
+        if(nivel === 0) {
+            html += `<button id="btnDesbloquear" class="btn-accent">🔓 Desbloquear +500 questões (pago)</button>`;
+        } else {
+            html += `<span style="background:green; color:white; padding:4px 12px; border-radius:40px;">✔️ Pacote Nível ${nivel} desbloqueado (${desbloqueios[concurso].questoesRestantes} questões)</span>`;
+        }
+        html += `</div>`;
+        document.getElementById("areaMonetizacao").innerHTML = html;
+        if(nivel===0) document.getElementById("btnDesbloquear")?.addEventListener("click", ()=>mostrarModalPlanos(concurso));
+        iniciarSimuladoDisponivel();
+    }
+
+    function mostrarModalPlanos(concurso) {
+        let planos = [
+            { nivel:1, preco:10, qtd:100, texto:"Nível 1: R$10 - 100 questões" },
+            { nivel:2, preco:20, qtd:250, texto:"Nível 2: R$20 - 250 questões" },
+            { nivel:3, preco:25, qtd:500, texto:"Nível 3: R$25 - 500 questões + Exclusividade" }
+        ];
+        let msg = `ESCOLHA UM PLANO PARA ${concurso}:\n`;
+        planos.forEach(p=> msg+=`${p.nivel} - ${p.texto}\n`);
+        let escolha = prompt(msg + "\nDigite o número do nível (1,2 ou 3):");
+        if(escolha && [1,2,3].includes(Number(escolha))) {
+            let planoEsc = planos.find(p=>p.nivel==escolha);
+            let custo = planoEsc.preco;
+            if(usuarioAtual.creditos >= custo) {
+                usuarioAtual.creditos -= custo;
+                alert(`Compra realizada com créditos! Você tem ${usuarioAtual.creditos} reais de desconto restantes.`);
+            } else {
+                let restante = custo - usuarioAtual.creditos;
+                if(confirm(`Você possui R$ ${usuarioAtual.creditos} de crédito. Pagar via pix R$ ${restante}? (simulação)`)) {
+                    usuarioAtual.creditos = 0;
+                } else return;
+            }
+            let desbloqueios = JSON.parse(localStorage.getItem("vanzz_desbloqueios"));
+            desbloqueios[concurso] = { nivel: planoEsc.nivel, questoesRestantes: planoEsc.qtd };
+            localStorage.setItem("vanzz_desbloqueios", JSON.stringify(desbloqueios));
+            // atualizar user creditos
+            let users = JSON.parse(localStorage.getItem("vanzz_users"));
+            let idx = users.findIndex(u=>u.id===usuarioAtual.id);
+            users[idx].creditos = usuarioAtual.creditos;
+            localStorage.setItem("vanzz_users", JSON.stringify(users));
+            localStorage.setItem("vanzz_current_user", JSON.stringify(usuarioAtual));
+            selecionarConcurso(concurso);
+            alert(`Pacote ${planoEsc.texto} desbloqueado com sucesso!`);
+        }
+    }
+
+    function iniciarSimuladoDisponivel() {
+        if(!concursoSelecionado) return;
+        let banca = document.getElementById("selectBanca").value;
+        let estilo = document.getElementById("selectEstilo").value; // CE ou Multipla
+        let questoes = [];
+        if(questoesMock[concursoSelecionado] && questoesMock[concursoSelecionado][banca] && questoesMock[concursoSelecionado][banca][estilo]) {
+            questoes = questoesMock[concursoSelecionado][banca][estilo];
+        }
+        if(questoes.length === 0) {
+            document.getElementById("simuladoArea").innerHTML = `<div class="card">⚠️ Nenhuma questão disponível para ${banca} - ${estilo}. Em breve mais conteúdo.</div>`;
+            return;
+        }
+        let html = `<div class="card"><button id="btnIniciarSimulado" class="btn-accent">▶️ Iniciar Simulado (${questoes.length} questões)</button></div>`;
+        document.getElementById("simuladoArea").innerHTML = html;
+        document.getElementById("btnIniciarSimulado")?.addEventListener("click",()=>{
+            if(simulandoAtivo) return;
+            questoesAtuais = [...questoes];
+            questaoIndex = 0;
+            inicioSimulado = new Date();
+            if(intervaloSimulado) clearInterval(intervaloSimulado);
+            intervaloSimulado = setInterval(atualizarTimerSimulado, 1000);
+            simulandoAtivo = true;
+            mostrarQuestao();
+        });
+    }
+
+    function atualizarTimerSimulado() {
+        if(!inicioSimulado) return;
+        let diff = Math.floor((new Date() - inicioSimulado)/1000);
+        let horas = Math.floor(diff/3600);
+        let minutos = Math.floor((diff%3600)/60);
+        let seg = diff%60;
+        document.getElementById("timerSimuladoDisplay").innerText = `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${seg.toString().padStart(2,'0')}`;
+    }
+
+    function finalizarSimulado() {
+        if(intervaloSimulado) clearInterval(intervaloSimulado);
+        simulandoAtivo = false;
+        let fim = new Date();
+        let duracao = Math.floor((fim - inicioSimulado)/1000);
+        alert(`Simulado finalizado! Tempo total: ${Math.floor(duracao/60)}min ${duracao%60}s.`);
+        document.getElementById("simuladoArea").innerHTML = `<p>✅ Simulado concluído. Veja seu histórico.</p>`;
+        inicioSimulado = null;
+    }
+
+    function mostrarQuestao() {
+        if(questaoIndex >= questoesAtuais.length) { finalizarSimulado(); return; }
+        let q = questoesAtuais[questaoIndex];
+        let html = `<div class="card"><strong>Questão ${questaoIndex+1}/${questoesAtuais.length}</strong><br><p>${q.texto}</p><div id="opcoesResposta">`;
+        if(q.alternativas[0] === "Certo" || q.alternativas[0] === "Errado") {
+            html += `<button class="btnResp" data-resp="Certo">✅ Certo</button> <button class="btnResp" data-resp="Errado">❌ Errado</button>`;
+        } else {
+            q.alternativas.forEach(alt => { html += `<button class="btnResp" data-resp="${alt}">${alt}</button><br>`; });
+        }
+        html += `</div><button id="chuteIA" style="margin-top:10px; background:#6c5ce7;">🤖 Chute Treinado (VANZZ IA)</button></div>`;
+        document.getElementById("simuladoArea").innerHTML = html;
+        document.querySelectorAll(".btnResp").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                let respUser = e.currentTarget.getAttribute("data-resp");
+                let acertou = (respUser === q.correta);
+                registrarResposta(q, respUser, acertou, q.materia, concursoSelecionado);
+                questaoIndex++;
+                mostrarQuestao();
+            });
+        });
+        document.getElementById("chuteIA")?.addEventListener("click", ()=>{
+            let sugestao = "";
+            if(q.alternativas[0] === "Certo" || q.alternativas[0] === "Errado") sugestao = Math.random()>0.5 ? "Certo" : "Errado";
+            else sugestao = q.alternativas[Math.floor(Math.random() * q.alternativas.length)];
+            alert(`🤖 VANZZ IA sugere: ${sugestao} (baseado em estatísticas da banca)`);
+        });
+    }
+
+    // Cronômetro de estudo
+    let cronInterval = null, cronSegundos = 0;
+    function atualizarCronometroDisplay() { let h=Math.floor(cronSegundos/3600), m=Math.floor((cronSegundos%3600)/60), s=cronSegundos%60; document.getElementById("cronometroEstudo").innerText=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
+    document.getElementById("cronStart").onclick = ()=>{ if(cronInterval) clearInterval(cronInterval); cronInterval=setInterval(()=>{ cronSegundos++; atualizarCronometroDisplay(); },1000); };
+    document.getElementById("cronPause").onclick = ()=>{ clearInterval(cronInterval); cronInterval=null; };
+    document.getElementById("cronReset").onclick = ()=>{ cronSegundos=0; atualizarCronometroDisplay(); clearInterval(cronInterval); cronInterval=null; };
+
+    // notícias ticker manual + relógio
+    function atualizarNoticias() {
+        let noticias = JSON.parse(localStorage.getItem("vanzz_noticias"));
+        let tickerDiv = document.getElementById("tickerText");
+        tickerDiv.innerHTML = noticias.map(n=>`🔹 ${n} 🔹`).join(" ");
+    }
+    function relogio() { let now = new Date(); document.getElementById("clockDisplay").innerHTML = now.toLocaleDateString('pt-BR') + " " + now.toLocaleTimeString('pt-BR'); }
+    setInterval(relogio,1000); relogio();
+
+    // Sugestão whatsapp
+    document.getElementById("btnSugerirWhats").onclick = ()=>{ window.open("https://wa.me/5582996793347?text=Olá!%20Tenho%20uma%20sugestão%20para%20melhorar%20o%20Vanzz%20Concurso:", "_blank"); };
+    document.getElementById("salvarCaderno").onclick = salvarCaderno;
+
+    // Dark mode
+    const darkToggle = document.getElementById("darkModeToggle");
+    darkToggle.onclick = ()=>{ document.body.classList.toggle("dark"); localStorage.setItem("darkMode", document.body.classList.contains("dark")); };
+    if(localStorage.getItem("darkMode") === "true") document.body.classList.add("dark");
+
+    // Inicialização total
+    function bootstrap() {
+        initData();
+        renderConcursos();
+        carregarDesempenhoSalvo();
+        atualizarNoticias();
+        document.getElementById("selectBanca").addEventListener("change", ()=> { if(concursoSelecionado) selecionarConcurso(concursoSelecionado); });
+        document.getElementById("selectEstilo").addEventListener("change", ()=> { if(concursoSelecionado) selecionarConcurso(concursoSelecionado); });
+        // permite atualizar notícias manualmente (admin)
+        window.atualizarNoticiasManualmente = (novaNoticia) => { let not = JSON.parse(localStorage.getItem("vanzz_noticias")); not.unshift(novaNoticia); if(not.length>10) not.pop(); localStorage.setItem("vanzz_noticias",JSON.stringify(not)); atualizarNoticias(); };
+        console.log("Pronto! Use atualizarNoticiasManualmente('texto') no console para adicionar notícias.");
+    }
+    bootstrap();
+</script>
+</body>
+</html>
