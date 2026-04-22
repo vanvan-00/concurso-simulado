@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanzz Concurso – Plataforma Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ================================================================
+   VARIÁVEIS DE TEMA
+================================================================ */
+:root[data-theme="dark"] {
+  --bg: #07080d;
+  --surface: #0f1219;
+  --surface2: #161c28;
+  --surface3: #1d2535;
+  --border: rgba(212,175,55,0.2);
+  --gold: #d4af37;
+  --gold2: #f0d060;
+  --gold-glow: rgba(212,175,55,0.25);
+  --text: #dde3f0;
+  --text-muted: #6b7494;
+  --danger: #e05555;
+  --success: #27c97a;
+  --info: #4fa3e0;
+  --card-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  --overlay: rgba(0,0,0,0.88);
+  --input-bg: #161c28;
+}
+:root[data-theme="light"] {
+  --bg: #edf0f7;
+  --surface: #ffffff;
+  --surface2: #f0f2fa;
+  --surface3: #e4e8f5;
+  --border: rgba(100,80,0,0.18);
+  --gold: #8a6200;
+  --gold2: #b08000;
+  --gold-glow: rgba(138,98,0,0.15);
+  --text: #1a1d2e;
+  --text-muted: #5a607a;
+  --danger: #c0392b;
+  --success: #1a9c5e;
+  --info: #2a7db5;
+  --card-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  --overlay: rgba(0,0,0,0.65);
+  --input-bg: #f0f2fa;
+}
+
+/* ================================================================
+   RESET & BASE
+================================================================ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Exo 2',sans-serif;
+  font-size:14px;
+  min-height:100vh;
+  transition:background .3s,color .3s;
+}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px;}
+a{text-decoration:none;color:inherit;}
+
+/* ================================================================
+   HEADER
+================================================================ */
+.header{
+  position:sticky;top:0;z-index:300;
+  background:var(--surface);
+  border-bottom:2px solid var(--gold);
+  padding:10px 18px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  box-shadow:0 4px 24px rgba(0,0,0,0.5);
+}
+.logo-area{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-icon{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;font-weight:800;font-size:1.1rem;color:#050505;
+}
+.logo-text{
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.45rem;
+  letter-spacing:3px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.excl-badge{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#050505;font-size:.6rem;font-weight:800;padding:3px 9px;
+  border-radius:20px;letter-spacing:1.5px;font-family:'Rajdhani',sans-serif;
+  flex-shrink:0;
+}
+
+/* News ticker */
+.ticker-wrap{
+  flex:1;min-width:180px;max-width:500px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:30px;padding:5px 14px 5px 60px;
+  overflow:hidden;position:relative;
+}
+.ticker-live{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  background:var(--danger);color:#fff;font-size:.55rem;font-weight:800;
+  padding:2px 6px;border-radius:4px;font-family:'Rajdhani',sans-serif;
+  letter-spacing:1px;
+}
+.ticker-scroll{overflow:hidden;white-space:nowrap;}
+.ticker-inner{
+  display:inline-block;
+  animation:ticker 50s linear infinite;
+  font-size:.78rem;color:var(--text);
+}
+.ticker-inner span{color:var(--gold);font-weight:700;margin-right:32px;}
+@keyframes ticker{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+
+.clock-box{
+  font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.88rem;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;padding:6px 12px;color:var(--gold);
+  white-space:nowrap;flex-shrink:0;
+}
+.hdr-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.btn-icon{
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--gold);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:.95rem;transition:.2s;
+}
+.btn-icon:hover{background:var(--gold);color:#050505;border-color:var(--gold);}
+.user-pill{
+  display:flex;align-items:center;gap:7px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:30px;padding:4px 12px 4px 4px;cursor:pointer;
+  transition:.2s;flex-shrink:0;
+}
+.user-pill:hover{border-color:var(--gold);}
+.user-av{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;font-weight:800;font-size:.75rem;color:#050505;
+}
+.user-nm{font-size:.78rem;font-weight:700;font-family:'Rajdhani',sans-serif;letter-spacing:.5px;}
+
+/* ================================================================
+   LAYOUT 3 COLUNAS
+================================================================ */
+.dashboard{
+  display:grid;
+  grid-template-columns:240px 1fr 270px;
+  gap:14px;padding:14px;
+  align-items:start;
+}
+@media(max-width:1200px){.sidebar-right{display:none;}}
+@media(max-width:900px){.sidebar-left{display:none;}.dashboard{grid-template-columns:1fr;}}
+
+.sidebar-left,.sidebar-right{display:flex;flex-direction:column;gap:12px;}
+
+/* ================================================================
+   CARDS
+================================================================ */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:14px;box-shadow:var(--card-shadow);
+}
+.card-title{
+  font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;
+  letter-spacing:2px;color:var(--gold);text-transform:uppercase;
+  display:flex;align-items:center;gap:7px;margin-bottom:12px;
+  padding-bottom:9px;border-bottom:1px solid var(--border);
+}
+
+/* ================================================================
+   BOTÕES
+================================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 18px;border-radius:8px;font-family:'Rajdhani',sans-serif;
+  font-weight:700;font-size:.88rem;letter-spacing:.8px;cursor:pointer;
+  transition:.2s;border:none;
+}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#050505;}
+.btn-gold:hover{opacity:.9;transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold);}
+.btn-outline:hover{background:var(--gold);color:#050505;}
+.btn-success{background:linear-gradient(135deg,#1a9c5e,#27c97a);color:#fff;}
+.btn-success:hover{opacity:.9;}
+.btn-danger{background:linear-gradient(135deg,#c0392b,#e05555);color:#fff;}
+.btn-sm{padding:5px 12px;font-size:.78rem;}
+.btn-xs{padding:4px 9px;font-size:.7rem;}
+
+/* ================================================================
+   FILTROS
+================================================================ */
+select{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);padding:8px 12px;border-radius:8px;
+  font-family:'Exo 2',sans-serif;font-size:.85rem;cursor:pointer;
+  outline:none;transition:.2s;
+}
+select:focus{border-color:var(--gold);}
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0;}
+
+/* ================================================================
+   GRID DE CONCURSOS
+================================================================ */
+.concurso-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:10px;margin-top:12px;
+}
+.concurso-card{
+  background:var(--surface2);border:2px solid var(--border);
+  border-radius:14px;padding:12px 10px;text-align:center;
+  cursor:pointer;transition:.2s;position:relative;
+}
+.concurso-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px var(--gold-glow);}
+.concurso-card.selected{border-color:var(--gold);background:rgba(212,175,55,.07);box-shadow:0 0 20px var(--gold-glow);}
+.c-logo{
+  width:52px;height:52px;border-radius:10px;overflow:hidden;
+  margin:0 auto 8px;background:var(--surface);
+  border:1px solid var(--border);display:flex;
+  align-items:center;justify-content:center;
+}
+.c-logo img{width:100%;height:100%;object-fit:contain;padding:4px;}
+.c-logo-fb{font-size:1.6rem;}
+.c-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.5px;margin-bottom:5px;}
+.c-free{font-size:.68rem;color:var(--success);font-weight:700;margin-bottom:4px;}
+.btn-unlock{
+  display:block;width:100%;background:transparent;
+  border:1px solid var(--gold);color:var(--gold);
+  font-size:.62rem;font-weight:800;padding:4px 6px;border-radius:20px;
+  cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:.5px;
+  transition:.2s;margin-top:4px;
+}
+.btn-unlock:hover{background:var(--gold);color:#050505;}
+
+/* ================================================================
+   ÁREA DO SIMULADO
+================================================================ */
+.sim-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+.sim-title{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:var(--gold);}
+.timers-group{display:flex;gap:8px;}
+.timer-box{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:5px 12px;text-align:center;min-width:90px;
+}
+.t-label{font-size:.58rem;color:var(--text-muted);font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;display:block;}
+.t-val{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);letter-spacing:2px;display:block;}
+.t-val.warn{color:var(--danger);animation:blink 1s ease infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Questão */
+.questao-box{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:14px;padding:20px;margin-top:12px;
+}
+.q-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px;}
+.q-num{font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;color:var(--gold);letter-spacing:1px;}
+.q-banca{font-size:.65rem;color:var(--text-muted);}
+.dif-badge{font-size:.62rem;padding:2px 8px;border-radius:20px;font-weight:700;font-family:'Rajdhani',sans-serif;}
+.dif-f{background:rgba(39,201,122,.15);color:#27c97a;border:1px solid #27c97a;}
+.dif-m{background:rgba(241,196,15,.15);color:#f1c40f;border:1px solid #f1c40f;}
+.dif-d{background:rgba(224,85,85,.15);color:#e05555;border:1px solid #e05555;}
+.q-prog{height:4px;background:var(--surface3);border-radius:2px;margin-bottom:14px;overflow:hidden;}
+.q-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s;}
+.q-texto{font-size:.93rem;line-height:1.75;margin-bottom:18px;}
+.q-materia{font-size:.72rem;color:var(--text-muted);margin-bottom:14px;font-style:italic;}
+
+/* Alternativas */
+.alts{display:flex;flex-direction:column;gap:8px;}
+.alt-btn{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text);padding:10px 14px;border-radius:10px;
+  text-align:left;cursor:pointer;font-size:.88rem;
+  font-family:'Exo 2',sans-serif;transition:.15s;
+  display:flex;align-items:center;gap:10px;
+}
+.alt-btn:hover{border-color:var(--gold);background:rgba(212,175,55,.05);}
+.alt-btn.selected-certo{border-color:var(--success);background:rgba(39,201,122,.1);}
+.alt-btn.selected-errado{border-color:var(--danger);background:rgba(224,85,85,.1);}
+.alt-btn.gabarito{border-color:var(--success);background:rgba(39,201,122,.08);}
+.alt-btn:disabled{cursor:default;}
+.alt-key{
+  width:24px;height:24px;border-radius:6px;background:var(--surface2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.78rem;flex-shrink:0;
+}
+.ce-row{display:flex;gap:10px;}
+.ce-btn{
+  flex:1;padding:14px;border-radius:12px;font-family:'Rajdhani',sans-serif;
+  font-size:1rem;font-weight:700;letter-spacing:1px;cursor:pointer;
+  border:2px solid;transition:.2s;
+}
+.ce-c{border-color:var(--success);background:rgba(39,201,122,.08);color:var(--success);}
+.ce-c:hover{background:var(--success);color:#050505;}
+.ce-e{border-color:var(--danger);background:rgba(224,85,85,.08);color:var(--danger);}
+.ce-e:hover{background:var(--danger);color:#fff;}
+.ce-btn:disabled{cursor:default;opacity:.7;}
+
+.feedback{
+  margin-top:12px;padding:12px 16px;border-radius:10px;font-size:.88rem;
+  display:flex;align-items:center;gap:8px;
+}
+.fb-ok{background:rgba(39,201,122,.1);border:1px solid var(--success);color:var(--success);}
+.fb-err{background:rgba(224,85,85,.1);border:1px solid var(--danger);color:var(--danger);}
+
+.btn-ia{
+  margin-top:12px;
+  background:linear-gradient(135deg,#2d1b6e,#4a2fa0);
+  border:1px solid #7856d4;color:#c0a8ff;
+  padding:8px 16px;border-radius:8px;
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.82rem;
+  cursor:pointer;letter-spacing:1px;display:inline-flex;align-items:center;gap:6px;
+  transition:.2s;
+}
+.btn-ia:hover{background:linear-gradient(135deg,#3d2b7e,#5a3fb0);}
+.btn-next{margin-top:14px;}
+
+/* lock */
+.lock-gate{
+  text-align:center;padding:32px 20px;
+  background:var(--surface2);border:2px dashed var(--gold);
+  border-radius:14px;margin-top:14px;
+}
+.lock-gate i{font-size:2.5rem;color:var(--gold);display:block;margin-bottom:10px;}
+.lock-gate h3{font-family:'Rajdhani',sans-serif;color:var(--gold);font-size:1.1rem;letter-spacing:1px;margin-bottom:8px;}
+.lock-gate p{color:var(--text-muted);font-size:.85rem;margin-bottom:16px;}
+
+/* resultado */
+.resultado{text-align:center;padding:20px 10px;}
+.res-score{font-family:'Rajdhani',sans-serif;font-size:3.5rem;font-weight:700;color:var(--gold);line-height:1;}
+.res-sub{font-size:.9rem;color:var(--text-muted);margin-top:4px;}
+.res-stats{
+  display:flex;gap:10px;justify-content:center;margin:16px 0;flex-wrap:wrap;
+}
+.res-stat{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:10px 16px;text-align:center;
+}
+.rs-num{font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gold);}
+.rs-lbl{font-size:.7rem;color:var(--text-muted);letter-spacing:.5px;}
+
+/* empty */
+.empty{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:.87rem;}
+.empty i{font-size:1.8rem;color:var(--border);display:block;margin-bottom:8px;}
+
+/* ================================================================
+   SIDEBAR ESQUERDA
+================================================================ */
+.curio-item{
+  padding:7px 0;border-bottom:1px solid var(--border);font-size:.8rem;line-height:1.5;
+}
+.curio-item:last-child{border-bottom:none;}
+.curio-lbl{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--gold);font-size:.82rem;}
+
+textarea.caderno{
+  width:100%;background:var(--input-bg);border:1px solid var(--border);
+  color:var(--text);border-radius:8px;padding:9px;
+  font-family:'Exo 2',sans-serif;font-size:.8rem;
+  resize:vertical;min-height:90px;outline:none;transition:.2s;
+}
+textarea.caderno:focus{border-color:var(--gold);}
+
+.codigo-box{
+  background:var(--surface2);border:1.5px dashed var(--gold);
+  border-radius:8px;padding:8px;text-align:center;
+  font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--gold);letter-spacing:3px;margin:8px 0;cursor:pointer;
+}
+
+.credito-line{font-size:.8rem;display:flex;justify-content:space-between;align-items:center;margin-top:4px;}
+.cred-val{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--success);font-size:.9rem;}
+
+/* ================================================================
+   SIDEBAR DIREITA
+================================================================ */
+.rank-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 0;border-bottom:1px solid var(--border);font-size:.8rem;
+}
+.rank-item:last-child{border-bottom:none;}
+.rank-pos{
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.72rem;flex-shrink:0;
+}
+.rp-1{background:var(--gold);color:#050505;}
+.rp-2{background:#aaa;color:#050505;}
+.rp-3{background:#cd7f32;color:#fff;}
+.rp-n{background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);}
+.rank-nm{flex:1;}
+.rank-pts{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.85rem;color:var(--gold);}
+
+.hist-item{
+  padding:6px 0;border-bottom:1px solid var(--border);
+  font-size:.76rem;line-height:1.4;
+}
+.hist-item:last-child{border-bottom:none;}
+
+.cron-disp{
+  font-family:'Rajdhani',sans-serif;font-size:2rem;font-weight:700;
+  color:var(--gold);letter-spacing:4px;text-align:center;margin:4px 0 10px;
+}
+.cron-btns{display:flex;gap:6px;justify-content:center;}
+
+/* ================================================================
+   MODAIS
+================================================================ */
+.overlay{
+  position:fixed;inset:0;background:var(--overlay);z-index:900;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;visibility:hidden;transition:.3s;
+}
+.overlay.show{opacity:1;visibility:visible;}
+.modal{
+  background:var(--surface);border:1px solid var(--gold);
+  border-radius:20px;padding:28px;max-width:480px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,0.85),0 0 40px var(--gold-glow);
+  transform:translateY(24px);transition:.3s;position:relative;
+  max-height:90vh;overflow-y:auto;
+}
+.overlay.show .modal{transform:translateY(0);}
+.modal-title{
+  font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;
+  color:var(--gold);letter-spacing:2px;margin-bottom:18px;
+  text-align:center;border-bottom:1px solid var(--border);padding-bottom:14px;
+}
+.modal-close{
+  position:absolute;top:14px;right:16px;
+  background:none;border:none;color:var(--text-muted);
+  font-size:1.1rem;cursor:pointer;transition:.2s;
+}
+.modal-close:hover{color:var(--gold);}
+
+.form-grp{margin-bottom:14px;}
+.form-lbl{
+  display:block;font-family:'Rajdhani',sans-serif;font-size:.72rem;
+  font-weight:700;color:var(--text-muted);letter-spacing:1.5px;
+  text-transform:uppercase;margin-bottom:5px;
+}
+input[type=text],input[type=email],input[type=password]{
+  width:100%;background:var(--input-bg);border:1px solid var(--border);
+  color:var(--text);padding:10px 13px;border-radius:8px;
+  font-family:'Exo 2',sans-serif;font-size:.88rem;outline:none;transition:.2s;
+}
+input:focus{border-color:var(--gold);}
+
+/* tabs login */
+.tab-row{
+  display:flex;gap:3px;background:var(--surface2);
+  border-radius:8px;padding:3px;margin-bottom:16px;
+}
+.tab-btn{
+  flex:1;padding:7px;border-radius:6px;font-family:'Rajdhani',sans-serif;
+  font-weight:700;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;background:transparent;border:none;color:var(--text-muted);transition:.2s;
+}
+.tab-btn.active{background:var(--surface);color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.3);}
+
+/* planos */
+.planos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.plano-card{
+  background:var(--surface2);border:2px solid var(--border);
+  border-radius:14px;padding:16px 10px;text-align:center;
+  cursor:pointer;transition:.2s;position:relative;
+}
+.plano-card:hover{border-color:var(--gold);box-shadow:0 0 20px var(--gold-glow);}
+.plano-card.dest{border-color:var(--gold);box-shadow:0 0 20px var(--gold-glow);}
+.plano-badge{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:#050505;font-size:.55rem;font-weight:800;
+  padding:2px 9px;border-radius:20px;font-family:'Rajdhani',sans-serif;
+  letter-spacing:1px;white-space:nowrap;
+}
+.plano-lvl{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;}
+.plano-price{font-family:'Rajdhani',sans-serif;font-size:1.7rem;font-weight:700;color:var(--gold);margin:5px 0 3px;line-height:1;}
+.plano-price sup{font-size:.8rem;}
+.plano-qtd{font-size:.75rem;color:var(--text);font-weight:600;}
+.plano-qtd strong{font-family:'Rajdhani',sans-serif;font-size:.9rem;color:var(--gold2);}
+
+.notice{
+  background:rgba(212,175,55,.08);border:1px solid var(--border);
+  border-radius:9px;padding:9px 13px;font-size:.78rem;
+  color:var(--text-muted);display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;
+}
+.notice i{color:var(--gold);flex-shrink:0;margin-top:1px;}
+
+/* ================================================================
+   WHATSAPP FLOAT
+================================================================ */
+.wa-float{
+  position:fixed;bottom:22px;right:22px;
+  width:54px;height:54px;background:#25D366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;color:#fff;
+  box-shadow:0 4px 20px rgba(37,211,102,.45);z-index:500;
+  border:none;cursor:pointer;transition:.2s;text-decoration:none;
+}
+.wa-float:hover{transform:scale(1.1);}
+
+/* footer */
+footer{
+  text-align:center;padding:12px;font-size:.68rem;
+  color:var(--text-muted);border-top:1px solid var(--border);
+  font-family:'Rajdhani',sans-serif;letter-spacing:1px;
+}
+
+/* ================================================================
+   IA badge
+================================================================ */
+.ia-sugestao{
+  background:linear-gradient(135deg,#2d1b6e,#4a2fa0);
+  border:1px solid #7856d4;border-radius:8px;
+  padding:10px 14px;margin-top:10px;font-size:.82rem;color:#c0a8ff;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.ia-sugestao i{flex-shrink:0;margin-top:2px;}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+================================================================ -->
+<header class="header">
+  <div class="logo-area">
+    <div class="logo-icon">VZ</div>
+    <span class="logo-text">VANZZ CONCURSO</span>
+    <span class="excl-badge">⭐ EXCLUSIVIDADE</span>
+  </div>
+
+  <div class="ticker-wrap">
+    <span class="ticker-live">AO VIVO</span>
+    <div class="ticker-scroll">
+      <div class="ticker-inner" id="tickerInner">
+        <span>📢 IBGE abre concurso para APM com vagas em todo Brasil</span>
+        <span>🏆 INSS planeja novo edital para 2025 com mais de 7.000 vagas</span>
+        <span>🚔 PRF divulga resultado de concurso com 190 aprovados na 1ª fase</span>
+        <span>💰 Banco do Brasil abre inscrições para escriturário</span>
+        <span>🏧 Caixa Econômica anuncia seleção com salários de até R$4.500</span>
+        <span>📑 SEFAZ abre concurso para Auditor Fiscal em vários estados</span>
+        <span>⚠️ Atualize as notícias manualmente chamando window.VZ.updateNews(novaNoticia)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="clock-box" id="clockBox">00/00/0000 – 00:00:00</div>
+
+  <div class="hdr-actions">
+    <button class="btn-icon" id="themeToggle" title="Alternar tema">
+      <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+    <div class="user-pill" id="userPill" onclick="openLogin()">
+      <div class="user-av" id="userAv">?</div>
+      <span class="user-nm" id="userNm">ENTRAR</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================================================================
+     DASHBOARD
+================================================================ -->
+<div class="dashboard">
+
+  <!-- ============ SIDEBAR ESQUERDA ============ -->
+  <aside class="sidebar-left">
+
+    <!-- Curiosidades -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-star"></i>Curiosidades</div>
+      <div class="curio-item"><div class="curio-lbl">IBGE – APM</div>Salário inicial ~R$ 3.100 + benefícios. Cerca de 895 vagas no último edital.</div>
+      <div class="curio-item"><div class="curio-lbl">INSS – Técnico</div>Salário de R$ 5.905. Último concurso teve mais de 7.000 vagas.</div>
+      <div class="curio-item"><div class="curio-lbl">PRF</div>Salário inicial de R$ 9.899. Altamente competitivo — 1 vaga para 300 candidatos.</div>
+      <div class="curio-item"><div class="curio-lbl">Banco do Brasil</div>Escriturário: R$ 3.622 + participação nos lucros. 4.000+ vagas recentes.</div>
+      <div class="curio-item"><div class="curio-lbl">CAIXA</div>Técnico bancário: R$ 3.800. Uma das maiores seleções bancárias do país.</div>
+      <div class="curio-item"><div class="curio-lbl">SEFAZ – Auditor</div>Remuneração pode passar de R$ 20.000 em alguns estados.</div>
+      <div class="curio-item"><div class="curio-lbl">Polícia Civil</div>Delegado chega a R$ 15.000+. Investigador: R$ 6.000–8.000.</div>
+    </div>
+
+    <!-- Caderno Virtual -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-book-open"></i>Caderno Virtual</div>
+      <textarea class="caderno" id="cadernoTxt" rows="5" placeholder="📝 Anote resumos, fórmulas, dicas..."></textarea>
+      <div style="display:flex;gap:6px;margin-top:8px;">
+        <button class="btn btn-gold btn-sm" onclick="salvarCaderno()"><i class="fas fa-save"></i> Salvar</button>
+        <button class="btn btn-outline btn-sm" onclick="limparCaderno()"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+
+    <!-- Sugestão WhatsApp -->
+    <div class="card">
+      <div class="card-title"><i class="fab fa-whatsapp"></i>Sugerir Melhoria</div>
+      <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:10px;">Sua mensagem chega direto no WhatsApp do criador da plataforma.</p>
+      <button class="btn btn-success btn-sm" style="width:100%" onclick="abrirWhats()">
+        <i class="fab fa-whatsapp"></i> Enviar Sugestão
+      </button>
+    </div>
+
+    <!-- Indicação -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-gift"></i>Indique e Ganhe</div>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-bottom:6px;">Cada amigo que se cadastrar com seu código gera <strong style="color:var(--success)">R$ 1,00</strong> de desconto para você.</p>
+      <div class="codigo-box" id="meuCodigo" onclick="copiarCodigo()" title="Clique para copiar">------</div>
+      <div class="credito-line">
+        <span style="font-size:.75rem;color:var(--text-muted);">Seus créditos:</span>
+        <span class="cred-val" id="meusCreditos">R$ 0,00</span>
+      </div>
+      <p style="font-size:.68rem;color:var(--text-muted);margin-top:6px;">💡 Clique no código para copiar e compartilhar</p>
+    </div>
+
+  </aside>
+
+  <!-- ============ CENTRAL ============ -->
+  <main>
+    <!-- Cabeçalho simulado + timers -->
+    <div class="card" style="margin-bottom:14px;">
+      <div class="sim-header">
+        <div>
+          <div class="sim-title"><i class="fas fa-trophy"></i> SIMULADO ELITE</div>
+          <div style="font-size:.72rem;color:var(--text-muted);margin-top:2px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;">90% PRÁTICA • DOMINE A BANCA</div>
+        </div>
+        <div class="timers-group">
+          <div class="timer-box">
+            <span class="t-label">Total</span>
+            <span class="t-val" id="timerTotal">00:00:00</span>
+          </div>
+          <div class="timer-box">
+            <span class="t-label">Por questão</span>
+            <span class="t-val" id="timerQuestao">02:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filter-row">
+        <select id="selBanca">
+          <option value="Cebraspe">Cebraspe / CESPE</option>
+          <option value="FGV">FGV</option>
+          <option value="FCC">FCC</option>
+          <option value="VUNESP">VUNESP</option>
+        </select>
+        <select id="selEstilo">
+          <option value="CE">Certo / Errado</option>
+          <option value="MC">Múltipla Escolha</option>
+        </select>
+      </div>
+
+      <!-- Grid de concursos -->
+      <div style="font-family:'Rajdhani',sans-serif;font-size:.78rem;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">
+        📚 Escolha o concurso:
+      </div>
+      <div class="concurso-grid" id="concursoGrid"></div>
+    </div>
+
+    <!-- Área do simulado -->
+    <div id="simArea">
+      <div class="empty">
+        <i class="fas fa-graduation-cap"></i>
+        Selecione a banca, o estilo e o concurso para iniciar o simulado.
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ SIDEBAR DIREITA ============ -->
+  <aside class="sidebar-right">
+
+    <!-- Ranking Global -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-medal"></i>Top 5 da Semana</div>
+      <div id="rankingList"><div class="empty" style="padding:10px"><i></i>Sem dados ainda.</div></div>
+    </div>
+
+    <!-- Gráfico de desempenho -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-chart-pie"></i>Desempenho por Matéria</div>
+      <canvas id="chartDesempenho" height="180"></canvas>
+      <div id="chartVazio" class="empty" style="padding:10px;display:none"><i></i>Responda questões para ver o gráfico.</div>
+    </div>
+
+    <!-- Histórico questões -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-history"></i>Questões Respondidas</div>
+      <div id="historicoList" style="max-height:220px;overflow-y:auto;">
+        <div class="empty" style="padding:10px"><i></i>Nenhuma respondida ainda.</div>
+      </div>
+    </div>
+
+    <!-- Cronômetro de Estudo -->
+    <div class="card">
+      <div class="card-title"><i class="fas fa-stopwatch"></i>Cronômetro de Estudo</div>
+      <div class="cron-disp" id="cronDisp">00:00:00</div>
+      <div class="cron-btns">
+        <button class="btn btn-gold btn-xs" id="cronStart"><i class="fas fa-play"></i></button>
+        <button class="btn btn-outline btn-xs" id="cronPause"><i class="fas fa-pause"></i></button>
+        <button class="btn btn-outline btn-xs" id="cronReset"><i class="fas fa-redo"></i></button>
+      </div>
+    </div>
+
+  </aside>
+</div><!-- /dashboard -->
+
+<footer>VANZZ IA ® – Plataforma Premium de Concursos Públicos | DOMINE A BANCA COM EXCLUSIVIDADE</footer>
+
+<!-- WhatsApp float -->
+<a class="wa-float" href="https://wa.me/5582996793347?text=Olá!%20Quero%20adquirir%20questões%20na%20Vanzz%20Concurso." target="_blank" title="Adquirir questões via WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ================================================================
+     MODAL LOGIN / CADASTRO
+================================================================ -->
+<div class="overlay" id="overlayLogin">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal-close" onclick="closeOverlay('overlayLogin')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">ACESSE A PLATAFORMA</div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tabLoginBtn" onclick="switchTab('login')">ENTRAR</button>
+      <button class="tab-btn" id="tabCadBtn" onclick="switchTab('cadastro')">CADASTRAR</button>
+    </div>
+    <!-- Login -->
+    <div id="formLogin">
+      <div class="form-grp"><label class="form-lbl">Nome</label><input type="text" id="loginNome" placeholder="Seu nome completo"></div>
+      <div class="form-grp"><label class="form-lbl">E-mail</label><input type="email" id="loginEmail" placeholder="seuemail@email.com"></div>
+      <div class="notice"><i class="fas fa-info-circle"></i>Plataforma em fase inicial. Seus dados ficam salvos localmente neste dispositivo.</div>
+      <button class="btn btn-gold" style="width:100%;margin-top:4px;" onclick="fazerLogin()">ENTRAR <i class="fas fa-arrow-right"></i></button>
+    </div>
+    <!-- Cadastro -->
+    <div id="formCadastro" style="display:none">
+      <div class="form-grp"><label class="form-lbl">Nome completo</label><input type="text" id="cadNome" placeholder="Seu nome"></div>
+      <div class="form-grp"><label class="form-lbl">E-mail</label><input type="email" id="cadEmail" placeholder="seuemail@email.com"></div>
+      <div class="form-grp"><label class="form-lbl">Código de indicação (opcional)</label><input type="text" id="cadCodigo" placeholder="Ex: VANZZ-AB1C2D"></div>
+      <div class="notice"><i class="fas fa-gift"></i>Se alguém te indicou, coloque o código e a pessoa ganha R$1,00 de desconto!</div>
+      <button class="btn btn-gold" style="width:100%;margin-top:4px;" onclick="fazerCadastro()">CRIAR CONTA <i class="fas fa-star"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MODAL PLANOS DE VENDA
+================================================================ -->
+<div class="overlay" id="overlayPlanos">
+  <div class="modal">
+    <button class="modal-close" onclick="closeOverlay('overlayPlanos')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">🔓 DESBLOQUEAR QUESTÕES</div>
+    <p style="text-align:center;color:var(--text-muted);font-size:.82rem;margin-bottom:4px;" id="planosConcurso">Concurso: —</p>
+    <div class="notice"><i class="fas fa-shield-alt"></i>Cada plano é <strong>exclusivo para o concurso escolhido</strong>. Se quiser mais de um concurso, adquira separadamente.</div>
+
+    <div class="planos-grid">
+      <div class="plano-card" onclick="comprarPlano(1)">
+        <div class="plano-lvl">Nível 1</div>
+        <div class="plano-price"><sup>R$</sup>10</div>
+        <div class="plano-qtd"><strong>100</strong><br>questões</div>
+      </div>
+      <div class="plano-card dest" onclick="comprarPlano(2)">
+        <div class="plano-badge">✨ MAIS POPULAR</div>
+        <div class="plano-lvl">Nível 2</div>
+        <div class="plano-price"><sup>R$</sup>20</div>
+        <div class="plano-qtd"><strong>250</strong><br>questões</div>
+      </div>
+      <div class="plano-card" onclick="comprarPlano(3)">
+        <div class="plano-badge">⭐ EXCLUSIVIDADE</div>
+        <div class="plano-lvl">Nível 3</div>
+        <div class="plano-price"><sup>R$</sup>25</div>
+        <div class="plano-qtd"><strong>500</strong><br>questões + acesso total</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:12px;">Pagamento via WhatsApp • Ativação manual pelo admin</p>
+      <button class="btn btn-success" onclick="irParaWhatsPlano()">
+        <i class="fab fa-whatsapp"></i> Comprar via WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     MODAL RESULTADO FINAL
+================================================================ -->
+<div class="overlay" id="overlayResultado">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-title">🏆 SIMULADO CONCLUÍDO</div>
+    <div class="resultado">
+      <div class="res-score" id="resScore">0%</div>
+      <div class="res-sub" id="resSub">de acerto</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="rs-num" id="resAcertos">0</div><div class="rs-lbl">Acertos</div></div>
+        <div class="res-stat"><div class="rs-num" id="resErros">0</div><div class="rs-lbl">Erros</div></div>
+        <div class="res-stat"><div class="rs-num" id="resTempo">0s</div><div class="rs-lbl">Tempo</div></div>
+        <div class="res-stat"><div class="rs-num" id="resPts">+0</div><div class="rs-lbl">Pontos</div></div>
+      </div>
+    </div>
+    <button class="btn btn-gold" style="width:100%" onclick="closeOverlay('overlayResultado')">
+      <i class="fas fa-redo"></i> Fazer Novo Simulado
+    </button>
+  </div>
+</div>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+/* ============================================================
+   DADOS: CONCURSOS + LOGOS + QUESTÕES MOCK
+============================================================ */
+const CONCURSOS = [
+  {
+    id:"IBGE", nome:"IBGE",
+    logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Logo_IBGE.svg/120px-Logo_IBGE.svg.png",
+    emoji:"📊",
+    materias:["Conhecimentos Gerais","Raciocínio Lógico","Informática","Atualidades","Matemática"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"O IBGE é o órgão responsável pelo planejamento, coordenação, execução e divulgação de pesquisas estatísticas, incluindo o Censo Demográfico brasileiro, realizado a cada dez anos.",correta:"Certo",materia:"Conhecimentos Gerais",dif:"f"},
+          {texto:"A Pesquisa Nacional por Amostra de Domicílios Contínua (PNAD Contínua) é divulgada mensalmente pelo IBGE e tem como objetivo investigar informações sobre força de trabalho.",correta:"Certo",materia:"Conhecimentos Gerais",dif:"m"},
+          {texto:"O Censo Demográfico de 2022 foi o primeiro realizado exclusivamente por meio de entrevistas presenciais, sem uso de tecnologia digital.",correta:"Errado",materia:"Conhecimentos Gerais",dif:"m"}
+        ],
+        MC:[
+          {texto:"Em que ano foi realizado o Censo Demográfico Brasileiro imediatamente anterior ao de 2022?",correta:"C) 2010",alternativas:["A) 2000","B) 2005","C) 2010","D) 2015"],materia:"Conhecimentos Gerais",dif:"f"},
+          {texto:"O IBGE é vinculado a qual Ministério do Governo Federal brasileiro?",correta:"B) Ministério do Planejamento e Orçamento",alternativas:["A) Ministério da Fazenda","B) Ministério do Planejamento e Orçamento","C) Ministério da Ciência e Tecnologia","D) Casa Civil"],materia:"Conhecimentos Gerais",dif:"m"},
+          {texto:"Qual sigla representa a pesquisa do IBGE que mede a taxa de desemprego mensalmente no Brasil?",correta:"A) PNAD Contínua",alternativas:["A) PNAD Contínua","B) POF","C) MUNIC","D) IBAS"],materia:"Conhecimentos Gerais",dif:"f"}
+        ]
+      }
+    }
+  },
+  {
+    id:"INSS", nome:"INSS",
+    logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Logo_INSS_Brasil.png/120px-Logo_INSS_Brasil.png",
+    emoji:"🏦",
+    materias:["Direito Previdenciário","Legislação do INSS","Raciocínio Lógico","Informática","Português"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"Segundo a legislação previdenciária brasileira, a aposentadoria por incapacidade permanente exige carência mínima de 12 contribuições mensais, salvo em casos de acidente de qualquer natureza ou doença profissional.",correta:"Certo",materia:"Direito Previdenciário",dif:"m"},
+          {texto:"O benefício de auxílio por incapacidade temporária (antigo auxílio-doença) é concedido ao segurado que ficar incapacitado para o trabalho por prazo superior a 15 dias consecutivos.",correta:"Certo",materia:"Direito Previdenciário",dif:"m"},
+          {texto:"O salário-maternidade é um benefício previdenciário pago exclusivamente às seguradas empregadas, vedado às trabalhadoras avulsas e domésticas.",correta:"Errado",materia:"Direito Previdenciário",dif:"d"}
+        ],
+        MC:[
+          {texto:"Qual é o prazo de carência para concessão do auxílio por incapacidade temporária nos casos de acidente de qualquer natureza ou doença profissional?",correta:"A) Sem carência",alternativas:["A) Sem carência","B) 6 contribuições","C) 12 contribuições","D) 24 contribuições"],materia:"Direito Previdenciário",dif:"m"},
+          {texto:"De acordo com a EC 103/2019 (Reforma da Previdência), qual é a idade mínima para aposentadoria por idade das mulheres no RGPS?",correta:"C) 62 anos",alternativas:["A) 55 anos","B) 60 anos","C) 62 anos","D) 65 anos"],materia:"Direito Previdenciário",dif:"m"},
+          {texto:"O período de graça no direito previdenciário refere-se a:",correta:"B) Período em que o segurado mantém a qualidade de segurado mesmo sem contribuir",alternativas:["A) Período de carência inicial","B) Período em que o segurado mantém a qualidade de segurado mesmo sem contribuir","C) Prazo de validade do benefício","D) Período entre o requerimento e a concessão do benefício"],materia:"Direito Previdenciário",dif:"d"}
+        ]
+      }
+    }
+  },
+  {
+    id:"PM", nome:"POLÍCIA MILITAR",
+    logo:null, emoji:"🚔",
+    materias:["Direito Penal","Legislação Militar","Raciocínio Lógico","Português","Atualidades"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"Segundo o Código Penal brasileiro, o crime de homicídio simples é punido com reclusão de 6 a 20 anos.",correta:"Certo",materia:"Direito Penal",dif:"f"},
+          {texto:"A tentativa de crime, segundo o CP, é punida com a mesma pena do crime consumado, sem qualquer redução.",correta:"Errado",materia:"Direito Penal",dif:"m"},
+          {texto:"De acordo com o CP, é causa de exclusão de ilicitude a legítima defesa, o estado de necessidade, o estrito cumprimento de dever legal e o exercício regular de direito.",correta:"Certo",materia:"Direito Penal",dif:"m"}
+        ],
+        MC:[
+          {texto:"Qual é a pena para o homicídio qualificado, prevista no Código Penal brasileiro?",correta:"B) Reclusão de 12 a 30 anos",alternativas:["A) Reclusão de 6 a 20 anos","B) Reclusão de 12 a 30 anos","C) Detenção de 4 a 12 anos","D) Reclusão de 8 a 25 anos"],materia:"Direito Penal",dif:"m"},
+          {texto:"De acordo com o CP, qual é a diferença entre dolo direto e dolo eventual?",correta:"C) No dolo eventual o agente assume o risco de produzir o resultado; no dolo direto ele quer o resultado",alternativas:["A) O dolo eventual é mais grave que o dolo direto","B) Apenas o dolo direto é punível","C) No dolo eventual o agente assume o risco de produzir o resultado; no dolo direto ele quer o resultado","D) São sinônimos no Código Penal"],materia:"Direito Penal",dif:"d"},
+          {texto:"Para configuração do estado de necessidade como excludente de ilicitude, é necessário que o perigo seja:",correta:"A) Atual ou iminente e não provocado voluntariamente pelo agente",alternativas:["A) Atual ou iminente e não provocado voluntariamente pelo agente","B) Apenas futuro e inevitável","C) Voluntariamente criado pelo agente","D) Exclusivamente contra bens materiais"],materia:"Direito Penal",dif:"d"}
+        ]
+      }
+    }
+  },
+  {
+    id:"PC", nome:"POLÍCIA CIVIL",
+    logo:null, emoji:"🔍",
+    materias:["Direito Penal","Criminologia","Raciocínio Lógico","Informática","Português"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"A criminologia é uma ciência autônoma de caráter interdisciplinar que estuda o crime, o criminoso, a vítima e o controle social.",correta:"Certo",materia:"Criminologia",dif:"f"},
+          {texto:"A teoria do Labeling Approach (etiquetamento) afirma que o crime é uma qualidade intrínseca da conduta, independentemente da reação social.",correta:"Errado",materia:"Criminologia",dif:"d"},
+          {texto:"Segundo a vitimologia, a vítima pode ser classificada como colaboradora quando sua conduta contribui para o surgimento do crime.",correta:"Certo",materia:"Criminologia",dif:"m"}
+        ],
+        MC:[
+          {texto:"Qual teoria criminológica defende que o comportamento criminoso é resultado de uma crise nas normas sociais, gerando ausência de regulação moral?",correta:"B) Teoria da Anomia de Durkheim",alternativas:["A) Teoria Biológica de Lombroso","B) Teoria da Anomia de Durkheim","C) Teoria da Associação Diferencial","D) Teoria da Escolha Racional"],materia:"Criminologia",dif:"m"},
+          {texto:"Em criminologia, o fenômeno da 'cifra negra' refere-se a:",correta:"C) Crimes que ocorrem mas não chegam ao conhecimento das autoridades",alternativas:["A) Reincidência criminal de réus primários","B) Número oficial de crimes registrados","C) Crimes que ocorrem mas não chegam ao conhecimento das autoridades","D) Crimes praticados por organizações criminosas"],materia:"Criminologia",dif:"m"},
+          {texto:"A prevenção situacional do delito visa principalmente:",correta:"A) Reduzir as oportunidades para a prática de crimes, modificando o ambiente",alternativas:["A) Reduzir as oportunidades para a prática de crimes, modificando o ambiente","B) Reabilitar o criminoso por meio de tratamento psicológico","C) Aumentar penas para desestimular a criminalidade","D) Investigar as causas biológicas do crime"],materia:"Criminologia",dif:"d"}
+        ]
+      }
+    }
+  },
+  {
+    id:"PRF", nome:"POL. RODOV. FED.",
+    logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/PRF_logo.svg/120px-PRF_logo.svg.png",
+    emoji:"🛣️",
+    materias:["Direito Administrativo","Legislação de Trânsito","Raciocínio Lógico","Português","Geografia"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"O Código de Trânsito Brasileiro (Lei 9.503/1997) estabelece que a velocidade máxima permitida em rodovias de pista dupla para automóveis é de 120 km/h.",correta:"Certo",materia:"Legislação de Trânsito",dif:"m"},
+          {texto:"De acordo com o CTB, conduzir veículo sob influência de álcool com concentração igual ou superior a 6 decigramas por litro de sangue constitui crime de trânsito.",correta:"Certo",materia:"Legislação de Trânsito",dif:"m"},
+          {texto:"O CTB prevê que a habilitação na categoria A permite conduzir motocicletas e também automóveis de passeio.",correta:"Errado",materia:"Legislação de Trânsito",dif:"f"}
+        ],
+        MC:[
+          {texto:"Qual é a velocidade máxima permitida pelo CTB em rodovias de pista simples para automóveis?",correta:"B) 100 km/h",alternativas:["A) 80 km/h","B) 100 km/h","C) 110 km/h","D) 120 km/h"],materia:"Legislação de Trânsito",dif:"m"},
+          {texto:"Segundo o CTB, qual é o prazo para renovação da CNH após o vencimento para condutores com menos de 50 anos?",correta:"C) 5 anos",alternativas:["A) 2 anos","B) 3 anos","C) 5 anos","D) 10 anos"],materia:"Legislação de Trânsito",dif:"m"},
+          {texto:"De acordo com o CTB, a suspensão do direito de dirigir pode ser aplicada quando o condutor atingir quantos pontos na CNH em 12 meses?",correta:"D) 20 pontos",alternativas:["A) 5 pontos","B) 10 pontos","C) 15 pontos","D) 20 pontos"],materia:"Legislação de Trânsito",dif:"d"}
+        ]
+      }
+    }
+  },
+  {
+    id:"BB", nome:"BANCO DO BRASIL",
+    logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Logo_Banco_do_Brasil.svg/120px-Logo_Banco_do_Brasil.svg.png",
+    emoji:"💰",
+    materias:["Conhecimentos Bancários","Matemática Financeira","Informática","Português","Atualidades"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"O Banco do Brasil S.A. é uma sociedade de economia mista, e não uma empresa pública, sendo uma das maiores instituições financeiras da América Latina.",correta:"Certo",materia:"Conhecimentos Bancários",dif:"m"},
+          {texto:"A captação de depósitos à vista pelos bancos comerciais caracteriza uma operação ativa bancária.",correta:"Errado",materia:"Conhecimentos Bancários",dif:"m"},
+          {texto:"O Banco Central do Brasil (BACEN) é o principal órgão executor das políticas monetária e cambial do país, sendo responsável pela emissão de papel-moeda.",correta:"Certo",materia:"Conhecimentos Bancários",dif:"f"}
+        ],
+        MC:[
+          {texto:"Qual das alternativas representa corretamente uma operação passiva bancária?",correta:"C) Captação de depósitos a prazo",alternativas:["A) Concessão de empréstimo pessoal","B) Desconto de duplicatas","C) Captação de depósitos a prazo","D) Operação de leasing financeiro"],materia:"Conhecimentos Bancários",dif:"m"},
+          {texto:"O Sistema Financeiro Nacional (SFN) é composto por órgãos normativos, supervisores e operadores. Qual das opções abaixo é um órgão normativo do SFN?",correta:"A) Conselho Monetário Nacional (CMN)",alternativas:["A) Conselho Monetário Nacional (CMN)","B) Banco Central do Brasil","C) Banco do Brasil","D) Comissão de Valores Mobiliários (CVM)"],materia:"Conhecimentos Bancários",dif:"m"},
+          {texto:"A taxa Selic refere-se a:",correta:"B) Taxa básica de juros da economia, definida pelo COPOM",alternativas:["A) Taxa de câmbio entre Real e Dólar","B) Taxa básica de juros da economia, definida pelo COPOM","C) Índice de inflação mensal","D) Taxa cobrada por operações de crédito imobiliário"],materia:"Conhecimentos Bancários",dif:"f"}
+        ]
+      }
+    }
+  },
+  {
+    id:"CEF", nome:"CAIXA",
+    logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Caixa_Econ%C3%B4mica_Federal_logo.svg/120px-Caixa_Econ%C3%B4mica_Federal_logo.svg.png",
+    emoji:"🏧",
+    materias:["Conhecimentos Bancários","Matemática Financeira","Informática","Português","Atualidades"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"A Caixa Econômica Federal é uma empresa pública federal, constituída sob a forma de empresa pública, e é o principal agente do Sistema Financeiro de Habitação (SFH) no Brasil.",correta:"Certo",materia:"Conhecimentos Bancários",dif:"f"},
+          {texto:"O FGTS é gerido pelo Banco do Brasil, sendo a Caixa Econômica Federal apenas o agente operador do fundo.",correta:"Errado",materia:"Conhecimentos Bancários",dif:"m"},
+          {texto:"Segundo a legislação vigente, o FGTS pode ser sacado pelo trabalhador em caso de demissão sem justa causa.",correta:"Certo",materia:"Conhecimentos Bancários",dif:"f"}
+        ],
+        MC:[
+          {texto:"O FGTS — Fundo de Garantia do Tempo de Serviço — é gerido por qual instituição?",correta:"C) Caixa Econômica Federal",alternativas:["A) Banco do Brasil","B) Banco Central do Brasil","C) Caixa Econômica Federal","D) BNDES"],materia:"Conhecimentos Bancários",dif:"f"},
+          {texto:"Qual percentual o empregador deposita mensalmente no FGTS do trabalhador?",correta:"B) 8% da remuneração bruta",alternativas:["A) 5% da remuneração bruta","B) 8% da remuneração bruta","C) 11% da remuneração bruta","D) 3% da remuneração bruta"],materia:"Conhecimentos Bancários",dif:"m"},
+          {texto:"O Programa Minha Casa Minha Vida é operacionalizado principalmente por qual instituição financeira?",correta:"C) Caixa Econômica Federal",alternativas:["A) Banco do Brasil","B) Banco do Nordeste","C) Caixa Econômica Federal","D) Banco Central"],materia:"Conhecimentos Bancários",dif:"f"}
+        ]
+      }
+    }
+  },
+  {
+    id:"BNB", nome:"BANCO DO NORDESTE",
+    logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/BNB_-_Banco_do_Nordeste.png/120px-BNB_-_Banco_do_Nordeste.png",
+    emoji:"🌵",
+    materias:["Conhecimentos Bancários","Economia Regional","Matemática Financeira","Informática","Português"],
+    questoes:{
+      Cebraspe:{
+        CE:[
+          {texto:"O Banco do Nordeste do Brasil (BNB) é uma empresa pública federal e atua como o principal agente financeiro do desenvolvimento sustentável do Nordeste, Norte de Minas Gerais e Espírito Santo, além de ser o gestor do FNE.",correta:"Certo",materia:"Economia Regional",dif:"f"},
+          {texto:"O FNE — Fundo Constitucional de Financiamento do Nordeste — é composto exclusivamente por recursos do Orçamento Geral da União, sem vinculação a arrecadação tributária.",correta:"Errado",materia:"Economia Regional",dif:"m"},
+          {texto:"O Microcrédito Produtivo Orientado (AGROAMIGO) é um programa do BNB voltado para agricultores familiares e representa uma das maiores carteiras de microcrédito rural do mundo.",correta:"Certo",materia:"Economia Regional",dif:"m"}
+        ],
+        MC:[
+          {texto:"Qual fundo constitucional é administrado pelo Banco do Nordeste para financiar o desenvolvimento da Região Nordeste?",correta:"A) FNE – Fundo Constitucional de Financiamento do Nordeste",alternativas:["A) FNE – Fundo Constitucional de Financiamento do Nordeste","B) FCO – Fundo Constitucional do Centro-Oeste","C) FAT – Fundo de Amparo ao Trabalhador","D) FNO – Fundo Constitucional do Norte"],materia:"Economia Regional",dif:"f"},
+          {texto:"O BNB foi fundado em qual ano?",correta:"C) 1952",alternativas:["A) 1944","B) 1948","C) 1952","D) 1960"],materia:"Economia Regional",dif:"d"},
+          {texto:"Qual programa do BNB é especificamente voltado ao crédito para agricultores familiares?",correta:"B) AGROAMIGO",alternativas:["A) PROGER","B) AGROAMIGO","C) PRONAF Especial","D) CrediAmigo Rural"],materia:"Economia Regional",dif:"m"}
+        ]
+      }
+    }
+  },
+  {
+    id:"SEFAZ", nome:"SEFAZ",
+    logo:null, emoji:"📑",
+    materias:["Direito Tributário","Contabilidade","Raciocínio Lógico","Português","Matemática"],
+    questoes:{
+      FGV:{
+        CE:[
+          {texto:"O ICMS é um imposto de competência estadual, não cumulativo, que incide sobre operações relativas à circulação de mercadorias e sobre prestações de serviços de transporte interestadual e de comunicação.",correta:"Certo",materia:"Direito Tributário",dif:"f"},
+          {texto:"Segundo a CF/88, o princípio da anterioridade tributária proíbe a cobrança de tributo no mesmo exercício financeiro em que haja sido publicada a lei que o instituiu ou aumentou, sem exceções.",correta:"Errado",materia:"Direito Tributário",dif:"d"},
+          {texto:"O ISS — Imposto Sobre Serviços — é de competência municipal e incide sobre a prestação de serviços listados em lei complementar federal.",correta:"Certo",materia:"Direito Tributário",dif:"f"}
+        ],
+        MC:[
+          {texto:"Qual é a competência tributária do IPTU — Imposto Predial e Territorial Urbano?",correta:"C) Municipal",alternativas:["A) Federal","B) Estadual","C) Municipal","D) Distrital exclusivamente"],materia:"Direito Tributário",dif:"f"},
+          {texto:"O princípio da legalidade tributária, previsto no art. 150 da CF/88, determina que:",correta:"A) É vedado à União, Estados, DF e municípios exigir ou aumentar tributo sem lei que o estabeleça",alternativas:["A) É vedado à União, Estados, DF e municípios exigir ou aumentar tributo sem lei que o estabeleça","B) Os tributos federais têm prioridade sobre estaduais","C) A lei tributária pode ter efeito retroativo sem restrições","D) A criação de tributos depende apenas de decreto executivo"],materia:"Direito Tributário",dif:"m"},
+          {texto:"Qual dos impostos abaixo tem caráter extrafiscal e pode ter alíquotas alteradas pelo Poder Executivo?",correta:"B) IPI — Imposto sobre Produtos Industrializados",alternativas:["A) IR — Imposto de Renda","B) IPI — Imposto sobre Produtos Industrializados","C) IPVA","D) ISS"],materia:"Direito Tributário",dif:"d"}
+        ]
+      }
+    }
+  },
+  {
+    id:"PREF", nome:"PREFEITURA",
+    logo:null, emoji:"🏛️",
+    materias:["Legislação Municipal","Administração Pública","Português","Matemática","Informática"],
+    questoes:{
+      FCC:{
+        CE:[
+          {texto:"Os municípios brasileiros têm competência para instituir e cobrar o ISS — Imposto Sobre Serviços de Qualquer Natureza — conforme previsto na CF/88.",correta:"Certo",materia:"Legislação Municipal",dif:"f"},
+          {texto:"Segundo a Lei de Responsabilidade Fiscal (LRF), os municípios estão dispensados de publicar relatórios de gestão fiscal.",correta:"Errado",materia:"Legislação Municipal",dif:"m"},
+          {texto:"A Câmara Municipal exerce funções legislativas e de fiscalização do Poder Executivo municipal, podendo inclusive instaurar Comissões Parlamentares de Inquérito (CPIs).",correta:"Certo",materia:"Legislação Municipal",dif:"m"}
+        ],
+        MC:[
+          {texto:"Segundo a CF/88, qual das alternativas é uma competência exclusiva do município?",correta:"C) Organizar e prestar os serviços públicos de interesse local",alternativas:["A) Organizar e manter a segurança pública estadual","B) Legislar sobre direito civil e comercial","C) Organizar e prestar os serviços públicos de interesse local","D) Legislar sobre educação superior"],materia:"Legislação Municipal",dif:"m"},
+          {texto:"O Plano Diretor, instrumento básico da política de desenvolvimento urbano, é obrigatório para municípios com:",correta:"B) Mais de 20.000 habitantes",alternativas:["A) Mais de 5.000 habitantes","B) Mais de 20.000 habitantes","C) Mais de 50.000 habitantes","D) Todos os municípios"],materia:"Legislação Municipal",dif:"m"},
+          {texto:"Qual órgão é responsável pela fiscalização contábil, financeira e orçamentária dos municípios?",correta:"A) Tribunal de Contas do Estado, em geral, ou TCU quando aplicável",alternativas:["A) Tribunal de Contas do Estado, em geral, ou TCU quando aplicável","B) Câmara Municipal exclusivamente","C) Ministério da Fazenda Federal","D) CGU – Controladoria-Geral da União"],materia:"Legislação Municipal",dif:"d"}
+        ]
+      }
+    }
+  }
+];
+
+// Questões grátis por concurso
+const LIMITE_GRATIS = 25;
+
+/* ============================================================
+   ESTADO GLOBAL
+============================================================ */
+let state = {
+  usuario: null,
+  concursoAtual: null,
+  bancaAtual: "Cebraspe",
+  estiloAtual: "CE",
+  simulandoAtivo: false,
+  questoesAtuais: [],
+  questaoIdx: 0,
+  acertos: 0,
+  erros: 0,
+  inicioSimulado: null,
+  intervaloTotal: null,
+  intervaloQuestao: null,
+  segundosTotal: 0,
+  segundosQuestao: 120,
+  desempenho: {},
+  grafico: null
+};
+
+/* ============================================================
+   INIT
+============================================================ */
+function init() {
+  carregarUsuario();
+  renderConcursos();
+  relogio();
+  setInterval(relogio, 1000);
+  renderRanking();
+  renderHistorico();
+  renderGrafico();
+  carregarCaderno();
+
+  // Cronômetro de estudo
+  let cronSeg = 0, cronInterval = null;
+  const updateCron = () => {
+    const h = String(Math.floor(cronSeg/3600)).padStart(2,'0');
+    const m = String(Math.floor((cronSeg%3600)/60)).padStart(2,'0');
+    const s = String(cronSeg%60).padStart(2,'0');
+    document.getElementById('cronDisp').textContent = `${h}:${m}:${s}`;
+  };
+  document.getElementById('cronStart').onclick = () => {
+    if(!cronInterval) cronInterval = setInterval(() => { cronSeg++; updateCron(); }, 1000);
+  };
+  document.getElementById('cronPause').onclick = () => {
+    clearInterval(cronInterval); cronInterval = null;
+  };
+  document.getElementById('cronReset').onclick = () => {
+    clearInterval(cronInterval); cronInterval = null;
+    cronSeg = 0; updateCron();
+  };
+
+  // Dark mode
+  const savedTheme = localStorage.getItem('vz_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  atualizarIconeTema(savedTheme);
+
+  document.getElementById('themeToggle').onclick = () => {
+    const atual = document.documentElement.getAttribute('data-theme');
+    const novo = atual === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', novo);
+    localStorage.setItem('vz_theme', novo);
+    atualizarIconeTema(novo);
+    if(state.grafico) { state.grafico.destroy(); state.grafico = null; renderGrafico(); }
+  };
+
+  // Expor função de atualizar notícias
+  window.VZ = { updateNews: adicionarNoticia };
+}
+
+function atualizarIconeTema(t) {
+  document.getElementById('themeIcon').className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+/* ============================================================
+   RELÓGIO
+============================================================ */
+function relogio() {
+  const now = new Date();
+  const data = now.toLocaleDateString('pt-BR');
+  const hora = now.toLocaleTimeString('pt-BR');
+  document.getElementById('clockBox').textContent = `${data} – ${hora}`;
+}
+
+/* ============================================================
+   NOTÍCIAS - UPDATE MANUAL
+============================================================ */
+function adicionarNoticia(texto) {
+  const inner = document.getElementById('tickerInner');
+  const span = document.createElement('span');
+  span.textContent = '📢 ' + texto;
+  inner.prepend(span);
+}
+
+/* ============================================================
+   USUÁRIO / LOGIN
+============================================================ */
+function carregarUsuario() {
+  const u = localStorage.getItem('vz_user');
+  if(u) {
+    state.usuario = JSON.parse(u);
+    atualizarPillUsuario();
+    carregarDesempenho();
+  }
+}
+
+function atualizarPillUsuario() {
+  if(!state.usuario) return;
+  const nm = state.usuario.nome;
+  document.getElementById('userAv').textContent = nm.charAt(0).toUpperCase();
+  document.getElementById('userNm').textContent = nm.split(' ')[0].toUpperCase();
+  document.getElementById('meuCodigo').textContent = state.usuario.codigo;
+  document.getElementById('meusCreditos').textContent = `R$ ${(state.usuario.creditos||0).toFixed(2)}`;
+}
+
+function openLogin() {
+  if(state.usuario) return; // já logado
+  openOverlay('overlayLogin');
+}
+
+function switchTab(t) {
+  document.getElementById('formLogin').style.display = t==='login' ? '' : 'none';
+  document.getElementById('formCadastro').style.display = t==='cadastro' ? '' : 'none';
+  document.getElementById('tabLoginBtn').classList.toggle('active', t==='login');
+  document.getElementById('tabCadBtn').classList.toggle('active', t==='cadastro');
+}
+
+function gerarCodigo(nome) {
+  const base = nome.slice(0,4).toUpperCase().replace(/[^A-Z]/g,'').padEnd(4,'X');
+  const rand = Math.random().toString(36).slice(2,6).toUpperCase();
+  return `VANZZ-${base}${rand}`;
+}
+
+function fazerLogin() {
+  const nome = document.getElementById('loginNome').value.trim();
+  const email = document.getElementById('loginEmail').value.trim();
+  if(!nome || !email) { alert('Preencha nome e e-mail.'); return; }
+
+  // Busca usuário existente ou cria novo
+  let users = JSON.parse(localStorage.getItem('vz_users') || '[]');
+  let user = users.find(u => u.email === email);
+  if(!user) {
+    user = { id: Date.now(), nome, email, codigo: gerarCodigo(nome), creditos: 0, pontos: 0 };
+    users.push(user);
+    localStorage.setItem('vz_users', JSON.stringify(users));
+  }
+  state.usuario = user;
+  localStorage.setItem('vz_user', JSON.stringify(user));
+  atualizarPillUsuario();
+  carregarDesempenho();
+  closeOverlay('overlayLogin');
+}
+
+function fazerCadastro() {
+  const nome = document.getElementById('cadNome').value.trim();
+  const email = document.getElementById('cadEmail').value.trim();
+  const codIndicacao = document.getElementById('cadCodigo').value.trim();
+  if(!nome || !email) { alert('Preencha nome e e-mail.'); return; }
+
+  let users = JSON.parse(localStorage.getItem('vz_users') || '[]');
+  if(users.find(u=>u.email===email)) { alert('E-mail já cadastrado. Use a aba Entrar.'); return; }
+
+  // Verificar código de indicação e dar crédito ao indicador
+  if(codIndicacao) {
+    const indicador = users.find(u=>u.codigo===codIndicacao);
+    if(indicador) {
+      indicador.creditos = (indicador.creditos||0) + 1;
+      localStorage.setItem('vz_users', JSON.stringify(users));
+      if(state.usuario && state.usuario.id===indicador.id) {
+        state.usuario.creditos = indicador.creditos;
+        localStorage.setItem('vz_user', JSON.stringify(state.usuario));
+      }
+    }
+  }
+
+  const user = { id: Date.now(), nome, email, codigo: gerarCodigo(nome), creditos: 0, pontos: 0, indicadoPor: codIndicacao||null };
+  users.push(user);
+  localStorage.setItem('vz_users', JSON.stringify(users));
+  state.usuario = user;
+  localStorage.setItem('vz_user', JSON.stringify(user));
+  atualizarPillUsuario();
+  closeOverlay('overlayLogin');
+}
+
+function copiarCodigo() {
+  if(!state.usuario) { openLogin(); return; }
+  navigator.clipboard.writeText(state.usuario.codigo).then(()=>{
+    const el = document.getElementById('meuCodigo');
+    el.textContent = '✅ COPIADO!';
+    setTimeout(()=>{ el.textContent = state.usuario.codigo; }, 1500);
+  });
+}
+
+/* ============================================================
+   CONCURSOS - RENDER
+============================================================ */
+function renderConcursos() {
+  const grid = document.getElementById('concursoGrid');
+  grid.innerHTML = '';
+  CONCURSOS.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'concurso-card';
+    div.id = `card-${c.id}`;
+
+    let logoHtml = '';
+    if(c.logo) {
+      logoHtml = `<div class="c-logo"><img src="${c.logo}" alt="${c.nome}" onerror="this.parentElement.innerHTML='<div class=\\'c-logo-fb\\'>${c.emoji}</div>'"></div>`;
+    } else {
+      logoHtml = `<div class="c-logo"><div class="c-logo-fb">${c.emoji}</div></div>`;
+    }
+
+    div.innerHTML = `
+      ${logoHtml}
+      <div class="c-name">${c.nome}</div>
+      <div class="c-free">✅ ${LIMITE_GRATIS} questões grátis</div>
+      <button class="btn-unlock" onclick="event.stopPropagation();abrirPlanos('${c.id}')">
+        🔒 Desbloquear 500 questões
+      </button>`;
+    div.onclick = () => selecionarConcurso(c.id);
+    grid.appendChild(div);
+  });
+}
+
+/* ============================================================
+   SELEÇÃO DE CONCURSO
+============================================================ */
+function selecionarConcurso(id) {
+  state.concursoAtual = id;
+  document.querySelectorAll('.concurso-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById(`card-${id}`)?.classList.add('selected');
+  renderSimuladoDisponivel();
+}
+
+function renderSimuladoDisponivel() {
+  if(!state.concursoAtual) return;
+  const banca = document.getElementById('selBanca').value;
+  const estilo = document.getElementById('selEstilo').value;
+  state.bancaAtual = banca;
+  state.estiloAtual = estilo;
+
+  const conc = CONCURSOS.find(c=>c.id===state.concursoAtual);
+  if(!conc) return;
+
+  // Tentar a banca selecionada, se não tiver, usar a primeira disponível
+  let bancaUsada = banca;
+  if(!conc.questoes[banca]) {
+    bancaUsada = Object.keys(conc.questoes)[0];
+  }
+  const questoes = conc.questoes[bancaUsada]?.[estilo] || [];
+
+  const simArea = document.getElementById('simArea');
+  if(questoes.length === 0) {
+    simArea.innerHTML = `
+      <div class="card" style="text-align:center;padding:24px;">
+        <i class="fas fa-exclamation-triangle" style="font-size:2rem;color:var(--gold);display:block;margin-bottom:10px;"></i>
+        <strong style="font-family:'Rajdhani',sans-serif;letter-spacing:1px;">${conc.nome} – ${bancaUsada}</strong><br>
+        <span style="color:var(--text-muted);font-size:.85rem;">Questões de ${estilo==='CE'?'Certo/Errado':'Múltipla Escolha'} ainda não disponíveis para esta banca.<br>
+        Questões completas serão adicionadas em breve.</span>
+        ${bancaUsada!==banca?`<div style="margin-top:10px;font-size:.75rem;color:var(--info);">ℹ️ Banca "${banca}" não tem questões. Mostrando "${bancaUsada}".</div>`:''}
+      </div>`;
+    return;
+  }
+
+  simArea.innerHTML = `
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+        <div>
+          <strong style="font-family:'Rajdhani',sans-serif;font-size:1rem;letter-spacing:1px;">${conc.nome} — ${bancaUsada} — ${estilo==='CE'?'Certo/Errado':'Múltipla Escolha'}</strong><br>
+          <span style="font-size:.75rem;color:var(--success);">✅ ${LIMITE_GRATIS} questões grátis disponíveis</span>
+        </div>
+        <button class="btn btn-gold" onclick="iniciarSimulado()">
+          <i class="fas fa-play"></i> INICIAR SIMULADO
+        </button>
+      </div>
+      <div class="notice">
+        <i class="fas fa-info-circle"></i>
+        <div>Você tem acesso a <strong>${LIMITE_GRATIS} questões grátis</strong> por concurso.
+        Para desbloquear até <strong>500 questões</strong>, clique em 🔒 no card do concurso ou
+        <span style="color:var(--gold);cursor:pointer;font-weight:700;" onclick="abrirPlanos('${conc.id}')">aqui</span>.</div>
+      </div>
+    </div>`;
+}
+
+/* ============================================================
+   TIMERS
+============================================================ */
+function iniciarTimerTotal() {
+  state.segundosTotal = 0;
+  if(state.intervaloTotal) clearInterval(state.intervaloTotal);
+  state.intervaloTotal = setInterval(() => {
+    state.segundosTotal++;
+    const h = String(Math.floor(state.segundosTotal/3600)).padStart(2,'0');
+    const m = String(Math.floor((state.segundosTotal%3600)/60)).padStart(2,'0');
+    const s = String(state.segundosTotal%60).padStart(2,'0');
+    const el = document.getElementById('timerTotal');
+    if(el) el.textContent = `${h}:${m}:${s}`;
+  }, 1000);
+}
+
+function iniciarTimerQuestao() {
+  state.segundosQuestao = 120; // 2 minutos por questão
+  if(state.intervaloQuestao) clearInterval(state.intervaloQuestao);
+  state.intervaloQuestao = setInterval(() => {
+    state.segundosQuestao--;
+    const m = String(Math.floor(state.segundosQuestao/60)).padStart(2,'0');
+    const s = String(state.segundosQuestao%60).padStart(2,'0');
+    const el = document.getElementById('timerQuestao');
+    if(el) {
+      el.textContent = `${m}:${s}`;
+      if(state.segundosQuestao <= 30) el.classList.add('warn');
+      else el.classList.remove('warn');
+    }
+    if(state.segundosQuestao <= 0) {
+      clearInterval(state.intervaloQuestao);
+      // Tempo esgotado na questão — pula automaticamente
+      const el2 = document.getElementById('timerQuestao');
+      if(el2) el2.textContent = '⏱️ TEMPO!';
+      setTimeout(() => proxQuestao(true), 1200);
+    }
+  }, 1000);
+}
+
+function pararTimers() {
+  if(state.intervaloTotal) clearInterval(state.intervaloTotal);
+  if(state.intervaloQuestao) clearInterval(state.intervaloQuestao);
+  state.intervaloTotal = null;
+  state.intervaloQuestao = null;
+}
+
+/* ============================================================
+   SIMULADO
+============================================================ */
+function iniciarSimulado() {
+  if(!state.usuario) {
+    openLogin();
+    return;
+  }
+  const conc = CONCURSOS.find(c=>c.id===state.concursoAtual);
+  if(!conc) return;
+
+  let bancaUsada = state.bancaAtual;
+  if(!conc.questoes[bancaUsada]) bancaUsada = Object.keys(conc.questoes)[0];
+
+  let questoes = conc.questoes[bancaUsada]?.[state.estiloAtual] || [];
+  if(questoes.length === 0) { alert('Sem questões disponíveis para esta combinação.'); return; }
+
+  // Limitar ao grátis
+  questoes = questoes.slice(0, LIMITE_GRATIS);
+
+  state.questoesAtuais = [...questoes];
+  state.questaoIdx = 0;
+  state.acertos = 0;
+  state.erros = 0;
+  state.simulandoAtivo = true;
+  state.inicioSimulado = Date.now();
+
+  iniciarTimerTotal();
+  mostrarQuestao();
+}
+
+function mostrarQuestao() {
+  if(!state.simulandoAtivo) return;
+  if(state.questaoIdx >= state.questoesAtuais.length) {
+    finalizarSimulado();
+    return;
+  }
+
+  const q = state.questoesAtuais[state.questaoIdx];
+  const total = state.questoesAtuais.length;
+  const progPct = Math.round((state.questaoIdx / total) * 100);
+  const difClass = q.dif==='f' ? 'dif-f' : (q.dif==='d' ? 'dif-d' : 'dif-m');
+  const difLabel = q.dif==='f' ? 'Fácil' : (q.dif==='d' ? 'Difícil' : 'Médio');
+
+  iniciarTimerQuestao();
+
+  let opcoesHtml = '';
+  if(state.estiloAtual === 'CE') {
+    opcoesHtml = `
+      <div class="ce-row">
+        <button class="ce-btn ce-c" onclick="responder('Certo')">✅ CERTO</button>
+        <button class="ce-btn ce-e" onclick="responder('Errado')">❌ ERRADO</button>
+      </div>`;
+  } else {
+    const letras = ['A','B','C','D','E'];
+    opcoesHtml = `<div class="alts">`;
+    q.alternativas.forEach((alt, i) => {
+      opcoesHtml += `
+        <button class="alt-btn" onclick="responder('${alt.replace(/'/g,"\\'")}')">
+          <span class="alt-key">${letras[i]}</span>${alt}
+        </button>`;
+    });
+    opcoesHtml += `</div>`;
+  }
+
+  document.getElementById('simArea').innerHTML = `
+    <div class="questao-box">
+      <div class="q-hdr">
+        <span class="q-num">QUESTÃO ${state.questaoIdx+1} / ${total}</span>
+        <span class="q-banca">${state.bancaAtual}</span>
+        <span class="dif-badge ${difClass}">${difLabel}</span>
+      </div>
+      <div class="q-prog"><div class="q-prog-fill" style="width:${progPct}%"></div></div>
+      <div class="q-materia">📚 ${q.materia}</div>
+      <div class="q-texto">${q.texto}</div>
+      ${opcoesHtml}
+      <button class="btn-ia" onclick="chuteIA()">
+        <i class="fas fa-robot"></i> VANZZ IA — Chute Treinado
+      </button>
+      <div id="feedbackArea"></div>
+    </div>`;
+}
+
+function responder(resp) {
+  if(!state.simulandoAtivo) return;
+  clearInterval(state.intervaloQuestao);
+
+  const q = state.questoesAtuais[state.questaoIdx];
+  const acertou = resp === q.correta;
+
+  // Visual feedback
+  const feedbackArea = document.getElementById('feedbackArea');
+  if(feedbackArea) {
+    feedbackArea.innerHTML = acertou
+      ? `<div class="feedback fb-ok"><i class="fas fa-check-circle"></i> <strong>CERTO!</strong></div>`
+      : `<div class="feedback fb-err"><i class="fas fa-times-circle"></i> <strong>ERRADO!</strong> Resposta: <em>${q.correta}</em></div>`;
+  }
+
+  // Desabilitar botões
+  document.querySelectorAll('.alt-btn,.ce-btn').forEach(b => {
+    b.disabled = true;
+    if(b.textContent.trim().includes(q.correta) || b.getAttribute('onclick')?.includes(q.correta)) {
+      b.classList.add('gabarito');
+    }
+    if(b.getAttribute('onclick')?.includes(resp) && !acertou) {
+      b.classList.add('selected-errado');
+    }
+  });
+
+  // Registrar
+  if(acertou) state.acertos++;
+  else state.erros++;
+  registrarHistorico(q, acertou);
+  atualizarDesempenho(q.materia, acertou);
+
+  // Pontuação
+  if(acertou && state.usuario) {
+    state.usuario.pontos = (state.usuario.pontos||0) + 10;
+    localStorage.setItem('vz_user', JSON.stringify(state.usuario));
+    salvarPontosRanking();
+  }
+
+  // Botão próxima
+  const simArea = document.getElementById('simArea');
+  const caixaQ = simArea?.querySelector('.questao-box');
+  if(caixaQ) {
+    const btnNext = document.createElement('button');
+    btnNext.className = 'btn btn-gold btn-next';
+    btnNext.style.marginTop = '14px';
+    btnNext.innerHTML = state.questaoIdx+1 < state.questoesAtuais.length
+      ? '<i class="fas fa-arrow-right"></i> Próxima Questão'
+      : '<i class="fas fa-flag-checkered"></i> Ver Resultado';
+    btnNext.onclick = () => proxQuestao(false);
+    caixaQ.appendChild(btnNext);
+  }
+}
+
+function proxQuestao(pulou = false) {
+  if(pulou) { state.erros++; }
+  state.questaoIdx++;
+  mostrarQuestao();
+}
+
+function finalizarSimulado() {
+  pararTimers();
+  state.simulandoAtivo = false;
+
+  const total = state.acertos + state.erros;
+  const pct = total > 0 ? Math.round((state.acertos/total)*100) : 0;
+  const tempo = Math.floor((Date.now() - state.inicioSimulado)/1000);
+
+  document.getElementById('resScore').textContent = `${pct}%`;
+  document.getElementById('resSub').textContent = `de acerto · ${state.questoesAtuais.length} questões`;
+  document.getElementById('resAcertos').textContent = state.acertos;
+  document.getElementById('resErros').textContent = state.erros;
+  document.getElementById('resTempo').textContent = tempo < 60 ? `${tempo}s` : `${Math.floor(tempo/60)}m${tempo%60}s`;
+  document.getElementById('resPts').textContent = `+${state.acertos * 10}`;
+
+  openOverlay('overlayResultado');
+  renderRanking();
+  renderGrafico();
+
+  document.getElementById('simArea').innerHTML = `
+    <div class="card resultado">
+      <div class="res-score">${pct}%</div>
+      <div class="res-sub">Simulado finalizado — ${state.questoesAtuais.length} questões</div>
+      <div class="res-stats" style="justify-content:center;margin-top:14px;">
+        <div class="res-stat"><div class="rs-num">${state.acertos}</div><div class="rs-lbl">Acertos</div></div>
+        <div class="res-stat"><div class="rs-num">${state.erros}</div><div class="rs-lbl">Erros</div></div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:16px;" onclick="renderSimuladoDisponivel()">
+        <i class="fas fa-redo"></i> Novo simulado
+      </button>
+    </div>`;
+}
+
+/* ============================================================
+   VANZZ IA — CHUTE TREINADO (local, sem expor chave de API)
+============================================================ */
+function chuteIA() {
+  const q = state.questoesAtuais[state.questaoIdx];
+  if(!q) return;
+  let sugestao, raciocinio;
+
+  if(state.estiloAtual === 'CE') {
+    // Heurística: sentenças com advérbios absolutos tendem a ser Errado
+    const absWords = /exclusivamente|nunca|sempre|apenas|somente|obrigatoriamente|todos|nenhum/i;
+    const neg = /não|vedado|proibido/i;
+    if(absWords.test(q.texto)) {
+      sugestao = 'Errado';
+      raciocinio = 'A questão contém advérbio absoluto — pela estatística Cebraspe, isso sugere ERRADO (afirmações absolutas costumam ser incorretas).';
+    } else if(neg.test(q.texto)) {
+      sugestao = Math.random() > 0.45 ? 'Errado' : 'Certo';
+      raciocinio = 'Questões com negações exigem atenção. Estatisticamente distribuídas 50/50, mas a Vanzz IA leve levemente para ERRADO por dupla negação.';
+    } else {
+      sugestao = 'Certo';
+      raciocinio = 'Questão sem marcadores de exceção — estatisticamente tende a ser CERTO neste padrão de banca.';
+    }
+  } else {
+    // Múltipla: C é a alternativa mais frequentemente correta em bancas brasileiras
+    const idx = q.alternativas.length === 4 ? 2 : Math.floor(q.alternativas.length/2);
+    sugestao = q.alternativas[idx];
+    raciocinio = `A alternativa central (${['A','B','C','D','E'][idx]}) é a mais frequentemente correta em bancas tradicionais segundo análises estatísticas. Use com cautela — 40% de chance.`;
+  }
+
+  const feedbackArea = document.getElementById('feedbackArea');
+  if(feedbackArea) {
+    feedbackArea.innerHTML = `
+      <div class="ia-sugestao">
+        <i class="fas fa-robot"></i>
+        <div><strong>VANZZ IA</strong> — Chute Treinado<br>
+        Sugestão: <strong style="color:var(--gold2)">${sugestao}</strong><br>
+        <span style="font-size:.77rem;opacity:.8;">${raciocinio}</span></div>
+      </div>`;
+  }
+}
+
+/* ============================================================
+   HISTÓRICO
+============================================================ */
+function registrarHistorico(q, acertou) {
+  const hist = JSON.parse(localStorage.getItem('vz_hist') || '[]');
+  hist.unshift({
+    concurso: state.concursoAtual,
+    materia: q.materia,
+    acertou,
+    texto: q.texto.substring(0,55),
+    data: new Date().toLocaleTimeString('pt-BR')
+  });
+  localStorage.setItem('vz_hist', JSON.stringify(hist.slice(0, 200)));
+  renderHistorico();
+}
+
+function renderHistorico() {
+  const hist = JSON.parse(localStorage.getItem('vz_hist') || '[]');
+  const div = document.getElementById('historicoList');
+  if(hist.length === 0) {
+    div.innerHTML = '<div class="empty" style="padding:10px"><i></i>Nenhuma respondida ainda.</div>';
+    return;
+  }
+  div.innerHTML = hist.slice(0,20).map(h => `
+    <div class="hist-item">
+      ${h.acertou ? '✅' : '❌'} <strong style="font-family:\'Rajdhani\',sans-serif;font-size:.78rem;">${h.concurso}</strong> · ${h.materia}<br>
+      <span style="color:var(--text-muted)">${h.texto}...</span>
+      <span style="color:var(--text-muted);font-size:.68rem;"> ${h.data}</span>
+    </div>`).join('');
+}
+
+/* ============================================================
+   DESEMPENHO
+============================================================ */
+function atualizarDesempenho(materia, acertou) {
+  if(!state.desempenho[materia]) state.desempenho[materia] = { a:0, t:0 };
+  state.desempenho[materia].t++;
+  if(acertou) state.desempenho[materia].a++;
+  if(state.usuario) {
+    localStorage.setItem(`vz_desemp_${state.usuario.id}`, JSON.stringify(state.desempenho));
+  }
+  renderGrafico();
+}
+
+function carregarDesempenho() {
+  if(!state.usuario) return;
+  const saved = localStorage.getItem(`vz_desemp_${state.usuario.id}`);
+  if(saved) state.desempenho = JSON.parse(saved);
+  renderGrafico();
+}
+
+function renderGrafico() {
+  const canvas = document.getElementById('chartDesempenho');
+  const vazio = document.getElementById('chartVazio');
+  const labels = Object.keys(state.desempenho);
+
+  if(labels.length === 0) {
+    canvas.style.display = 'none';
+    if(vazio) vazio.style.display = '';
+    return;
+  }
+  canvas.style.display = '';
+  if(vazio) vazio.style.display = 'none';
+
+  const pcts = labels.map(m => {
+    const d = state.desempenho[m];
+    return d.t > 0 ? Math.round((d.a/d.t)*100) : 0;
+  });
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const textColor = isDark ? '#dde3f0' : '#1a1d2e';
+  const gridColor = isDark ? 'rgba(212,175,55,0.12)' : 'rgba(100,80,0,0.1)';
+  const goldColor = isDark ? '#d4af37' : '#8a6200';
+
+  if(state.grafico) state.grafico.destroy();
+  state.grafico = new Chart(canvas.getContext('2d'), {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label:'% Acertos',
+        data: pcts,
+        backgroundColor: pcts.map(p => p >= 70 ? 'rgba(39,201,122,.7)' : p >= 40 ? 'rgba(212,175,55,.7)' : 'rgba(224,85,85,.7)'),
+        borderRadius: 6
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label: ctx => {
+              const m = labels[ctx.dataIndex];
+              const d = state.desempenho[m];
+              return ` ${ctx.raw}% (${d.a}/${d.t})`;
+            }
+          }
+        }
+      },
+      scales:{
+        y:{
+          beginAtZero:true, max:100,
+          ticks:{color:textColor, font:{family:'Rajdhani',size:11}, callback:v=>v+'%'},
+          grid:{color:gridColor}
+        },
+        x:{
+          ticks:{
+            color:textColor, font:{family:'Rajdhani',size:10},
+            maxRotation:35, minRotation:20,
+            callback(val){ return this.getLabelForValue(val).split(' ')[0]; }
+          },
+          grid:{display:false}
+        }
+      }
+    }
+  });
+}
+
+/* ============================================================
+   RANKING
+============================================================ */
+function salvarPontosRanking() {
+  if(!state.usuario) return;
+  const users = JSON.parse(localStorage.getItem('vz_users') || '[]');
+  const idx = users.findIndex(u=>u.id===state.usuario.id);
+  if(idx !== -1) {
+    users[idx].pontos = state.usuario.pontos;
+    localStorage.setItem('vz_users', JSON.stringify(users));
+  }
+  renderRanking();
+}
+
+function renderRanking() {
+  const users = JSON.parse(localStorage.getItem('vz_users') || '[]');
+  users.sort((a,b) => (b.pontos||0) - (a.pontos||0));
+  const top5 = users.slice(0,5);
+  const div = document.getElementById('rankingList');
+  if(top5.length === 0) {
+    div.innerHTML = '<div class="empty" style="padding:10px"><i></i>Sem dados ainda.</div>';
+    return;
+  }
+  const posClass = ['rp-1','rp-2','rp-3','rp-n','rp-n'];
+  div.innerHTML = top5.map((u,i) => `
+    <div class="rank-item">
+      <div class="rank-pos ${posClass[i]}">${i+1}</div>
+      <div class="rank-nm">${u.nome.split(' ')[0]}</div>
+      <div class="rank-pts">${u.pontos||0} pts</div>
+    </div>`).join('');
+}
+
+/* ============================================================
+   CADERNO
+============================================================ */
+function salvarCaderno() {
+  const txt = document.getElementById('cadernoTxt').value;
+  const key = state.usuario ? `vz_cad_${state.usuario.id}` : 'vz_cad_anon';
+  localStorage.setItem(key, txt);
+  const btn = event.currentTarget;
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✅ Salvo!';
+  setTimeout(() => { btn.innerHTML = orig; }, 1500);
+}
+
+function limparCaderno() {
+  if(confirm('Limpar todas as anotações?')) {
+    document.getElementById('cadernoTxt').value = '';
+    const key = state.usuario ? `vz_cad_${state.usuario.id}` : 'vz_cad_anon';
+    localStorage.removeItem(key);
+  }
+}
+
+function carregarCaderno() {
+  const key = state.usuario ? `vz_cad_${state.usuario.id}` : 'vz_cad_anon';
+  document.getElementById('cadernoTxt').value = localStorage.getItem(key) || '';
+}
+
+/* ============================================================
+   PLANOS DE VENDA
+============================================================ */
+let planoConcursoAtual = null;
+
+function abrirPlanos(concursoId) {
+  planoConcursoAtual = concursoId;
+  const conc = CONCURSOS.find(c=>c.id===concursoId);
+  document.getElementById('planosConcurso').textContent = `Concurso: ${conc?.nome || ''}`;
+  openOverlay('overlayPlanos');
+}
+
+function comprarPlano(nivel) {
+  const planos = [
+    null,
+    { nivel:1, qtd:100, preco:'R$10' },
+    { nivel:2, qtd:250, preco:'R$20' },
+    { nivel:3, qtd:500, preco:'R$25 — EXCLUSIVIDADE TOTAL' }
+  ];
+  const p = planos[nivel];
+  const conc = CONCURSOS.find(c=>c.id===planoConcursoAtual);
+  const msg = `Olá! Quero desbloquear o *Nível ${p.nivel}* (${p.qtd} questões – ${p.preco}) para o concurso *${conc?.nome}* na Vanzz Concurso.`;
+  window.open(`https://wa.me/5582996793347?text=${encodeURIComponent(msg)}`, '_blank');
+  closeOverlay('overlayPlanos');
+}
+
+function irParaWhatsPlano() {
+  const conc = CONCURSOS.find(c=>c.id===planoConcursoAtual);
+  const msg = `Olá! Quero adquirir questões para o concurso *${conc?.nome}* na Vanzz Concurso. Pode me enviar os planos disponíveis?`;
+  window.open(`https://wa.me/5582996793347?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+/* ============================================================
+   WHATSAPP SUGESTÃO
+============================================================ */
+function abrirWhats() {
+  const msg = encodeURIComponent('Olá! Tenho uma sugestão para melhorar a plataforma Vanzz Concurso:\n\n');
+  window.open(`https://wa.me/5582996793347?text=${msg}`, '_blank');
+}
+
+/* ============================================================
+   UTILS — MODAIS
+============================================================ */
+function openOverlay(id) {
+  document.getElementById(id)?.classList.add('show');
+}
+function closeOverlay(id) {
+  document.getElementById(id)?.classList.remove('show');
+}
+// Fechar clicando fora
+document.querySelectorAll('.overlay').forEach(ov => {
+  ov.addEventListener('click', e => {
+    if(e.target === ov) closeOverlay(ov.id);
+  });
+});
+
+// Atualizar simulado ao trocar filtros
+document.getElementById('selBanca').addEventListener('change', () => { if(state.concursoAtual) renderSimuladoDisponivel(); });
+document.getElementById('selEstilo').addEventListener('change', () => { if(state.concursoAtual) renderSimuladoDisponivel(); });
+
+// Start
+init();
+</script>
+</body>
+</html>
