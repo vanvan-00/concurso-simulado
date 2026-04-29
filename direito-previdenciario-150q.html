@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado: Direito Previdenciário - 150 questões (CESPE)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background: #f7f3eb;
+            color: #2c241a;
+        }
+        :root {
+            --gold-dark: #b8860b;
+            --gold-soft: #d4af37;
+            --brown-dark: #5c4033;
+        }
+        #conteudo-programa {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .nivel-selector {
+            background: #fffef7;
+            border-radius: 60px;
+            padding: 0.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+            border: 1px solid var(--gold-soft);
+            flex-wrap: wrap;
+        }
+        .btn-nivel {
+            background: #f0e2ce;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--brown-dark);
+        }
+        .btn-nivel.ativo {
+            background: var(--gold-dark);
+            color: white;
+        }
+        .questao-card {
+            background: #fffef7;
+            border: 1px solid #ecd9b4;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .questao-texto {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        .opcoes {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        .opcao {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fef5e6;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .opcao:hover {
+            background: #f0e2ce;
+        }
+        input[type="radio"] {
+            accent-color: var(--gold-dark);
+            width: 18px;
+            height: 18px;
+        }
+        .explicacao {
+            background: #f0e8db;
+            border-left: 4px solid var(--gold-dark);
+            padding: 0.8rem;
+            margin-top: 1rem;
+            border-radius: 12px;
+            display: none;
+            font-size: 0.9rem;
+        }
+        .correcao-individual {
+            margin-top: 0.8rem;
+            font-weight: bold;
+        }
+        .btn-corrigir {
+            background: var(--gold-dark);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 1rem 0;
+            transition: 0.2s;
+        }
+        .btn-corrigir:hover {
+            background: #9a6e0b;
+        }
+        .resultado-final {
+            background: #2c241a;
+            color: #f0e2ce;
+            padding: 1rem;
+            border-radius: 30px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .progresso {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--gold-dark);
+            font-weight: bold;
+        }
+        hr {
+            margin: 1rem 0;
+            border-color: #ecd9b4;
+        }
+        @media (max-width: 600px) {
+            .opcoes { gap: 0.8rem; }
+            .questao-card { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div id="conteudo-programa">
+    <h2>📚 Direito Previdenciário - 150 questões estilo CESPE</h2>
+    <p>Selecione o nível de dificuldade e depois responda as questões com ❌ Certo ou Errado.</p>
+
+    <div class="nivel-selector">
+        <button class="btn-nivel" data-nivel="facil">📘 Fácil (1-50)</button>
+        <button class="btn-nivel" data-nivel="medio">📙 Médio (51-100)</button>
+        <button class="btn-nivel" data-nivel="dificil">📕 Difícil (101-150)</button>
+    </div>
+    <hr>
+    <div id="questoes-container"></div>
+    <button class="btn-corrigir" id="btnCorrigirGeral">✅ Corrigir Simulado</button>
+    <div id="resultado-final" class="resultado-final"></div>
+</div>
+
+<script>
+    // ====================================================
+    // BANCO DE QUESTÕES COMPLETO (150)
+    // ====================================================
+    const questoes = [
+        // NÍVEL FÁCIL (IDs 1 a 50)
+        { id: 1, texto: "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinadas a assegurar os direitos relativos à saúde, à previdência e à assistência social.", correta: "Certo", explicacao: "Conforme o art. 194 da Constituição Federal, essa é a definição exata de Seguridade Social." },
+        { id: 2, texto: "A saúde é direito de todos e dever do Estado, sendo garantida mediante contribuição à seguridade social.", correta: "Errado", explicacao: "Nos termos do art. 196 da CF, a saúde é direito de todos e dever do Estado, mas é garantida mediante políticas sociais e econômicas, e não mediante contribuição. A saúde é universal e independe de contribuição." },
+        { id: 3, texto: "A assistência social será prestada a quem dela necessitar, independentemente de contribuição à seguridade social.", correta: "Certo", explicacao: "Conforme o art. 203 da CF, a assistência social é prestada a quem dela necessitar, independentemente de contribuição, sendo um dos pilares da seguridade social." },
+        { id: 4, texto: "A universalidade da cobertura e do atendimento é um dos objetivos da seguridade social previstos na Constituição Federal.", correta: "Certo", explicacao: "O art. 194, parágrafo único, inciso I, da CF prevê a universalidade da cobertura e do atendimento como objetivo da seguridade social." },
+        { id: 5, texto: "A equidade na forma de participação no custeio é um dos princípios da seguridade social, significando que todos os contribuintes devem pagar o mesmo valor de contribuição.", correta: "Errado", explicacao: "Equidade na forma de participação no custeio significa que cada um contribui conforme sua capacidade contributiva, e não que todos pagam o mesmo valor." },
+        { id: 6, texto: "A irredutibilidade do valor dos benefícios é um dos objetivos da seguridade social previstos na Constituição Federal.", correta: "Certo", explicacao: "O art. 194, parágrafo único, inciso IV, da CF prevê a irredutibilidade do valor dos benefícios como objetivo da seguridade social." },
+        { id: 7, texto: "A previdência social, ao contrário da assistência social, tem caráter contributivo, sendo necessária a filiação e o recolhimento de contribuições para que o segurado tenha direito aos benefícios.", correta: "Certo", explicacao: "Nos termos do art. 201 da CF, a previdência social tem caráter contributivo e de filiação obrigatória, diferenciando-se da saúde e da assistência social, que independem de contribuição." },
+        { id: 8, texto: "O Regime Geral de Previdência Social (RGPS) cobre, obrigatoriamente, os servidores públicos federais efetivos.", correta: "Errado", explicacao: "Os servidores públicos federais efetivos são cobertos pelo Regime Próprio de Previdência Social (RPPS), e não pelo RGPS." },
+        { id: 9, texto: "O empregado doméstico é considerado segurado obrigatório do Regime Geral de Previdência Social.", correta: "Certo", explicacao: "Conforme o art. 11 da Lei 8.213/91, o empregado doméstico é segurado obrigatório do RGPS, na categoria de empregado." },
+        { id: 10, texto: "O contribuinte individual é aquele que presta serviço de natureza urbana ou rural a empresa, em caráter não eventual, com subordinação e mediante remuneração.", correta: "Errado", explicacao: "Essa é a definição de segurado empregado. O contribuinte individual é o trabalhador autônomo, o empresário, entre outros, que trabalha por conta própria ou sem relação de emprego." },
+        { id: 11, texto: "O segurado especial é o trabalhador rural que exerce atividade em regime de economia familiar, sem empregados permanentes.", correta: "Certo", explicacao: "O segurado especial, conforme o art. 11, VII, da Lei 8.213/91, é o produtor rural, pescador artesanal ou indígena que trabalha em regime de economia familiar, sem empregados permanentes." },
+        { id: 12, texto: "O segurado facultativo pode ser qualquer pessoa que não exerça atividade remunerada, desde que tenha mais de 16 anos de idade.", correta: "Certo", explicacao: "Conforme o art. 13 da Lei 8.213/91, é segurado facultativo o maior de 16 anos que se filiar ao RGPS mediante contribuição, desde que não esteja exercendo atividade que o enquadre como segurado obrigatório." },
+        { id: 13, texto: "O trabalhador avulso é aquele que, sindicalizado ou não, presta serviço de natureza urbana ou rural a diversas empresas, sem vínculo empregatício, com intermediação obrigatória do sindicato ou do Órgão Gestor de Mão de Obra.", correta: "Certo", explicacao: "Essa é a definição exata de trabalhador avulso, conforme o art. 11, VI, da Lei 8.213/91." },
+        { id: 14, texto: "O cônjuge é dependente de primeira classe do segurado do RGPS e sua inscrição como dependente precisa ser renovada a cada dois anos.", correta: "Errado", explicacao: "O cônjuge é dependente de primeira classe, mas não há exigência de renovação periódica da inscrição. A dependência é presumida e pode ser cancelada apenas em caso de divórcio, separação ou falecimento." },
+        { id: 15, texto: "A existência de dependentes de primeira classe exclui os de segunda e terceira classes.", correta: "Certo", explicacao: "Conforme o art. 16, §1º, da Lei 8.213/91, a existência de dependente de qualquer das classes anteriores exclui o direito das classes seguintes." },
+        { id: 16, texto: "Os pais do segurado são dependentes de primeira classe.", correta: "Errado", explicacao: "Os pais são dependentes de segunda classe, conforme o art. 16, II, da Lei 8.213/91. A primeira classe é composta pelo cônjuge, companheiro(a) e filhos menores de 21 anos ou inválidos." },
+        { id: 17, texto: "Carência é o número mínimo de contribuições mensais indispensáveis para que o beneficiário faça jus ao benefício.", correta: "Certo", explicacao: "Essa é a definição legal de carência, conforme o art. 24 da Lei 8.213/91." },
+        { id: 18, texto: "O auxílio por incapacidade temporária (antigo auxílio-doença) exige carência de 12 contribuições mensais.", correta: "Certo", explicacao: "Conforme o art. 25, I, da Lei 8.213/91, a carência para o auxílio por incapacidade temporária é de 12 contribuições mensais, salvo em caso de acidente de qualquer natureza ou doença profissional." },
+        { id: 19, texto: "O salário-maternidade para a segurada empregada exige o cumprimento de carência de 10 contribuições mensais.", correta: "Errado", explicacao: "A segurada empregada não precisa cumprir carência para ter direito ao salário-maternidade. A carência de 10 contribuições mensais é exigida para a segurada contribuinte individual e facultativa." },
+        { id: 20, texto: "O auxílio-reclusão independe de carência.", correta: "Certo", explicacao: "Conforme o art. 26, I, da Lei 8.213/91, o auxílio-reclusão independe de carência, assim como a reabilitação profissional e os benefícios decorrentes de acidente de trabalho." },
+        { id: 21, texto: "A aposentadoria por incapacidade permanente (antiga aposentadoria por invalidez) pode ser concedida ao segurado que, estando ou não em gozo de auxílio por incapacidade temporária, for considerado incapaz para o trabalho e insusceptível de reabilitação.", correta: "Certo", explicacao: "Essa é a definição do benefício, conforme o art. 42 da Lei 8.213/91." },
+        { id: 22, texto: "O segurado que necessitar de assistência permanente de outra pessoa receberá a aposentadoria por incapacidade permanente acrescida de 50% do seu valor.", correta: "Errado", explicacao: "Conforme o art. 45 da Lei 8.213/91, o valor da aposentadoria por incapacidade permanente pode ser majorado em 25% quando o aposentado necessitar de assistência permanente de outra pessoa." },
+        { id: 23, texto: "O valor do acréscimo de 25% concedido ao aposentado por incapacidade permanente que necessita de assistência permanente será devido mesmo que o valor total ultrapasse o teto do RGPS.", correta: "Certo", explicacao: "Conforme o art. 45, parágrafo único, da Lei 8.213/91, o acréscimo de 25% é devido ainda que o valor do benefício ultrapasse o limite máximo do salário de contribuição." },
+        { id: 24, texto: "O segurado empregado tem direito ao auxílio por incapacidade temporária a partir do 16º dia de afastamento do trabalho.", correta: "Certo", explicacao: "Conforme o art. 60 da Lei 8.213/91, o auxílio por incapacidade temporária é devido ao segurado empregado a partir do 16º dia de afastamento, sendo os 15 primeiros dias de responsabilidade do empregador." },
+        { id: 25, texto: "O trabalhador avulso e o segurado especial têm direito ao auxílio por incapacidade temporária desde o primeiro dia de afastamento.", correta: "Certo", explicacao: "Para o trabalhador avulso e o segurado especial, não há o período de 15 dias de responsabilidade do empregador, sendo o benefício pago pela Previdência desde o 1º dia de incapacidade." },
+        { id: 26, texto: "O salário-família é devido ao segurado empregado, exceto ao doméstico, e ao trabalhador avulso de baixa renda, na proporção do respectivo número de filhos ou equiparados.", correta: "Errado", explicacao: "Com a EC 72/2013 e a Lei Complementar 150/2015, o empregado doméstico passou a ter direito ao salário-família. Portanto, o benefício é devido ao empregado (inclusive o doméstico) e ao trabalhador avulso de baixa renda." },
+        { id: 27, texto: "O salário-maternidade é devido à segurada da previdência social durante 120 dias, com início até 28 dias antes do parto.", correta: "Certo", explicacao: "Conforme o art. 71 da Lei 8.213/91, o salário-maternidade é devido durante 120 dias, podendo ter início 28 dias antes do parto." },
+        { id: 28, texto: "Em caso de adoção, a segurada faz jus ao salário-maternidade apenas se a criança adotada tiver menos de 8 anos.", correta: "Errado", explicacao: "Com a Lei 12.873/2013, o salário-maternidade em caso de adoção passou a ser devido independentemente da idade da criança adotada." },
+        { id: 29, texto: "A pensão por morte será devida ao conjunto dos dependentes do segurado falecido e independe de carência.", correta: "Certo", explicacao: "Conforme o art. 74 e o art. 26, I, da Lei 8.213/91, a pensão por morte é devida ao conjunto dos dependentes do segurado e não exige carência." },
+        { id: 30, texto: "A pensão por morte do cônjuge será vitalícia, independentemente da sua idade e do tempo de duração do casamento.", correta: "Errado", explicacao: "Após a reforma da Previdência (Lei 13.135/2015), a pensão por morte passou a ter duração variável conforme a idade do cônjuge e o tempo de casamento, não sendo necessariamente vitalícia." },
+        { id: 31, texto: "Após a Emenda Constitucional nº 103/2019 (Reforma da Previdência), a idade mínima para aposentadoria no RGPS é de 65 anos para homens e 62 anos para mulheres.", correta: "Certo", explicacao: "A EC 103/2019 estabeleceu a idade mínima de 65 anos para homens e 62 anos para mulheres para aposentadoria programada no RGPS." },
+        { id: 32, texto: "Após a Reforma da Previdência (EC 103/2019), o tempo mínimo de contribuição exigido para a aposentadoria programada é de 35 anos para homens e 30 anos para mulheres.", correta: "Certo", explicacao: "A EC 103/2019 manteve o tempo mínimo de contribuição de 35 anos para homens e 30 anos para mulheres, além da exigência da idade mínima." },
+        { id: 33, texto: "O financiamento da seguridade social é de responsabilidade exclusiva do governo federal, por meio de receitas de impostos.", correta: "Errado", explicacao: "Conforme o art. 195 da CF, a seguridade social é financiada por toda a sociedade, de forma direta e indireta, mediante recursos dos orçamentos da União, dos estados, do DF, dos municípios e das contribuições sociais." },
+        { id: 34, texto: "As contribuições sociais criadas para financiar a seguridade social somente poderão ser cobradas após 90 dias da publicação da lei que as houver instituído ou modificado.", correta: "Certo", explicacao: "Conforme o art. 195, §6º, da CF, as contribuições sociais para a seguridade obedecem ao princípio da anterioridade nonagesimal (90 dias), mas não ao da anterioridade anual." },
+        { id: 35, texto: "A contribuição do empregado para a previdência social incide sobre o seu salário de contribuição.", correta: "Certo", explicacao: "O empregado contribui sobre o seu salário de contribuição, que é o total de remuneração auferida até o limite máximo (teto do RGPS), conforme a Lei 8.212/91." },
+        { id: 36, texto: "Durante o período de graça, o segurado que deixa de contribuir mantém a qualidade de segurado e pode receber benefícios.", correta: "Certo", explicacao: "O período de graça é o prazo em que o segurado, mesmo sem contribuir, mantém sua qualidade de segurado e os direitos decorrentes, conforme o art. 15 da Lei 8.213/91." },
+        { id: 37, texto: "O segurado desempregado tem seu período de graça estendido por 36 meses, independentemente de ter ou não comprovado o desemprego ao INSS.", correta: "Errado", explicacao: "O segurado desempregado tem o período de graça estendido para 36 meses somente se comprovar o desemprego perante o INSS (registro no órgão de emprego). Sem comprovação, o prazo é de 12 meses." },
+        { id: 38, texto: "O período de graça do segurado que recolheu mais de 120 contribuições é de 24 meses.", correta: "Certo", explicacao: "Conforme o art. 15, II, §1º, da Lei 8.213/91, o prazo de 12 meses é acrescido de 12 meses para o segurado com mais de 120 contribuições, totalizando 24 meses." },
+        { id: 39, texto: "Para o segurado empregado, o salário de contribuição é a remuneração auferida em uma ou mais empresas, sem limite máximo.", correta: "Errado", explicacao: "O salário de contribuição é limitado ao teto máximo estabelecido pelo INSS. Valores superiores ao teto não são considerados para fins de contribuição nem de cálculo de benefícios." },
+        { id: 40, texto: "O salário de benefício é calculado com base na média aritmética simples dos salários de contribuição.", correta: "Certo", explicacao: "Conforme o art. 29 da Lei 8.213/91, o salário de benefício consiste na média aritmética simples dos maiores salários de contribuição correspondentes a 80% de todo o período contributivo." },
+        { id: 41, texto: "A reabilitação profissional é um serviço previdenciário que independe de carência e tem por finalidade proporcionar ao segurado incapacitado os meios de reeducação ou readaptação profissional.", correta: "Certo", explicacao: "Conforme o art. 89 da Lei 8.213/91, a habilitação e a reabilitação profissional são obrigação do INSS, sem exigência de carência." },
+        { id: 42, texto: "O acidente de trabalho é aquele que ocorre exclusivamente no local e horário de trabalho.", correta: "Errado", explicacao: "O conceito de acidente de trabalho é mais amplo e inclui o acidente de trajeto (in itinere) e as doenças ocupacionais, conforme a Lei 8.213/91." },
+        { id: 43, texto: "Os benefícios decorrentes de acidente de trabalho independem de carência.", correta: "Certo", explicacao: "Conforme o art. 26, II, da Lei 8.213/91, os benefícios decorrentes de acidente de qualquer natureza ou causa não exigem carência." },
+        { id: 44, texto: "A previdência complementar tem caráter público e é de adesão obrigatória para os trabalhadores da iniciativa privada.", correta: "Errado", explicacao: "Conforme o art. 202 da CF, a previdência complementar é de caráter privado e de adesão facultativa, organizada de forma autônoma em relação ao RGPS." },
+        { id: 45, texto: "O Benefício de Prestação Continuada (BPC) é um benefício da assistência social garantido a idosos com 65 anos ou mais e a pessoas com deficiência, cuja renda familiar mensal per capita seja inferior a um quarto do salário mínimo.", correta: "Certo", explicacao: "Conforme o art. 20 da Lei 8.742/93 (LOAS), o BPC é garantido a idosos com 65 anos ou mais e a pessoas com deficiência que comprovem não possuir meios de prover a própria manutenção, com renda familiar per capita inferior a 1/4 do salário mínimo." },
+        { id: 46, texto: "O BPC/LOAS exige que o beneficiário tenha realizado contribuições à previdência social para ter direito ao benefício.", correta: "Errado", explicacao: "O BPC é um benefício da assistência social, e não da previdência social. Por isso, independe de contribuição prévia à seguridade social." },
+        { id: 47, texto: "A aposentadoria especial é devida ao segurado que tiver trabalhado durante 15, 20 ou 25 anos, conforme o caso, sujeito a condições especiais que prejudiquem a saúde ou a integridade física.", correta: "Certo", explicacao: "Conforme o art. 57 da Lei 8.213/91, a aposentadoria especial é devida ao segurado que trabalhou sujeito a agentes nocivos por 15, 20 ou 25 anos, dependendo do grau de nocividade." },
+        { id: 48, texto: "A segurada que adotar ou obtiver guarda judicial de criança com menos de 12 anos tem direito ao salário-maternidade.", correta: "Certo", explicacao: "Conforme o art. 71-A da Lei 8.213/91, com redação dada pela Lei 12.873/2013, a segurada que adotar ou obtiver guarda judicial para fins de adoção de criança tem direito ao salário-maternidade, sem limite de idade da criança." },
+        { id: 49, texto: "Constitui crime de apropriação indébita previdenciária deixar de repassar à previdência social as contribuições recolhidas dos contribuintes.", correta: "Certo", explicacao: "Conforme o art. 168-A do Código Penal, constitui crime de apropriação indébita previdenciária deixar de repassar à previdência social as contribuições recolhidas dos empregados ou de terceiros." },
+        { id: 50, texto: "O prazo decadencial para que o INSS revise os atos de concessão de benefícios é de 10 anos, contados do dia primeiro do mês seguinte ao do recebimento da primeira prestação ou do dia em que tomar conhecimento da decisão indeferitória definitiva.", correta: "Certo", explicacao: "Conforme o art. 103-A da Lei 8.213/91, o INSS tem o prazo de 10 anos para rever os atos de concessão de benefícios, salvo em caso de má-fé do segurado." },
+        
+        // NÍVEL MÉDIO (IDs 51 a 100) - baseado nos dados que você enviou (segundo bloco)
+        { id: 51, texto: "O diretor-presidente de sociedade anônima que recebe remuneração é enquadrado como contribuinte individual para fins de filiação ao RGPS.", correta: "Certo", explicacao: "O diretor de sociedade anônima que recebe remuneração é enquadrado como contribuinte individual, conforme o art. 11, V, 'f', da Lei 8.213/91, salvo se também mantiver relação de emprego com a empresa." },
+        { id: 52, texto: "O brasileiro civil que trabalha no exterior para organismo oficial internacional do qual o Brasil é membro efetivo é segurado obrigatório do RGPS, salvo quando coberto por regime próprio de previdência social.", correta: "Certo", explicacao: "Conforme o art. 11, I, 'c', da Lei 8.213/91, o brasileiro civil que trabalha para organismo oficial internacional é segurado empregado, desde que não coberto por regime próprio." },
+        { id: 53, texto: "A filiação ao RGPS, para o segurado empregado, ocorre automaticamente com o início da atividade remunerada, independentemente de qualquer ato formal.", correta: "Certo", explicacao: "Para os segurados obrigatórios, como o empregado, a filiação é automática com o início da atividade laboral. A inscrição, no entanto, é o ato formal posterior de cadastramento." },
+        { id: 54, texto: "A inscrição do segurado facultativo é feita mediante o pagamento da primeira contribuição sem atraso, não sendo admitida a inscrição retroativa.", correta: "Certo", explicacao: "Conforme o art. 27 do Decreto 3.048/99, a inscrição do facultativo é efetivada com o primeiro pagamento em dia, vedada a retroatividade da inscrição." },
+        { id: 55, texto: "O enteado e o menor tutelado equiparam-se a filho para fins de dependência, desde que comprovada a dependência econômica.", correta: "Certo", explicacao: "Conforme o art. 16, §2º, da Lei 8.213/91, o enteado e o menor tutelado são equiparados aos filhos, condicionado à comprovação de dependência econômica." },
+        { id: 56, texto: "O filho maior de 21 anos, não inválido, perde automaticamente a condição de dependente, não sendo possível manter essa qualidade em nenhuma hipótese.", correta: "Errado", explicacao: "O filho maior de 21 anos perde a condição de dependente, salvo se for inválido ou com deficiência intelectual, mental ou grave, hipóteses em que a dependência é mantida por prazo indeterminado." },
+        { id: 57, texto: "Para efeito de carência, considera-se presumido o recolhimento das contribuições do segurado empregado relativas à competência em que houve o trabalho, ainda que o empregador não as tenha recolhido.", correta: "Certo", explicacao: "Para o segurado empregado, a responsabilidade pelo recolhimento é do empregador. O empregado não pode ser prejudicado pela inadimplência do empregador, sendo presumido o recolhimento." },
+        { id: 58, texto: "A aposentadoria por idade exige carência de 180 contribuições mensais para todos os segurados, independentemente da data de filiação.", correta: "Errado", explicacao: "A exigência de 180 contribuições mensais aplica-se aos segurados inscritos a partir de 24/07/1991. Para os inscritos antes, aplica-se a tabela progressiva do art. 142 da Lei 8.213/91, com carências menores." },
+        { id: 59, texto: "O segurado que, após consolidação das lesões decorrentes de acidente de qualquer natureza, resultar com sequelas que impliquem redução da capacidade para o trabalho terá direito ao auxílio-acidente.", correta: "Certo", explicacao: "Conforme o art. 86 da Lei 8.213/91, o auxílio-acidente é concedido como indenização ao segurado quando, após consolidação das lesões, houver sequelas que reduzam sua capacidade para o trabalho." },
+        { id: 60, texto: "O auxílio-acidente é compatível com a percepção de salário e pode ser acumulado com qualquer aposentadoria.", correta: "Errado", explicacao: "Conforme o art. 86, §3º, da Lei 8.213/91, o auxílio-acidente é incompatível com qualquer aposentadoria. Quando o segurado se aposenta, cessa o auxílio-acidente." },
+        { id: 61, texto: "O segurado que exerce atividade em condições especiais e se aposenta pela aposentadoria especial pode retornar ao trabalho na mesma atividade nociva sem que isso implique cancelamento do benefício.", correta: "Errado", explicacao: "Conforme o art. 57, §8º, da Lei 8.213/91, o aposentado por tempo de contribuição especial que retornar a qualquer atividade que enseje exposição a agentes nocivos terá o benefício cancelado." },
+        { id: 62, texto: "Para fins de aposentadoria especial, é necessária a apresentação do Perfil Profissiográfico Previdenciário (PPP) para comprovação da efetiva exposição a agentes nocivos.", correta: "Certo", explicacao: "O PPP é o documento que comprova a exposição do trabalhador a agentes nocivos físicos, químicos, biológicos ou associação de agentes prejudiciais à saúde, sendo indispensável para a concessão da aposentadoria especial." },
+        { id: 63, texto: "O filho do segurado falecido perde o direito à pensão por morte ao completar 21 anos de idade, salvo se for inválido.", correta: "Certo", explicacao: "Conforme o art. 77, §2º, II, da Lei 8.213/91, a cota da pensão por morte do filho cessa ao completar 21 anos, salvo se inválido ou com deficiência." },
+        { id: 64, texto: "Em caso de divórcio, a ex-cônjuge que recebia alimentos do segurado falecido tem direito à pensão por morte.", correta: "Certo", explicacao: "Conforme o art. 76, §2º, da Lei 8.213/91, o cônjuge divorciado ou separado que recebia alimentos também terá direito à pensão por morte, concorrendo com os demais dependentes." },
+        { id: 65, texto: "O salário-maternidade da segurada especial corresponde a um salário mínimo mensal.", correta: "Certo", explicacao: "Conforme o art. 73, V, da Lei 8.213/91, o salário-maternidade da segurada especial é de um salário mínimo mensal, diferentemente das demais categorias." },
+        { id: 66, texto: "Na hipótese de parto antecipado, o período de 120 dias do salário-maternidade é reduzido pelo número de dias que antecederam o parto.", correta: "Errado", explicacao: "Conforme o art. 71, §3º, da Lei 8.213/91, em caso de parto antecipado, o salário-maternidade é concedido pelo período integral de 120 dias, sem redução." },
+        { id: 67, texto: "A contribuição social do empregador, da empresa ou da entidade a ela equiparada pode incidir sobre a receita ou faturamento, conforme previsto na Constituição Federal.", correta: "Certo", explicacao: "O art. 195, I, 'b', da CF prevê que a contribuição social do empregador pode incidir sobre a receita ou o faturamento, sendo essa a base de incidência do PIS/COFINS." },
+        { id: 68, texto: "As contribuições sociais destinadas à seguridade social estão sujeitas ao princípio da anterioridade anual, não podendo ser cobradas no mesmo exercício financeiro em que foram instituídas.", correta: "Errado", explicacao: "As contribuições sociais para a seguridade social obedecem apenas ao princípio da anterioridade nonagesimal (90 dias), conforme o art. 195, §6º, da CF, e não à anterioridade anual." },
+        { id: 69, texto: "A contagem recíproca de tempo de contribuição entre o RGPS e os regimes próprios de previdência social é admitida, desde que não haja contagem em duplicidade.", correta: "Certo", explicacao: "Conforme o art. 201, §9º, da CF, é garantida a contagem recíproca do tempo de contribuição para efeito de aposentadoria, vedada a contagem em duplicidade." },
+        { id: 70, texto: "A compensação financeira entre o RGPS e os regimes próprios, decorrente da contagem recíproca, é facultativa e depende de acordo entre os entes federativos.", correta: "Errado", explicacao: "A compensação financeira entre os regimes é obrigatória, não facultativa, conforme determinação do art. 201, §9º, da CF e regulamentação específica." },
+        { id: 71, texto: "O direito do segurado ou beneficiário de requerer benefício ou serviço não está sujeito a prazo de decadência ou prescrição.", correta: "Errado", explicacao: "Conforme o art. 103 da Lei 8.213/91, o prazo de decadência do direito ou da ação do segurado para a revisão do ato de concessão é de 10 anos. Além disso, há prescrição quinquenal para parcelas vencidas." },
+        { id: 72, texto: "As prestações vencidas de benefícios previdenciários prescrevem em 5 anos.", correta: "Certo", explicacao: "Conforme o art. 103, parágrafo único, da Lei 8.213/91, prescrevem em 5 anos as prestações de qualquer natureza dos planos de benefícios da Previdência Social." },
+        { id: 73, texto: "O INSS pode rever os benefícios por ele concedidos a qualquer tempo, sem prazo decadencial, quando verificar que foram concedidos por erro ou dolo do beneficiário.", correta: "Errado", explicacao: "O art. 103-A da Lei 8.213/91 estabelece prazo decadencial de 10 anos para o INSS revisar seus atos de concessão. Entretanto, em caso de má-fé comprovada do beneficiário, não há prazo decadencial para a revisão." },
+        { id: 74, texto: "O segurado em gozo de aposentadoria por incapacidade permanente que retornar voluntariamente à atividade terá o benefício automaticamente cancelado a partir da data do retorno.", correta: "Certo", explicacao: "Conforme o art. 46 da Lei 8.213/91, o aposentado por incapacidade permanente que retornar voluntariamente à atividade terá cancelada sua aposentadoria a partir da data do retorno." },
+        { id: 75, texto: "A doença ou lesão preexistente à filiação do segurado impede, em qualquer hipótese, a concessão de aposentadoria por incapacidade permanente.", correta: "Errado", explicacao: "A doença ou lesão preexistente somente impede o benefício se a incapacidade já existia antes da filiação. Se o segurado se filia com a doença e, posteriormente, esta progride causando incapacidade, o benefício pode ser concedido." },
+        { id: 76, texto: "O RGPS tem caráter contributivo e de filiação obrigatória, observados critérios que preservem o equilíbrio financeiro e atuarial.", correta: "Certo", explicacao: "Conforme o art. 201 da CF, o RGPS é de caráter contributivo e filiação obrigatória, devendo observar o equilíbrio financeiro e atuarial." },
+        { id: 77, texto: "O auxílio-acidente é um benefício de prestação única, pago ao segurado após a consolidação das lesões acidentárias.", correta: "Errado", explicacao: "O auxílio-acidente é um benefício de prestação continuada (mensal), correspondente a 50% do salário de benefício, pago até a aposentadoria ou morte do segurado." },
+        { id: 78, texto: "O segurado que recebe auxílio por incapacidade temporária não pode acumular esse benefício com outro benefício previdenciário, salvo o salário-família.", correta: "Certo", explicacao: "Via de regra, os benefícios previdenciários são incompatíveis entre si, salvo as exceções legais. O salário-família é um dos benefícios que pode ser acumulado com o auxílio por incapacidade temporária." },
+        { id: 79, texto: "O segurado especial que contratar empregado permanente perde essa qualidade.", correta: "Certo", explicacao: "Uma das condições para ser segurado especial é trabalhar em regime de economia familiar sem empregados permanentes. A contratação de empregado permanente descaracteriza essa qualidade." },
+        { id: 80, texto: "O segurado especial que exerce atividade urbana em caráter eventual, em período não superior a 120 dias por ano civil, mantém sua qualidade de segurado especial.", correta: "Certo", explicacao: "Conforme o art. 11, §8º, da Lei 8.213/91, o segurado especial pode exercer atividade urbana por até 120 dias por ano civil sem perder essa qualidade." },
+        { id: 81, texto: "A doença profissional produzida ou desencadeada pelo exercício do trabalho peculiar a determinada atividade é equiparada a acidente de trabalho.", correta: "Certo", explicacao: "Conforme o art. 20 da Lei 8.213/91, a doença profissional e a doença do trabalho são consideradas acidente de trabalho para fins previdenciários." },
+        { id: 82, texto: "O acidente sofrido pelo segurado no percurso da residência para o local de trabalho ou deste para aquela é considerado acidente de trabalho.", correta: "Certo", explicacao: "Conforme o art. 21, IV, 'd', da Lei 8.213/91, o acidente in itinere (de trajeto) é equiparado ao acidente de trabalho." },
+        { id: 83, texto: "O segurado preso em regime fechado mantém a qualidade de segurado durante todo o período de reclusão.", correta: "Certo", explicacao: "Conforme o art. 15, IV, da Lei 8.213/91, o segurado preso mantém a qualidade de segurado durante o período de reclusão ou detenção, independentemente de contribuições." },
+        { id: 84, texto: "A empresa é responsável pelo recolhimento das contribuições previdenciárias do segurado empregado, podendo descontá-las do salário do trabalhador.", correta: "Certo", explicacao: "Conforme o art. 30 da Lei 8.212/91, a empresa é responsável pela retenção e pelo recolhimento das contribuições do empregado, descontando-as da sua remuneração." },
+        { id: 85, texto: "As entidades beneficentes de assistência social certificadas fazem jus à isenção das contribuições previdenciárias do empregador.", correta: "Certo", explicacao: "Conforme o art. 195, §7º, da CF, as entidades beneficentes de assistência social que atendam às exigências legais são isentas de contribuição para a seguridade social." },
+        { id: 86, texto: "Após a EC 103/2019, o valor da aposentadoria programada corresponde a 60% da média dos salários de contribuição, acrescido de 2 pontos percentuais para cada ano de contribuição que exceder 20 anos para homens e 15 anos para mulheres.", correta: "Certo", explicacao: "Essa é a regra de cálculo estabelecida pela EC 103/2019, em que o segurado começa com 60% e acumula 2% por ano excedente ao mínimo (20 anos homem / 15 anos mulher), podendo chegar a 100%." },
+        { id: 87, texto: "Para atingir 100% do salário de benefício na aposentadoria programada, o homem precisa contribuir por 40 anos e a mulher por 35 anos.", correta: "Certo", explicacao: "Partindo de 60% com 20 anos de contribuição (homem) e acrescendo 2% ao ano, são necessários mais 20 anos para chegar a 100%, totalizando 40 anos. Para a mulher, com base de 15 anos, são necessários mais 20 anos, totalizando 35 anos." },
+        { id: 88, texto: "O auxílio-reclusão é devido aos dependentes do segurado de baixa renda que se encontrar recolhido à prisão em regime fechado ou semiaberto.", correta: "Certo", explicacao: "Conforme o art. 80 da Lei 8.213/91 e o art. 201, IV, da CF, o auxílio-reclusão é pago aos dependentes do segurado de baixa renda preso em regime fechado ou semiaberto." },
+        { id: 89, texto: "O auxílio-reclusão é suspenso se o segurado recluso obtiver livramento condicional ou progressão ao regime aberto.", correta: "Certo", explicacao: "O auxílio-reclusão é devido apenas durante o período em que o segurado estiver recolhido em regime fechado ou semiaberto. Com a progressão para o regime aberto ou o livramento condicional, o benefício é suspenso." },
+        { id: 90, texto: "O INSS pode conceder ao segurado em reabilitação profissional, após o término do processo, certidão de habilitação profissional para o exercício de nova atividade.", correta: "Certo", explicacao: "Conforme o art. 93 da Lei 8.213/91, ao concluir o processo de reabilitação, o INSS emite certificado individual indicando a atividade para a qual o segurado foi reabilitado." },
+        { id: 91, texto: "O BPC/LOAS é transmissível aos herdeiros e pode ser acumulado com benefícios previdenciários.", correta: "Errado", explicacao: "O BPC é personalíssimo, intransferível e não pode ser acumulado com qualquer outro benefício no âmbito da seguridade social, exceto assistência médica e pensão especial de natureza indenizatória, conforme o art. 20, §4º, da LOAS." },
+        { id: 92, texto: "O princípio do equilíbrio financeiro e atuarial exige que as receitas e despesas do RGPS sejam equilibradas não apenas no presente, mas também no longo prazo.", correta: "Certo", explicacao: "O equilíbrio financeiro refere-se ao equilíbrio presente (fluxo de caixa), enquanto o atuarial considera projeções futuras de longo prazo. Ambos devem ser observados conforme o art. 201 da CF." },
+        { id: 93, texto: "O crime de sonegação de contribuição previdenciária se configura quando o empregador omite, da folha de pagamento, remuneração paga a segurado.", correta: "Certo", explicacao: "Conforme o art. 337-A do Código Penal, o crime de sonegação previdenciária inclui a conduta de omitir da folha de pagamento remuneração paga ou creditada a segurado empregado." },
+        { id: 94, texto: "O tempo de serviço prestado como militar obrigatório (serviço militar) pode ser contado como tempo de contribuição para fins de aposentadoria no RGPS.", correta: "Certo", explicacao: "O tempo de serviço militar obrigatório pode ser computado como tempo de contribuição, conforme o art. 55, II, da Lei 8.213/91." },
+        { id: 95, texto: "O período em que o segurado esteve recebendo auxílio por incapacidade temporária (auxílio-doença) é computado como tempo de contribuição.", correta: "Certo", explicacao: "Conforme o art. 55, II, da Lei 8.213/91, o período em que o segurado esteve em gozo de benefício por incapacidade é considerado como tempo de contribuição para fins de aposentadoria." },
+        { id: 96, texto: "É vedada a adoção de requisitos ou critérios diferenciados para concessão de benefícios em manutenção no RGPS, ressalvadas as hipóteses expressamente previstas em lei complementar.", correta: "Certo", explicacao: "Conforme o art. 201, §1º, da CF, as exceções (portadores de deficiência, atividades de risco etc.) são previstas em lei complementar." },
+        { id: 97, texto: "O salário de benefício utilizado no cálculo das aposentadorias não pode ser inferior ao salário mínimo nem superior ao limite máximo do salário de contribuição.", correta: "Certo", explicacao: "Conforme o art. 29, §2º, da Lei 8.213/91, o valor do salário de benefício não será inferior ao salário mínimo, nem superior ao limite máximo do salário de contribuição na data de início do benefício." },
+        { id: 98, texto: "É vedada a percepção conjunta de aposentadoria e auxílio por incapacidade temporária pelo mesmo segurado.", correta: "Certo", explicacao: "Conforme o art. 124 da Lei 8.213/91, salvo no caso de direito adquirido, não é permitido o recebimento conjunto de aposentadoria e auxílio por incapacidade temporária (antigo auxílio-doença)." },
+        { id: 99, texto: "O INSS é uma autarquia federal vinculada ao Ministério da Previdência Social, responsável pela operacionalização do reconhecimento dos direitos dos segurados do RGPS.", correta: "Certo", explicacao: "O INSS (Instituto Nacional do Seguro Social) é uma autarquia federal responsável pelo reconhecimento e pela concessão dos benefícios previdenciários do RGPS, vinculada ao Ministério da Previdência Social." },
+        { id: 100, texto: "O Conselho Nacional de Previdência Social (CNPS) é um órgão de gestão quadripartite da previdência social, composto por representantes do governo federal, dos trabalhadores em atividade, dos empregadores e dos aposentados e pensionistas.", correta: "Certo", explicacao: "Conforme o art. 194, parágrafo único, VII, da CF, a gestão da seguridade social é quadripartite, com participação dos trabalhadores, empregadores, aposentados e governo. O CNPS reflete essa composição no âmbito da previdência." },
+        
+        // NÍVEL DIFÍCIL (IDs 101 a 150) - baseado no terceiro bloco que você enviou
+        { id: 101, texto: "Na regra de transição do pedágio de 100% para a aposentadoria programada, o segurado que, na data da promulgação da EC 103/2019, faltava 2 anos para completar o tempo mínimo de contribuição, terá de cumprir 4 anos adicionais, mantida a idade mínima.", correta: "Errado", explicacao: "O pedágio de 100% exige que o segurado cumpra período adicional equivalente ao tempo que faltava para atingir o tempo mínimo na data da EC, mas não exige idade mínima; exige apenas o cumprimento do pedágio. Além disso, o pedágio é aplicável a quem faltava até 2 anos na data da EC. A assertiva erra ao dizer 'mantida a idade mínima'." },
+        { id: 102, texto: "Para a aposentadoria por incapacidade permanente decorrente de acidente de trabalho, o coeficiente de cálculo é de 100% da média dos salários de contribuição, sem aplicação do fator previdenciário, independentemente do tempo de contribuição.", correta: "Certo", explicacao: "Conforme o art. 26, §2º, da EC 103/2019, a aposentadoria por incapacidade permanente decorrente de acidente de trabalho é calculada com 100% da média aritmética simples dos salários de contribuição, dispensada a aplicação do coeficiente mínimo e do fator previdenciário." },
+        { id: 103, texto: "O Superior Tribunal de Justiça (STJ) consolidou o entendimento de que é possível a desaposentação, com o recálculo do benefício utilizando as contribuições posteriores à aposentadoria, independentemente de devolução dos valores recebidos.", correta: "Errado", explicacao: "O STJ, em recurso repetitivo (Tema 503), decidiu que não é possível a desaposentação no RGPS, ou seja, a renúncia à aposentadoria para obter um novo benefício com tempo de contribuição posterior. O STF também tem entendimento desfavorável (Tema 995)." },
+        { id: 104, texto: "O prazo decadencial de 10 anos para o INSS revisar o ato de concessão de benefício conta-se do dia primeiro do mês seguinte ao do recebimento da primeira prestação, mesmo que o benefício tenha sido concedido com base em declarações falsas do segurado.", correta: "Errado", explicacao: "Conforme o art. 103-A da Lei 8.213/91, o prazo decadencial de 10 anos aplica-se apenas na ausência de má-fé do segurado. Em caso de comprovada má-fé (declarações falsas, fraude), não há prazo decadencial; o INSS pode rever o ato a qualquer tempo." },
+        { id: 105, texto: "Após a EC 103/2019, a aposentadoria especial passou a exigir idade mínima de 60, 55 ou 50 anos, conforme o grau de risco, e carência de 180 contribuições mensais, além do tempo de efetiva exposição de 15, 20 ou 25 anos.", correta: "Certo", explicacao: "A EC 103/2019 converteu a aposentadoria especial em um benefício por idade, exigindo: 25 anos de atividade especial (idade 60), 20 anos (idade 55) e 15 anos (idade 50), além da carência de 180 contribuições, conforme art. 19 da EC e regulamentação." },
+        { id: 106, texto: "É permitida a acumulação de uma aposentadoria no RGPS com pensão por morte de regime próprio de previdência social (RPPS), desde que ambos os benefícios sejam oriundos de contribuições próprias do instituidor.", correta: "Errado", explicacao: "A EC 103/2019, no art. 24, estabeleceu regras de acumulação de benefícios previdenciários, vedando a acumulação de mais de um benefício no mesmo regime, mas permitindo acumulação entre regimes diferentes, com redução proporcional. No entanto, a afirmação 'desde que ambos sejam oriundos de contribuições próprias' é incorreta, pois a pensão por morte não é oriunda de contribuições do beneficiário, mas do falecido." },
+        { id: 107, texto: "O segurado com deficiência grave, moderada ou leve tem direito à aposentadoria com tempo de contribuição reduzido, proporcional ao grau de deficiência, independentemente de idade mínima.", correta: "Errado", explicacao: "A Lei Complementar 142/2013 estabelece que a aposentadoria do deficiente pode ser por idade (60/55 anos, com 15 anos de contribuição) ou por tempo de contribuição (com redução de 5 a 10 anos no tempo, conforme o grau de deficiência), mas a por tempo de contribuição exige também a idade mínima de 60/55 anos após a EC 103/2019, salvo regras de transição." },
+        { id: 108, texto: "O segurado que, antes da EC 103/2019, já havia completado todos os requisitos para a aposentadoria por tempo de contribuição (35/30 anos) mas não havia requerido o benefício, tem direito adquirido às regras antigas, inclusive ao cálculo com base nos 80% maiores salários e fator previdenciário.", correta: "Certo", explicacao: "Conforme o art. 3º da EC 103/2019, os direitos adquiridos são respeitados. O segurado que implementou os requisitos antes da vigência da EC tem direito às regras anteriores, incluindo o cálculo do art. 29 da Lei 8.213/91 (média dos 80% maiores salários) e o fator previdenciário." },
+        { id: 109, texto: "Na hipótese de adoção de criança por casal homoafetivo, apenas a segurada que adotar terá direito ao salário-maternidade, sendo vedada a concessão ao segurado pai, ainda que ambos tenham contribuído para o RGPS.", correta: "Errado", explicacao: "O Superior Tribunal de Justiça (STJ) e o Supremo Tribunal Federal (STF) reconhecem o direito ao salário-paternidade para o pai adotante, bem como a possibilidade de ambos os adotantes (independentemente do sexo) optarem por quem receberá o salário-maternidade ou salário-paternidade, desde que não haja duplicidade e que ambos sejam segurados." },
+        { id: 110, texto: "O perito médico do INSS, ao realizar perícia para concessão de auxílio por incapacidade temporária, não está obrigado a fundamentar sua conclusão divergente dos documentos médicos particulares apresentados pelo segurado, em razão do princípio da livre convicção motivada da administração.", correta: "Errado", explicacao: "A perícia médica previdenciária deve ser devidamente fundamentada, sob pena de nulidade. O princípio da motivação dos atos administrativos (art. 50 da Lei 9.784/99) exige que o perito explique as razões de sua conclusão, especialmente quando divergir de laudos particulares." },
+        { id: 111, texto: "As contribuições previdenciárias recolhidas com atraso pelo segurado facultativo podem ser utilizadas para fins de carência e tempo de contribuição, desde que pagas com multa e juros, mas sem efeito para benefícios concedidos antes do recolhimento.", correta: "Certo", explicacao: "Conforme o art. 11, §2º, da Lei 8.213/91, o recolhimento de contribuições em atraso não gera direito aos benefícios cujos requisitos tenham sido implementados antes do pagamento. A carência é contada a partir da competência do pagamento, e o tempo de contribuição é computado após o efetivo recolhimento." },
+        { id: 112, texto: "O INSS ajuíza ação regressiva contra o empregador ou terceiro causador de acidente de trabalho para recuperar os valores pagos a título de benefícios acidentários, independentemente da demonstração de culpa do responsável, em razão da teoria do risco integral.", correta: "Errado", explicacao: "O STF, no RE 828.040 (Tema 846), decidiu que a ação regressiva do INSS exige a demonstração de culpa ou dolo do empregador ou terceiro, não sendo automática. A teoria do risco integral não se aplica à ação regressiva; aplica-se a teoria do risco administrativo ou subjetiva." },
+        { id: 113, texto: "Para fins de concessão do BPC/LOAS, a renda familiar per capita é calculada com exclusão do benefício de assistência social de até 1 salário mínimo recebido por outro membro da família, desde que não seja o próprio requerente.", correta: "Certo", explicacao: "Conforme o art. 20, §13, da Lei 8.742/93 (LOAS), incluído pela Lei 14.176/2021, no cálculo da renda familiar per capita para o BPC, não serão computados os valores de benefícios de assistência social de até 1 salário mínimo recebidos por outros membros da família." },
+        { id: 114, texto: "O aposentado por incapacidade permanente que retorna ao mercado de trabalho após a cessação do benefício, por considerar-se recuperado, pode ter o benefício reativado judicialmente se comprovar que a recuperação foi apenas aparente e que persiste a incapacidade, sem necessidade de nova perícia administrativa.", correta: "Errado", explicacao: "O retorno voluntário à atividade faz presumir a recuperação da capacidade, com cancelamento do benefício. Para reativá-lo, o segurado deve passar por nova perícia médica do INSS, sob pena de violação do princípio do contraditório e da necessidade de comprovação da incapacidade superveniente." },
+        { id: 115, texto: "O servidor público ocupante de cargo efetivo que, simultaneamente, exerce atividade privada com vínculo empregatício, pode filiar-se ao RGPS como empregado, mas as contribuições para o RGPS não serão computadas para aposentadoria no RPPS, salvo se houver contagem recíproca.", correta: "Certo", explicacao: "É possível o exercício concomitante de cargo público efetivo (vinculado ao RPPS) e emprego privado (RGPS). As contribuições para o RGPS não contam para o RPPS automaticamente, mas podem ser utilizadas mediante contagem recíproca, desde que não haja duplicidade de tempo para o mesmo período." },
+        { id: 116, texto: "O auxílio-acidente, por ser um benefício de natureza indenizatória, não está sujeito à correção monetária pelos mesmos índices aplicados aos benefícios previdenciários de prestação continuada, devendo ser aplicada a TR ou IPCA-E conforme entendimento do STJ.", correta: "Errado", explicacao: "O STJ, no Tema 905, estabeleceu que o auxílio-acidente tem natureza previdenciária (não indenizatória) e deve ser corrigido pelos mesmos índices de correção dos demais benefícios do RGPS, não havendo distinção." },
+        { id: 117, texto: "O prazo prescricional quinquenal para o recebimento de parcelas de pensão por morte devidas a filho menor impúbere só começa a contar após a cessação da menoridade ou da incapacidade, pois a prescrição não corre contra absolutamente incapazes.", correta: "Certo", explicacao: "O art. 198 do Código Civil estabelece que a prescrição não corre contra os absolutamente incapazes, como os menores de 16 anos. O STJ já pacificou que a prescrição contra menores impúberes só flui após eles completarem 16 anos ou cessar a incapacidade." },
+        { id: 118, texto: "O trabalhador portuário avulso, que presta serviço por intermédio do Órgão Gestor de Mão de Obra (OGMO), tem qualidade de segurado obrigatório do RGPS desde o primeiro dia de trabalho, independentemente de contribuição, em razão da presunção de recolhimento pelo OGMO.", correta: "Certo", explicacao: "O trabalhador avulso, inclusive o portuário, é segurado obrigatório. O OGMO é responsável pelo recolhimento das contribuições. A filiação ocorre com o início da atividade, e a falta de recolhimento pelo OGMO não prejudica o trabalhador, que tem a carência presumida." },
+        { id: 119, texto: "A revisão da vida toda, que permite incluir salários de contribuição anteriores a julho de 1994 no cálculo da média, foi considerada constitucional pelo STF, mas com efeitos prospectivos, não alcançando benefícios já concedidos e estáveis.", correta: "Errado", explicacao: "O STF, no Tema 1102 (RE 1.276.977), decidiu que é possível a revisão da vida toda para benefícios concedidos após a Lei 9.876/99, mas modulou os efeitos para que sejam alcançados apenas os pedidos administrativos ou judiciais protocolados até a data do julgamento (dez/2022), não sendo prospectiva indeterminada." },
+        { id: 120, texto: "As contribuições sociais destinadas à seguridade social gozam de imunidade tributária recíproca, não podendo ser exigidas pela União em relação a bens, rendas e serviços dos estados e municípios.", correta: "Errado", explicacao: "A imunidade recíproca do art. 150, VI, 'a', da CF aplica-se aos impostos, não às contribuições sociais. As contribuições sociais podem ser cobradas dos entes federativos (estados, municípios, DF) quando atuam como empregadores, consoante entendimento do STF." },
+        { id: 121, texto: "A aposentadoria híbrida, que computa tempo de contribuição urbano e rural para fins de aposentadoria por idade, exige que o segurado comprove o efetivo labor rural no período de carência, mesmo que já tenha se afastado da atividade rural há mais de 10 anos.", correta: "Errado", explicacao: "O STJ (Tema 941) e a lei admitem a aposentadoria híbrida, mas o trabalho rural pode ser comprovado por início de prova material contemporânea, mesmo que o segurado tenha se afastado da atividade rural há mais de 10 anos, não sendo exigido que esteja na atividade na data do requerimento." },
+        { id: 122, texto: "Na hipótese de concorrência entre cônjuge e ex-cônjuge que recebia pensão alimentícia, a cota da pensão por morte será rateada em partes iguais, independentemente do valor dos alimentos fixados judicialmente.", correta: "Errado", explicacao: "Conforme o art. 77, §2º, da Lei 8.213/91, a pensão será rateada em partes iguais entre os dependentes de mesma classe, mas o cônjuge divorciado ou separado que recebia alimentos tem direito à pensão na proporção dos alimentos, observado o limite da cota individual." },
+        { id: 123, texto: "As gorjetas pagas ao empregado, ainda que habituais, não integram o salário de contribuição para fins previdenciários, por se tratar de mera liberalidade do empregador ou clientes.", correta: "Errado", explicacao: "A Súmula 354 do STJ e a Lei 8.212/91, art. 22, I, c/c art. 28, consideram que as gorjetas, quando habituais e integrantes da remuneração do empregado (art. 457, §3º, da CLT), compõem o salário de contribuição." },
+        { id: 124, texto: "O segurado especial, para fins de carência para aposentadoria por idade rural, tem dispensada a comprovação de contribuição individual, mas exige-se o comprovante de cadastro no CEI (Cadastro Específico do INSS) por pelo menos 180 meses.", correta: "Errado", explicacao: "O segurado especial não precisa recolher contribuições; a carência é comprovada pelo efetivo exercício de atividade rural por 180 meses, independentemente de cadastro no CEI. O cadastro é apenas um instrumento de controle, mas a prova se faz por início de materialidade." },
+        { id: 125, texto: "O segurado que recebe duas aposentadorias de regimes diferentes (RGPS e RPPS) terá o valor total limitado ao teto do RGPS, aplicando-se o redutor do art. 24 da EC 103/2019, de modo que a soma não ultrapasse o teto.", correta: "Certo", explicacao: "A EC 103/2019, art. 24, estabelece que a soma de benefícios previdenciários de regimes distintos não pode exceder o teto do RGPS. O excesso é reduzido proporcionalmente, sendo uma das regras para evitar 'supersalários'." },
+        { id: 126, texto: "O segurado empregado que completa os requisitos para aposentadoria voluntária e opta por continuar trabalhando tem direito ao abono de permanência, mediante recibo de contribuição, no valor equivalente à sua contribuição previdenciária.", correta: "Errado", explicacao: "O abono de permanência é previsto apenas para servidores públicos (art. 40, §19, da CF), não para empregados do RGPS. O trabalhador do RGPS não tem esse direito; sua contribuição continua normal." },
+        { id: 127, texto: "O INSS pode suspender o pagamento de benefício previdenciário por falta de prova de vida mesmo sem prévia notificação do beneficiário, em razão do poder de polícia da autarquia.", correta: "Errado", explicacao: "O STJ pacificou que a suspensão de benefício por falta de prova de vida exige prévia notificação do beneficiário, com prazo razoável para regularização, sob pena de violação do contraditório e da ampla defesa (art. 5º, LV, CF)." },
+        { id: 128, texto: "Os regimes próprios de previdência social (RPPS) podem adotar plano de segregação de massa para separar as aposentadorias já concedidas das futuras, com o objetivo de equilíbrio atuarial, sendo vedada a utilização de recursos do fundo segregado para pagamento de benefícios futuros.", correta: "Certo", explicacao: "A segregação de massa é permitida pela Portaria MPS 403/2008 e outras normas, separando a carteira de assistidos (benefícios já concedidos) da de ativos. Os recursos do fundo segregado destinam-se exclusivamente ao pagamento dos benefícios da massa segregada, não podendo ser usados para novos benefícios." },
+        { id: 129, texto: "O conceito de 'acidente de qualquer natureza' para fins de dispensa de carência abrange o acidente não relacionado ao trabalho, como o acidente doméstico ou de trânsito, desde que não decorra de doença preexistente.", correta: "Certo", explicacao: "O art. 26, II, da Lei 8.213/91 dispensa carência para os benefícios decorrentes de acidente de qualquer natureza, inclusive acidente não laboral (doméstico, de trânsito, etc.), desde que não seja decorrente de doença degenerativa ou autoinfligida." },
+        { id: 130, texto: "O empregado de empresa pública ou sociedade de economia mista, mesmo admitido mediante concurso público, está vinculado ao RGPS, não a regime próprio de previdência, salvo se a empresa pública for prestadora de serviço público próprio e tiver instituído RPPS.", correta: "Certo", explicacao: "Conforme entendimento do STF (ADI 3.395), empregados de empresas públicas e sociedades de economia mista são regidos pela CLT e vinculados ao RGPS, a menos que a atividade seja típica de Estado e haja lei criando RPPS específico, o que é excepcional." },
+        { id: 131, texto: "Para comprovação da união estável post mortem com fins previdenciários, é exigida sentença judicial transitada em julgado, não sendo admitida a prova administrativa por outros meios, como declaração de dependente em vida.", correta: "Errado", explicacao: "A comprovação da união estável pode ser feita administrativamente por início de prova material (contas conjuntas, testemunhas, certidão de nascimento de filhos, etc.), não havendo obrigatoriedade de decisão judicial. A Lei 8.213/91, art. 16, §3º, admite prova de dependência econômica por outros meios." },
+        { id: 132, texto: "Os valores pagos ao servidor público a título de licença-prêmio indenizada (não gozada) não integram o salário de contribuição para o RPPS, por se tratar de indenização.", correta: "Errado", explicacao: "O STJ (REsp 1.299.031) e a jurisprudência do STF (ARE 964.756) entendem que a licença-prêmio indenizada tem natureza remuneratória, pois decorre de tempo de serviço não usufruído, integrando a base de cálculo da contribuição previdenciária do servidor." },
+        { id: 133, texto: "O segurado que, durante o período de graça, sofre acidente e fica incapacitado temporariamente tem o período de graça suspenso enquanto durar a incapacidade, contando-se novamente após a cessação do auxílio por incapacidade.", correta: "Certo", explicacao: "Conforme o art. 15, §4º, da Lei 8.213/91, durante o período de gozo de auxílio por incapacidade temporária (e também de aposentadoria por incapacidade permanente), o segurado não perde a qualidade de segurado, e o período de graça é suspenso, recomeçando a contar após a cessação do benefício." },
+        { id: 134, texto: "As ações em que o INSS figure como parte, ainda que envolvam benefícios de natureza acidentária, são de competência da Justiça Estadual quando a comarca não for sede de Vara Federal, conforme entendimento do STF.", correta: "Errado", explicacao: "A competência para julgar causas contra o INSS é da Justiça Federal, mesmo em comarcas sem vara federal, pois a Justiça Estadual atua por delegação (art. 109, §3º, CF). No entanto, a competência é federal, não estadual originária." },
+        { id: 135, texto: "Após a EC 103/2019, o segurado que recebia aposentadoria e adquiriu direito a pensão por morte em data posterior, sendo ambos os benefícios do RGPS, terá direito à integralidade de ambos, sem qualquer redução.", correta: "Errado", explicacao: "O art. 24 da EC 103/2019 estabeleceu redução progressiva para acumulação de benefícios no mesmo regime: 100% do benefício de maior valor, e do segundo, 60% do valor, acrescidos de 10% por dependente até 100%, mas com teto. Não é mais permitido receber integralmente ambos." },
+        { id: 136, texto: "Após a EC 103/2019, o professor da educação básica que comprove exclusivamente tempo de magistério na educação infantil e ensinos fundamental e médio tem redução da idade mínima em 5 anos (60 para homem, 57 para mulher), mantido o tempo de contribuição de 25 anos.", correta: "Errado", explicacao: "A EC 103/2019, no art. 19, §2º, reduziu a idade mínima para professores em 5 anos (homem: 60 → 55; mulher: 57 → 52), mas não alterou o tempo de contribuição de 25 anos. A assertiva trocou os valores (60 para homem, 57 para mulher não é a redução correta; o correto é 55 para homem e 52 para mulher)." },
+        { id: 137, texto: "O segurado que exerce duas atividades concomitantes, ambas enquadradas como empregado, terá o salário de contribuição considerado pela soma das remunerações, limitada ao teto, e os benefícios serão calculados com base na soma, exceto aposentadoria por incapacidade permanente, calculada separadamente.", correta: "Errado", explicacao: "Conforme o art. 31 da Lei 8.213/91, o salário de benefício do segurado que exerce atividades concomitantes é calculado com base na soma dos salários de contribuição, mas para aposentadoria por incapacidade permanente, o benefício corresponderá à soma das médias, respeitado o teto." },
+        { id: 138, texto: "A empresa que não possui empregados e está inativa, sem qualquer movimento financeiro, não está obrigada a recolher contribuições previdenciárias patronais, devendo apenas comunicar sua inatividade ao INSS.", correta: "Certo", explicacao: "A empresa inativa, sem empregados e sem faturamento, não tem obrigação de recolher contribuição sobre a receita ou folha, mas deve manter sua inscrição atualizada e eventualmente declarar inatividade para evitar débitos. A Súmula 72 do TFR (antiga) e prática administrativa confirmam." },
+        { id: 139, texto: "Para comprovação do exercício de atividade rural anterior a 1991, é admissível a prova exclusivamente testemunhal, desde que robusta e corroborada por indícios, conforme Súmula 76 do STJ.", correta: "Errado", explicacao: "A Súmula 76 do STJ: 'A prova exclusivamente testemunhal não basta para comprovar a atividade rural, para efeito da obtenção de benefício previdenciário, quando contestada a existência do trabalho, sendo necessária a apresentação de início de prova material.' Portanto, não é admitida prova exclusivamente testemunhal; exige-se início de prova material." },
+        { id: 140, texto: "O segurado com deficiência intelectual ou mental grave tem direito à aposentadoria com 20 anos de contribuição para homem e 15 para mulher, independentemente de idade mínima, mesmo após a EC 103/2019, por força da Lei Complementar 142/2013 e da Convenção da ONU.", correta: "Certo", explicacao: "A EC 103/2019 não revogou expressamente a LC 142/2013. O STF e a doutrina entendem que a aposentadoria por tempo de contribuição do deficiente, com redução do tempo, não exige idade mínima quando o benefício for por tempo de contribuição (e não por idade), desde que comprovada a deficiência grave. A convenção da ONU confere status de norma constitucional." },
+        { id: 141, texto: "O direito de requerer a revisão do ato de concessão de benefício por erro de cálculo não sujeita a prazo decadencial, pois se trata de direito potestativo do segurado, apenas as parcelas vencidas prescrevem em 5 anos a contar da data do requerimento administrativo.", correta: "Errado", explicacao: "O prazo decadencial para revisão de benefício pelo segurado também é de 10 anos, conforme art. 103 da Lei 8.213/91. O segurado decai do direito de revisar o ato de concessão após 10 anos do primeiro pagamento ou da decisão indeferitória." },
+        { id: 142, texto: "A empresa tomadora de serviços responde subsidiariamente pelo recolhimento das contribuições previdenciárias da empresa prestadora, inclusive aquelas relativas ao período anterior à contratação, se comprovada a sucessão trabalhista.", correta: "Errado", explicacao: "A Súmula 246 do STJ e a Lei 8.212/91, art. 31, preveem responsabilidade solidária da tomadora pelos débitos previdenciários da prestadora apenas quanto ao período da prestação de serviços, não antes. E, em regra, é subsidiária, não solidária, exceto em caso de fraude." },
+        { id: 143, texto: "O participante de plano de previdência complementar (FAPI ou entidade fechada) pode resgatar o saldo acumulado antes da aposentadoria, mas o valor resgatado é tributado como rendimento de aplicação financeira, não havendo isenção para doenças graves, ao contrário do RGPS.", correta: "Certo", explicacao: "A previdência complementar privada segue as regras do IRPF, sujeita ao carnê-leão ou tabela regressiva. Doenças graves não geram isenção no resgate antecipado, o que difere da isenção de IR para aposentadoria por invalidez no RGPS (art. 6º, XIV, da Lei 7.713/88)." },
+        { id: 144, texto: "O nexo técnico entre a doença e o trabalho é presumido nos casos de doença profissional listada nos decretos regulamentadores, cabendo ao empregador a prova de que a doença não foi causada pela atividade exercida.", correta: "Certo", explicacao: "O art. 21-A da Lei 8.213/91, incluído pela Lei 13.846/2019, estabelece a presunção de nexo técnico para as doenças relacionadas no Anexo II do Decreto 3.048/99, invertendo o ônus da prova para o empregador." },
+        { id: 145, texto: "Para concessão da aposentadoria por idade rural, o segurado especial deve comprovar o exercício de atividade rural no período de carência de 180 meses, mas não se exige que esteja na atividade na data do requerimento, sendo suficiente o tempo de carência já cumprido.", correta: "Certo", explicacao: "A aposentadoria por idade rural (60/55 anos) exige carência de 180 meses de atividade rural, mas não exige que o segurado esteja trabalhando na data do pedido, diferentemente da aposentadoria por invalidez rural (que exige atualidade)." },
+        { id: 146, texto: "O recurso voluntário contra decisão do INSS que nega benefício não possui efeito suspensivo, salvo nos casos de auxílio-doença e aposentadoria por invalidez, em que o segurado tem direito à manutenção do benefício durante o recurso.", correta: "Errado", explicacao: "O recurso administrativo no âmbito do INSS, em regra, tem efeito suspensivo parcial (art. 543 do Decreto 3.048/99), mas a manutenção de benefício durante recurso só ocorre se já estava em gozo. Para concessão inicial, o recurso não garante o pagamento." },
+        { id: 147, texto: "O atleta profissional de futebol, regido pela Lei Pelé (9.615/98), tem contrato especial de trabalho desportivo, mas para a previdência social é segurado empregado, com contribuição sobre a remuneração total, incluindo luvas e direitos de imagem.", correta: "Certo", explicacao: "A Lei 9.615/98 prevê o contrato de trabalho desportivo, e a Lei 8.212/91, art. 22, determina que as parcelas pagas ao atleta profissional, como luvas, direitos de imagem (quando pago pelo clube), integram o salário de contribuição, conforme Súmula 14 do TST e jurisprudência do STJ." },
+        { id: 148, texto: "A Justiça do Trabalho é competente para processar e julgar ações que discutem o direito ao benefício de auxílio-acidente, desde que decorrente de acidente de trabalho e o empregador figure no polo passivo solidário.", correta: "Errado", explicacao: "A Súmula 501 do STF e o art. 114, VI, da CF dão competência à Justiça do Trabalho para execução de contribuições previdenciárias e ações indenizatórias por dano decorrente de acidente de trabalho. Mas a concessão de benefício previdenciário (auxílio-acidente) é contra o INSS, portanto competência da Justiça Federal." },
+        { id: 149, texto: "O segurado que, sem justo motivo, recusar o oferecimento de reabilitação profissional terá suspenso o pagamento do auxílio por incapacidade temporária ou da aposentadoria por incapacidade permanente até que aceite o programa.", correta: "Certo", explicacao: "Conforme o art. 89, §2º, da Lei 8.213/91, é obrigatória a participação do segurado em programa de reabilitação profissional. A recusa injustificada implica suspensão do benefício de incapacidade." },
+        { id: 150, texto: "O Regime Geral de Previdência Social adota o regime financeiro de capitalização para todos os benefícios, inclusive os assistenciais, razão pela qual as contribuições são investidas para garantir o pagamento futuro de cada segurado.", correta: "Errado", explicacao: "O RGPS adota, na prática, o regime de repartição simples (pay-as-you-go), em que as contribuições dos ativos pagam os benefícios dos inativos, não sendo um sistema de capitalização total, embora haja fundos de reserva. Os benefícios assistenciais (como BPC) são financiados pelas contribuições sociais, mas não há capitalização individual." }
+    ];
+
+    // Controle de nível e respostas
+    let nivelAtual = "facil";
+    let respostas = {}; // { idQuestao: "Certo"/"Errado" }
+
+    function renderizarQuestoes() {
+        const container = document.getElementById("questoes-container");
+        const inicio = nivelAtual === "facil" ? 0 : (nivelAtual === "medio" ? 50 : 100);
+        const fim = nivelAtual === "facil" ? 50 : (nivelAtual === "medio" ? 100 : 150);
+        const questoesNivel = questoes.slice(inicio, fim);
+        if (!container) return;
+        container.innerHTML = "";
+        questoesNivel.forEach(q => {
+            const card = document.createElement("div");
+            card.className = "questao-card";
+            card.id = `q-${q.id}`;
+            card.innerHTML = `
+                <div class="questao-texto"><strong>${q.id}.</strong> ${q.texto}</div>
+                <div class="opcoes">
+                    <label class="opcao"><input type="radio" name="q${q.id}" value="Certo"> Certo</label>
+                    <label class="opcao"><input type="radio" name="q${q.id}" value="Errado"> Errado</label>
+                </div>
+                <div class="explicacao" id="expl-${q.id}">📖 ${q.explicacao}</div>
+            `;
+            container.appendChild(card);
+            // carregar resposta salva (se existir)
+            const radios = document.querySelectorAll(`input[name="q${q.id}"]`);
+            if (respostas[q.id]) {
+                radios.forEach(r => { if (r.value === respostas[q.id]) r.checked = true; });
+            }
+            radios.forEach(r => {
+                r.addEventListener("change", () => { respostas[q.id] = r.value; });
+            });
+        });
+        // Limpar resultado anterior
+        const resultDiv = document.getElementById("resultado-final");
+        if (resultDiv) resultDiv.innerHTML = "";
+    }
+
+    function corrigirSimulado() {
+        const inicio = nivelAtual === "facil" ? 0 : (nivelAtual === "medio" ? 50 : 100);
+        const fim = nivelAtual === "facil" ? 50 : (nivelAtual === "medio" ? 100 : 150);
+        const questoesNivel = questoes.slice(inicio, fim);
+        let acertos = 0;
+        questoesNivel.forEach(q => {
+            const userResp = respostas[q.id];
+            const explicacaoDiv = document.getElementById(`expl-${q.id}`);
+            const isCorrect = (userResp === q.correta);
+            if (isCorrect) acertos++;
+            if (explicacaoDiv) {
+                explicacaoDiv.style.display = "block";
+                let status = "";
+                if (!userResp) status = "⚠️ Não respondida.";
+                else status = isCorrect ? "✅ Correto" : "❌ Errado";
+                explicacaoDiv.innerHTML = `<strong>${status}</strong><br>📖 ${q.explicacao}`;
+            }
+        });
+        const resultDiv = document.getElementById("resultado-final");
+        if (resultDiv) {
+            resultDiv.innerHTML = `<h3>🎯 Resultado (Nível ${nivelAtual === "facil" ? "Fácil" : nivelAtual === "medio" ? "Médio" : "Difícil"}): ${acertos} acertos de ${questoesNivel.length} questões (${Math.round(acertos/questoesNivel.length*100)}%)</h3>`;
+        }
+    }
+
+    // Eventos dos botões de nível
+    document.querySelectorAll(".btn-nivel").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".btn-nivel").forEach(b => b.classList.remove("ativo"));
+            btn.classList.add("ativo");
+            nivelAtual = btn.getAttribute("data-nivel");
+            renderizarQuestoes();
+        });
+    });
+
+    // Inicializar com nível fácil
+    renderizarQuestoes();
+    document.getElementById("btnCorrigirGeral").addEventListener("click", corrigirSimulado);
+</script>
+</body>
+</html>
