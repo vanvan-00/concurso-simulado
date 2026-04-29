@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+<div id="conteudo-programa">
+  <div style="font-family:'Bebas Neue'; font-size:1.6rem; color: var(--neon-lime); text-align:center;">🎯 TIPO DE PROVA</div>
+  <div class="grid grid-cols-2 gap-4 mt-4">
+    <button class="btn-arcade py-4 text-xl" style="background: var(--neon-lime); color:black;" onclick="carregarSimulado()">✅ Certo / Errado</button>
+    <button class="btn-arcade py-4 text-xl" style="background: var(--neon-purple); color:white;" onclick="carregarMultipla()">🔘 Múltipla Escolha</button>
+  </div>
+</div>
+<script>
+  function carregarSimulado() {
+    // Aqui carregamos o simulado de 150 questões de Direito Previdenciário
+    if (window.parent && window.parent.carregarPrograma) {
+      window.parent.carregarPrograma('direito-previdenciario-150q.html', 'Simulado Certo/Errado');
+    }
+  }
+  function carregarMultipla() {
+    window.parent.carregarPrograma('placeholder-multipla.html', 'Múltipla Escolha');
+  }
+</script>
+</body>
+</html>
