@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VANZZ CONCURSO — ARENA</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --neon-purple: #b14eff;
+    --neon-lime: #a8ff00;
+    --cyber-yellow: #ffe600;
+    --neon-pink: #ff2d78;
+    --dark-bg: #080810;
+    --card-bg: #0e0e1a;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: var(--dark-bg);
+    color: #fff;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--neon-lime);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s;
+    box-shadow: 0 0 12px var(--neon-lime);
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 2px solid var(--neon-purple);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.2s, height 0.2s;
+    box-shadow: 0 0 10px var(--neon-purple);
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 9990; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(177,78,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(177,78,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .neo-card {
+    border: 2.5px solid #000;
+    box-shadow: 4px 4px 0px #000;
+    transition: box-shadow 0.1s, transform 0.1s;
+  }
+  .neo-card:hover {
+    box-shadow: 7px 7px 0px #000;
+    transform: translate(-2px, -2px);
+  }
+  .glass {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(255,255,255,0.1);
+  }
+  .glow-purple { text-shadow: 0 0 10px var(--neon-purple), 0 0 30px var(--neon-purple); }
+  .glow-lime   { text-shadow: 0 0 10px var(--neon-lime),   0 0 30px var(--neon-lime);   }
+  .glow-yellow { text-shadow: 0 0 10px var(--cyber-yellow), 0 0 30px var(--cyber-yellow); }
+  .glow-pink   { text-shadow: 0 0 10px var(--neon-pink),   0 0 30px var(--neon-pink);   }
+
+  .btn-arcade {
+    border: 2.5px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    transition: box-shadow 0.08s ease, transform 0.08s ease;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+  }
+  .btn-arcade:hover {
+    box-shadow: 1px 1px 0 #000;
+    transform: translate(3px, 3px);
+  }
+  .btn-arcade:active {
+    box-shadow: 0 0 0 #000;
+    transform: translate(4px, 4px);
+  }
+  .bar-track {
+    background: rgba(0,0,0,0.5);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .hp-fill {
+    background: linear-gradient(90deg, #22c55e, #a8ff00);
+    box-shadow: 0 0 8px #a8ff00;
+  }
+  .xp-fill {
+    background: linear-gradient(90deg, #7c3aed, #b14eff);
+    box-shadow: 0 0 8px var(--neon-purple);
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--neon-pink);
+    box-shadow: 0 0 6px var(--neon-pink);
+    animation: pulse-dot 1s infinite;
+  }
+  @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(0.7); } }
+  .float { animation: float 3s ease-in-out infinite; }
+  .float-slow { animation: float 5s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+  .feed-item { animation: slideInFeed 0.4s ease forwards; }
+  @keyframes slideInFeed { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+  .glitch-overlay {
+    position: absolute; inset: 0;
+    color: var(--neon-lime);
+    animation: glitch 4s steps(1) infinite;
+    opacity: 0.6;
+  }
+  @keyframes glitch {
+    0%   { clip-path: inset(0 0 100% 0); transform: skew(0deg); }
+    20%  { clip-path: inset(20% 0 60% 0); transform: skew(-2deg); }
+    40%  { clip-path: inset(60% 0 20% 0); transform: skew(1deg); }
+    60%  { clip-path: inset(80% 0 0 0); transform: skew(-1deg); }
+    80%  { clip-path: inset(0 0 80% 0); transform: skew(2deg); }
+    100% { clip-path: inset(100% 0 0 0); transform: skew(0deg); }
+  }
+  .rank-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    border: 2px solid var(--cyber-yellow);
+    box-shadow: 0 0 12px var(--cyber-yellow), inset 0 0 8px rgba(255,230,0,0.1);
+    color: var(--cyber-yellow);
+  }
+  .concurso-card {
+    position: relative; overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .concurso-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .concurso-card:hover {
+    transform: translate(-4px,-4px) scale(1.01);
+    box-shadow: 8px 8px 0 #000;
+  }
+  .xp-burst { animation: xpBurst 0.8s ease forwards; }
+  @keyframes xpBurst { 0% { opacity:1; transform: scale(0.5) translateY(0); } 100% { opacity:0; transform: scale(1.5) translateY(-40px); } }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #080810; }
+  ::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 10px; }
+  .mono { font-family: 'Share Tech Mono', monospace; }
+  .shine { position: relative; overflow: hidden; }
+  .shine::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -75%;
+    width: 50%; height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    transform: skewX(-20deg);
+    animation: shineSweep 4s ease-in-out infinite;
+  }
+  @keyframes shineSweep { 0%,100% { left: -75%; } 50% { left: 125%; } }
+  .ping-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--neon-pink);
+    animation: ping-ring 1.2s ease-out infinite;
+  }
+  @keyframes ping-ring { 0% { transform: scale(1); opacity:0.7; } 100% { transform: scale(2.2); opacity:0; } }
+  .top-bar { border-bottom: 2px solid rgba(177,78,255,0.3); box-shadow: 0 4px 30px rgba(177,78,255,0.15); }
+  .section-line::after { content: ''; display: block; height: 3px; width: 60px; background: var(--neon-lime); margin-top: 6px; box-shadow: 0 0 8px var(--neon-lime); }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .bento-a { grid-column: span 5; grid-row: span 2; }
+  .bento-b { grid-column: span 4; grid-row: span 1; }
+  .bento-c { grid-column: span 3; grid-row: span 1; }
+  .bento-d { grid-column: span 4; grid-row: span 1; }
+  .bento-e { grid-column: span 3; grid-row: span 1; }
+  .bento-f { grid-column: span 7; grid-row: span 1; }
+  @media (max-width: 900px) {
+    .bento { grid-template-columns: 1fr 1fr; }
+    .bento-a,.bento-b,.bento-c,.bento-d,.bento-e,.bento-f { grid-column: span 2; grid-row: span 1; }
+  }
+  @media (max-width: 600px) {
+    .bento { grid-template-columns: 1fr; }
+    .bento-a,.bento-b,.bento-c,.bento-d,.bento-e,.bento-f { grid-column: span 1; }
+  }
+  .dynamic-area {
+    display: none;
+    margin-top: 1rem;
+    background: rgba(0,0,0,0.7);
+    border-radius: 20px;
+    padding: 1rem;
+  }
+  .dynamic-area.visible { display: block; }
+  .btn-voltar {
+    background: var(--neon-purple);
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    transition: 0.1s linear;
+  }
+  .btn-voltar:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #000; }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<header class="top-bar sticky top-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between" style="background: rgba(8,8,16,0.92); backdrop-filter: blur(20px);">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 flex items-center justify-center rounded-sm neo-card" style="background: var(--neon-purple); border-color: #000;"><span style="font-family:'Bebas Neue'; font-size:1.3rem; color:#000;">V</span></div>
+    <div><div style="font-family:'Bebas Neue'; font-size:1.2rem; letter-spacing:3px; color: var(--neon-lime);" class="glow-lime leading-none">VANZZ</div><div class="mono text-xs opacity-50" style="color: var(--cyber-yellow); letter-spacing:2px;">CONCURSO ARENA</div></div>
+  </div>
+  <nav class="hidden md:flex items-center gap-6">
+    <a href="#" class="text-sm font-semibold uppercase tracking-widest opacity-70 hover:opacity-100 hover:text-lime-400">Arena</a>
+    <a href="#" class="text-sm font-semibold uppercase tracking-widest opacity-70 hover:opacity-100 hover:text-lime-400">Missões</a>
+    <a href="#" class="text-sm font-semibold uppercase tracking-widest opacity-70 hover:opacity-100 hover:text-lime-400">Ranking</a>
+    <a href="#" class="text-sm font-semibold uppercase tracking-widest opacity-70 hover:opacity-100 hover:text-lime-400">Guilda</a>
+  </nav>
+  <div class="flex items-center gap-3">
+    <div class="relative w-9 h-9 flex items-center justify-center rounded-sm glass cursor-pointer hover:opacity-80">
+      <div class="ping-ring"></div>
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:var(--neon-pink)">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+      </svg>
+      <div class="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-black text-xs font-black" style="background: var(--neon-pink);">7</div>
+    </div>
+    <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-sm neo-card" style="background: rgba(255,230,0,0.1);"><span>💎</span><span class="mono text-sm font-bold" style="color: var(--cyber-yellow);">2.840</span></div>
+    <div class="w-9 h-9 rounded-sm overflow-hidden neo-card border-2" style="border-color: var(--neon-purple);"><div class="w-full h-full flex items-center justify-center text-xl" style="background: linear-gradient(135deg, #1a0030, #3d0080);">🧑‍💻</div></div>
+  </div>
+</header>
+
+<main class="relative z-10 max-w-screen-2xl mx-auto px-4 md:px-8 pt-6 pb-16 grid gap-6" style="grid-template-columns: 260px 1fr 280px;" id="mainGrid">
+  <aside class="hidden lg:flex flex-col gap-4">
+    <div class="neo-card rounded-sm p-4 shine" style="background: linear-gradient(145deg, #0e0020, #180040);">
+      <div class="relative flex justify-center mb-3"><div class="float w-20 h-20 rounded-sm flex items-center justify-center text-5xl neo-card" style="background: linear-gradient(135deg,#1c0040,#3d0080);">🧑‍💻</div><div class="rank-badge absolute -bottom-2 -right-2 px-2 py-0.5 rounded-sm text-xs">S-RANK</div></div>
+      <div class="text-center mb-3"><div style="font-family:'Bebas Neue'; font-size:1.4rem;" class="glow-lime">VANDERLEI</div><div class="mono text-xs opacity-60">⚡ GUERREIRO APROVADO</div></div>
+      <div class="flex items-center justify-between mb-1"><span class="mono text-xs opacity-50">NÍVEL</span><span style="font-family:'Bebas Neue'; font-size:1.5rem;" class="glow-purple">47</span></div>
+      <div class="flex items-center gap-2 mb-1"><span class="mono text-xs w-6" style="color:#22c55e;">HP</span><div class="bar-track flex-1 h-3"><div class="hp-fill h-full" style="width:78%;"></div></div><span class="mono text-xs opacity-60">78%</span></div>
+      <div class="flex items-center gap-2 mb-4"><span class="mono text-xs w-6" style="color: var(--neon-purple);">XP</span><div class="bar-track flex-1 h-3"><div class="xp-fill h-full" style="width:63%;"></div></div><span class="mono text-xs opacity-60">63%</span></div>
+      <div class="grid grid-cols-3 gap-2 text-center mb-4">
+        <div class="glass rounded-sm py-2"><div style="font-family:'Bebas Neue'; font-size:1.3rem;" class="glow-yellow">342</div><div class="mono text-xs opacity-50">ACERTOS</div></div>
+        <div class="glass rounded-sm py-2"><div style="font-family:'Bebas Neue'; font-size:1.3rem;" class="glow-lime">12</div><div class="mono text-xs opacity-50">STREAK 🔥</div></div>
+        <div class="glass rounded-sm py-2"><div style="font-family:'Bebas Neue'; font-size:1.3rem;" class="glow-purple">5</div><div class="mono text-xs opacity-50">TÍTULOS</div></div>
+      </div>
+      <button class="btn-arcade w-full py-2.5 rounded-sm text-black font-black text-sm mb-2" style="background: var(--neon-lime);" onclick="addXP()">⚔️ TREINAR AGORA</button>
+      <button class="btn-arcade w-full py-2 rounded-sm text-sm font-bold" style="background: transparent; color: var(--neon-purple); border-color: var(--neon-purple);">📊 VER STATS</button>
+    </div>
+    <div class="neo-card rounded-sm p-4" style="background: var(--card-bg);"><div class="flex items-center gap-2 mb-3"><span>🎯</span><span style="font-family:'Bebas Neue';" class="glow-yellow section-line">MISSÕES DIÁRIAS</span></div><div class="space-y-3"><div class="glass rounded-sm p-2.5"><div class="flex justify-between"><span class="text-xs">Matar 20 questões</span><span class="mono text-xs" style="color:var(--neon-lime);">+150 XP</span></div><div class="bar-track h-2 mt-1"><div class="hp-fill h-full" style="width:65%;"></div></div><div class="text-xs text-right mono">13/20</div></div><div class="glass rounded-sm p-2.5"><div class="flex justify-between"><span class="text-xs">Streak de 5 dias</span><span class="mono text-xs" style="color:var(--cyber-yellow);">+300 XP</span></div><div class="bar-track h-2 mt-1"><div class="xp-fill h-full" style="width:80%;"></div></div><div class="text-xs text-right mono">4/5</div></div></div></div>
+    <div class="neo-card rounded-sm p-4 shine" style="background: linear-gradient(145deg,#1a0000,#400010);"><div class="mono text-xs mb-1" style="color:var(--neon-pink);">CHEFE DA SEMANA</div><div class="float-slow text-5xl text-center my-2">🐉</div><div style="font-family:'Bebas Neue'; text-align:center;" class="glow-pink">QUESTÕES DE DIREITO CONST.</div><div class="bar-track h-4 my-2"><div style="width:38%; background: linear-gradient(90deg,#ff2d78,#ff7a00); height:100%;"></div></div><div class="flex justify-between mono text-xs"><span style="color:var(--neon-pink);">HP: 38%</span><span>3.841 atacantes</span></div><button class="btn-arcade w-full mt-3 py-2 rounded-sm text-white" style="background: var(--neon-pink);">⚡ ATACAR O CHEFE</button></div>
+  </aside>
+
+  <section class="flex flex-col gap-6 min-w-0">
+    <div class="neo-card rounded-sm relative overflow-hidden shine" style="background: linear-gradient(135deg, #0a001a 0%, #1a0040 50%, #000d1a 100%);">
+      <div class="absolute -top-12 -right-12 w-56 h-56 rounded-full opacity-20" style="background: radial-gradient(circle, var(--neon-purple), transparent 70%);"></div>
+      <div class="relative z-10 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex-1"><div class="mono text-xs mb-2 opacity-60" style="color:var(--neon-lime);">⚡ EVENTO ESPECIAL — 48H RESTANTES</div><div class="relative" style="font-family:'Bebas Neue'; font-size: clamp(2rem, 5vw, 3.5rem);"><span>SEMANA DO</span><br/><span style="color:var(--neon-lime);" class="glow-lime">CONCURSO IBGE</span><div class="glitch-overlay" style="font-size: clamp(2rem, 5vw, 3.5rem);"><span>SEMANA DO</span><br/><span>CONCURSO IBGE</span></div></div><p class="mt-3 opacity-70 text-sm">Derrote questões, suba no ranking e ganhe <span class="font-black" style="color:var(--cyber-yellow);">3x XP</span> por cada questão certa.</p><div class="flex flex-wrap gap-3 mt-5"><button class="btn-arcade px-6 py-3 rounded-sm text-black font-black" style="background: var(--neon-lime);" onclick="carregarPrograma('menu-disciplinas-ibge.html', 'IBGE')">🚀 ENTRAR NA ARENA</button><button class="btn-arcade px-5 py-3 rounded-sm text-sm font-bold" style="background: transparent; color: var(--cyber-yellow); border-color: var(--cyber-yellow);">📅 VER EDITAL</button></div></div>
+        <div class="glass rounded-sm p-5 text-center neo-card" style="min-width:160px;"><div class="mono text-xs opacity-50 mb-2">TEMPO RESTANTE</div><div class="mono font-black text-4xl" style="color:var(--neon-pink);" id="timerDisplay">47:23:09</div><div class="mono text-xs opacity-40 mt-1">HH : MM : SS</div></div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between"><h2 style="font-family:'Bebas Neue'; font-size:1.6rem;" class="section-line">🏆 ARENA DE CONCURSOS</h2><button class="btn-arcade px-4 py-1.5 rounded-sm text-xs font-bold" style="background: transparent; color: var(--neon-purple); border-color: var(--neon-purple);">VER TODOS →</button></div>
+    <div class="bento" id="cardsConcurso"></div>
+    <div class="dynamic-area" id="dynamicArea"><button class="btn-voltar" id="btnVoltar">← Voltar para Arena</button><div id="programaContent"></div></div>
+  </section>
+
+  <aside class="hidden lg:flex flex-col gap-4">
+    <div class="neo-card rounded-sm p-4" style="background: var(--card-bg);"><div class="flex items-center gap-2 mb-4"><div class="live-dot"></div><span style="font-family:'Bebas Neue';" class="glow-pink">ATIVIDADE AO VIVO</span><span class="ml-auto mono text-xs opacity-40" id="onlineCount">1.247 online</span></div><div id="liveFeed" class="space-y-2 max-h-72 overflow-y-auto"></div></div>
+    <div class="neo-card rounded-sm p-4"><h3 class="section-line mb-3" style="color:var(--neon-lime);">📡 STATS GLOBAIS</h3><div class="grid grid-cols-2 gap-2"><div class="glass p-2 text-center"><div class="glow-purple text-2xl">48.291</div><div class="mono text-xs">jogadores</div></div><div class="glass p-2 text-center"><div class="glow-lime text-2xl">1.2M</div><div class="mono text-xs">questões</div></div><div class="glass p-2 text-center"><div class="glow-yellow text-2xl">73%</div><div class="mono text-xs">acerto</div></div><div class="glass p-2 text-center"><div class="glow-pink text-2xl">321</div><div class="mono text-xs">aprovados</div></div></div></div>
+    <div class="neo-card rounded-sm p-4"><h3 class="section-line mb-3" style="color:var(--neon-lime);">🌡️ MATÉRIAS EM CHAMAS</h3><div class="space-y-2"><div class="flex items-center gap-2"><span class="text-xs w-24">Dir. Constitucional</span><div class="flex-1 bar-track h-3"><div style="width:92%; background: linear-gradient(90deg,#ff2d78,#ff7a00); height:100%;"></div></div><span class="mono text-xs">92%</span></div><div class="flex items-center gap-2"><span class="text-xs w-24">Matemática</span><div class="flex-1 bar-track h-3"><div style="width:78%; background: linear-gradient(90deg,var(--neon-purple),#60a5fa); height:100%;"></div></div><span class="mono text-xs">78%</span></div><div class="flex items-center gap-2"><span class="text-xs w-24">Português</span><div class="flex-1 bar-track h-3"><div style="width:65%; background: linear-gradient(90deg,var(--neon-lime),#00d9a3); height:100%;"></div></div><span class="mono text-xs">65%</span></div></div></div>
+    <div class="neo-card rounded-sm p-4 shine" style="background: linear-gradient(145deg,#0a0800,#201800);"><h3 class="section-line mb-3" style="color:var(--neon-lime);">🏅 CONQUISTAS RECENTES</h3><div class="space-y-2"><div class="flex items-center gap-3 glass rounded-sm p-2"><div class="text-2xl">🔥</div><div><div class="text-xs font-bold" style="color:var(--neon-pink);">Streak Master</div><div class="mono text-xs opacity-40">10 dias seguidos</div></div><div class="ml-auto mono text-xs" style="color:var(--cyber-yellow);">+500 XP</div></div><div class="flex items-center gap-3 glass rounded-sm p-2"><div class="text-2xl">⚡</div><div><div class="text-xs font-bold" style="color:var(--neon-lime);">Speed Runner</div><div class="mono text-xs opacity-40">100 questões em 1h</div></div><div class="ml-auto mono text-xs" style="color:var(--cyber-yellow);">+300 XP</div></div></div></div>
+    <div class="neo-card rounded-sm p-4 text-center" style="background: linear-gradient(145deg,#000a1a,#001030);"><div class="float-slow text-4xl mb-2">⚔️</div><div style="font-family:'Bebas Neue';" class="glow-lime">JUNTE-SE À GUILDA</div><p class="text-xs opacity-60 mt-1 mb-3">Estude em grupo, compartilhe estratégias e ganhe bônus de XP coletivo!</p><button class="btn-arcade w-full py-2.5 rounded-sm font-black text-xs text-black" style="background: var(--neon-lime);">🛡️ CRIAR / ENTRAR</button></div>
+  </aside>
+</main>
+
+<div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around px-4 py-3" style="background: rgba(8,8,16,0.97); border-top: 2px solid rgba(177,78,255,0.3);"><button class="flex flex-col items-center"><span class="text-xl">🏠</span><span class="mono text-xs" style="color:var(--neon-lime);">Arena</span></button><button class="flex flex-col items-center"><span class="text-xl">🎯</span><span class="mono text-xs">Missões</span></button><button class="btn-arcade -mt-6 w-14 h-14 rounded-full flex items-center justify-center text-2xl text-black" style="background:var(--neon-lime);">⚔️</button><button class="flex flex-col items-center"><span class="text-xl">🏆</span><span class="mono text-xs">Ranking</span></button><button class="flex flex-col items-center"><span class="text-xl">👤</span><span class="mono text-xs">Perfil</span></button></div>
+<div id="xpBurstEl" class="fixed pointer-events-none z-50 hidden" style="font-family:'Bebas Neue'; font-size:2rem; color: var(--neon-lime);">+500 XP ⚡</div>
+
+<script>
+const concursos = [
+  { nome: "INSS", icone: "🏛️", vagas: "1.200", nivel: "Médio/Superior", salario: "R$ 9.070", cor: "from-purple-900 to-purple-800", arquivoMenu: "menu-disciplinas-inss.html" },
+  { nome: "IBGE", icone: "📊", vagas: "2.852", nivel: "Fundamental/Médio/Superior", salario: "R$ 10.453", cor: "from-blue-900 to-blue-800", arquivoMenu: "menu-disciplinas-ibge.html" },
+  { nome: "Polícia Militar", icone: "🚔", vagas: "1.800", nivel: "Médio/Superior", salario: "R$ 11.563", cor: "from-gray-900 to-gray-800", arquivoMenu: "menu-disciplinas-pm.html" },
+  { nome: "Polícia Civil", icone: "🕵️", vagas: "1.200", nivel: "Médio/Superior", salario: "R$ 9.500", cor: "from-gray-800 to-gray-700", arquivoMenu: "menu-disciplinas-pc.html" },
+  { nome: "PRF", icone: "🛣️", vagas: "1.500", nivel: "Superior", salario: "R$ 12.000", cor: "from-green-900 to-green-800", arquivoMenu: "menu-disciplinas-prf.html" },
+  { nome: "Banco do Brasil", icone: "🏦", vagas: "4.000", nivel: "Médio/Superior", salario: "R$ 8.707", cor: "from-yellow-900 to-yellow-800", arquivoMenu: "menu-disciplinas-bb.html" },
+  { nome: "Caixa Econômica", icone: "🏧", vagas: "3.200", nivel: "Médio/Superior", salario: "R$ 7.500", cor: "from-orange-900 to-orange-800", arquivoMenu: "menu-disciplinas-caixa.html" },
+  { nome: "Banco do Nordeste", icone: "🌵", vagas: "800", nivel: "Médio/Superior", salario: "R$ 8.000", cor: "from-green-900 to-green-800", arquivoMenu: "menu-disciplinas-bnb.html" },
+  { nome: "SEFAZ", icone: "📑", vagas: "500", nivel: "Superior", salario: "R$ 21.000", cor: "from-indigo-900 to-indigo-800", arquivoMenu: "menu-disciplinas-sefaz.html" },
+  { nome: "Prefeituras", icone: "🏙️", vagas: "10.000+", nivel: "Fundamental/Médio/Superior", salario: "R$ 3.000 a R$ 15.000", cor: "from-amber-900 to-amber-800", arquivoMenu: "menu-disciplinas-prefeituras.html" }
+];
+
+function gerarCards() {
+  const container = document.getElementById('cardsConcurso');
+  if (!container) return;
+  container.innerHTML = '';
+  concursos.forEach((c, idx) => {
+    let cardClass = 'bento-c';
+    if (idx === 0) cardClass = 'bento-a';
+    else if (idx === 1) cardClass = 'bento-b';
+    else if (idx < 5) cardClass = 'bento-d';
+    else cardClass = 'bento-e';
+    if (idx === 9) cardClass = 'bento-f';
+    const card = document.createElement('div');
+    card.className = `${cardClass} concurso-card neo-card rounded-sm p-4 shine`;
+    card.style.background = `linear-gradient(145deg, #0a0a1a, #151530)`;
+    card.setAttribute('data-concurso', c.nome);
+    card.innerHTML = `
+      <div class="flex items-start justify-between mb-3">
+        <div class="float text-4xl">${c.icone}</div>
+        <div class="neo-card px-2 py-0.5 rounded-sm text-xs font-black" style="background: var(--neon-lime); color:#000; border-color:#000;">🔥 HOT</div>
+      </div>
+      <div style="font-family:'Bebas Neue'; font-size:1.3rem;" class="glow-yellow">${c.nome}</div>
+      <div class="text-xs opacity-70 mt-1 mb-2">${c.nivel}</div>
+      <div class="grid grid-cols-2 gap-2 mb-3">
+        <div class="glass rounded-sm px-2 py-1 text-center"><div class="mono text-xs opacity-40">VAGAS</div><div style="font-family:'Bebas Neue'; font-size:1rem; color: var(--neon-lime);">${c.vagas}</div></div>
+        <div class="glass rounded-sm px-2 py-1 text-center"><div class="mono text-xs opacity-40">SALÁRIO</div><div style="font-family:'Bebas Neue'; font-size:1rem; color: var(--cyber-yellow);">${c.salario}</div></div>
+      </div>
+      <div class="bar-track h-1 mb-2"><div class="xp-fill h-full" style="width: ${Math.floor(Math.random() * 40 + 50)}%;"></div></div>
+      <button class="btn-arcade w-full py-2 rounded-sm font-black text-sm text-black" style="background: var(--neon-lime);" onclick="carregarPrograma('${c.arquivoMenu}', '${c.nome}')">⚔️ JOGAR AGORA</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+const dynamicArea = document.getElementById('dynamicArea');
+const programaContent = document.getElementById('programaContent');
+const btnVoltar = document.getElementById('btnVoltar');
+const mainGrid = document.getElementById('mainGrid');
+
+async function carregarPrograma(arquivo, nomePrograma) {
+  if (!arquivo) { alert(`🚧 O programa para ${nomePrograma} ainda será criado. Em breve!`); return; }
+  programaContent.innerHTML = `<div class="text-center p-4"><div class="mono text-lime-400">⏳ Carregando ${nomePrograma}...</div></div>`;
+  dynamicArea.classList.add('visible');
+  mainGrid.style.opacity = '0.5';
+  mainGrid.style.pointerEvents = 'none';
+  try {
+    const resposta = await fetch(arquivo);
+    if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+    const html = await resposta.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    const conteudo = doc.querySelector("#conteudo-programa") || doc.querySelector("body");
+    programaContent.innerHTML = conteudo ? conteudo.innerHTML : html;
+    const scripts = programaContent.querySelectorAll("script");
+    scripts.forEach(oldScript => {
+      const newScript = document.createElement("script");
+      if (oldScript.src) newScript.src = oldScript.src;
+      else newScript.textContent = oldScript.textContent;
+      document.body.appendChild(newScript);
+      oldScript.remove();
+    });
+  } catch (error) {
+    programaContent.innerHTML = `<div class="text-red-400 p-4">❌ Erro: ${error.message}<br>Arquivo ${arquivo} não encontrado.</div>`;
+  } finally {
+    mainGrid.style.opacity = '1';
+    mainGrid.style.pointerEvents = 'auto';
+  }
+}
+btnVoltar.addEventListener('click', () => { dynamicArea.classList.remove('visible'); programaContent.innerHTML = ''; });
+
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => { dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px'; ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; });
+document.querySelectorAll('button,a').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width = '50px'; ring.style.height = '50px'; ring.style.borderColor = 'var(--neon-lime)'; });
+  el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; ring.style.borderColor = 'var(--neon-purple)'; });
+});
+
+let secs = 47*3600 + 23*60 + 9;
+function updateTimer() { const h = String(Math.floor(secs/3600)).padStart(2,'0'); const m = String(Math.floor((secs%3600)/60)).padStart(2,'0'); const s = String(secs%60).padStart(2,'0'); const timerEl = document.getElementById('timerDisplay'); if(timerEl) timerEl.textContent = `${h}:${m}:${s}`; if(secs > 0) secs--; }
+updateTimer(); setInterval(updateTimer, 1000);
+
+const feedEvents = [{emoji:'⚔️', msg:'<b>Carlos_AL</b> derrubou 20 questões!', color:'var(--neon-lime)'},{emoji:'🔥', msg:'<b>Maria_SP</b> streak de 15 dias!', color:'var(--neon-pink)'},{emoji:'🏆', msg:'<b>Joao_GO</b> top 10 IBGE!', color:'var(--cyber-yellow)'}];
+let feedIdx = 0; const feedEl = document.getElementById('liveFeed');
+function addFeedItem() { const ev = feedEvents[feedIdx % feedEvents.length]; feedIdx++; const div = document.createElement('div'); div.className = 'feed-item glass rounded-sm px-3 py-2 flex items-start gap-2'; div.innerHTML = `<span>${ev.emoji}</span><span class="text-xs" style="color:${ev.color};">${ev.msg}</span><span class="ml-auto mono text-xs opacity-30">agora</span>`; feedEl.insertBefore(div, feedEl.firstChild); if(feedEl.children.length > 6) feedEl.removeChild(feedEl.lastChild); }
+for(let i=0;i<3;i++) addFeedItem(); setInterval(addFeedItem, 3000);
+
+function addXP() { const el = document.getElementById('xpBurstEl'); el.style.left = (Math.random()*60+20)+'vw'; el.style.top = (Math.random()*40+20)+'vh'; el.classList.remove('hidden'); el.classList.add('xp-burst'); setTimeout(() => { el.classList.add('hidden'); el.classList.remove('xp-burst'); }, 900); }
+function setGrid() { const g = document.getElementById('mainGrid'); if(window.innerWidth < 1024) g.style.gridTemplateColumns = '1fr'; else g.style.gridTemplateColumns = '260px 1fr 280px'; }
+setGrid(); window.addEventListener('resize', setGrid);
+gerarCards();
+</script>
+</body>
+</html>

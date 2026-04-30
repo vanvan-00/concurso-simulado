@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+<div id="conteudo-programa">
+  <div style="font-family:'Bebas Neue'; font-size:1.6rem; color: var(--neon-lime); text-align:center;">⚔️ ESCOLHA A DISCIPLINA ⚔️</div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+    <button class="btn-arcade py-3 text-lg" style="background: #333;" onclick="carregarProgramaExterno('placeholder-em-breve.html?disciplina=Português')">✍️ Português (em breve)</button>
+    <button class="btn-arcade py-3 text-lg" style="background: #333;" onclick="carregarProgramaExterno('placeholder-em-breve.html?disciplina=Matemática')">🧮 Matemática (em breve)</button>
+    <button class="btn-arcade py-3 text-lg" style="background: #333;" onclick="carregarProgramaExterno('placeholder-em-breve.html?disciplina=Raciocínio%20Lógico')">🧠 Raciocínio Lógico (em breve)</button>
+    <button class="btn-arcade py-3 text-lg" style="background: #333;" onclick="carregarProgramaExterno('placeholder-em-breve.html?disciplina=Informática')">💻 Informática (em breve)</button>
+    <button class="btn-arcade py-3 text-lg" style="background: #333;" onclick="carregarProgramaExterno('placeholder-em-breve.html?disciplina=Legislação%20Municipal')">🏛️ Legislação Municipal (em breve)</button>
+    <button class="btn-arcade py-3 text-lg" style="background: #333;" onclick="carregarProgramaExterno('placeholder-em-breve.html?disciplina=Direito%20Administrativo')">📑 Direito Administrativo (em breve)</button>
+  </div>
+  <div class="mt-4"><button class="btn-voltar" onclick="voltarParaArena()">← Voltar para Arena</button></div>
+</div>
+<script>
+  function carregarProgramaExterno(url) {
+    if (window.parent && window.parent.carregarPrograma) {
+      window.parent.carregarPrograma(url, 'Disciplina');
+    } else {
+      alert("Erro: função de carregamento não encontrada.");
+    }
+  }
+  function voltarParaArena() {
+    if (window.parent && window.parent.btnVoltar) {
+      window.parent.btnVoltar.click();
+    } else {
+      window.parent.location.reload();
+    }
+  }
+</script>
+</body>
+</html>
