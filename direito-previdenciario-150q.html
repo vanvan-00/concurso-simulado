@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+<div id="conteudo-programa" class="text-center p-8">
+  <div class="text-6xl mb-4">📚</div>
+  <div style="font-family:'Bebas Neue'; font-size:2rem; color: var(--neon-purple);">Direito Previdenciário - 150 questões</div>
+  <p class="mt-4 opacity-70">As questões serão carregadas em breve. Aguarde a atualização.</p>
+  <p class="mt-2 text-sm opacity-50">(Você pode substituir este arquivo pelo simulado completo quando estiver pronto)</p>
+  <button class="btn-voltar mt-4" onclick="voltar()">← Voltar</button>
+</div>
+<script>
+  function voltar() {
+    if (window.parent && window.parent.btnVoltar) {
+      window.parent.btnVoltar.click();
+    } else {
+      window.history.back();
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "programas": [
+    {
+      "id": "inss",
+      "nome": "INSS",
+      "disciplinas": ["Direito Previdenciário", "Português", "RLM", "Informática", "Ética"]
+    },
+    {
+      "id": "ibge",
+      "nome": "IBGE",
+      "disciplinas": ["Português", "Matemática", "Raciocínio Lógico", "Informática", "Ética"]
+    }
+  ]
+}
